@@ -6,5 +6,9 @@ namespace CoopChaos
 {
     public class GameBehaviour : MonoBehaviour
     {
+        private void Start()
+        {
+            NetworkManager.Singleton.StartClient();
+        }
     }
 }

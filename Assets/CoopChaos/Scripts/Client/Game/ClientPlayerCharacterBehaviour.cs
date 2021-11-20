@@ -22,6 +22,7 @@ namespace CoopChaos
             {
                 enabled = false;
                 characterCamera.SetActive(false);
+                return;
             }
 
             var playerInput = GetComponent<PlayerInput>();
