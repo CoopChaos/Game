@@ -1,7 +1,7 @@
 using Unity.Netcode.Components;
 using UnityEngine;
 
-namespace CoopChaos.Scripts.Client
+namespace CoopChaos
 {
     public class ClientNetworkTransformBehaviour : NetworkTransform
     {
