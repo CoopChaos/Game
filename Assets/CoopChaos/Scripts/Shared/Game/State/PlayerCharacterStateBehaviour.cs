@@ -9,6 +9,5 @@ namespace CoopChaos
         public void SetTargetPositionServerRpc()
         {
         }
-        
     }
 }

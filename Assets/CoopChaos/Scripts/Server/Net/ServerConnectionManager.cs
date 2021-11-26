@@ -14,6 +14,119 @@ namespace CoopChaos
     {
         private const int MaxConnectPayload = 1024;
 
+        private ClientConnectionMapper clientConnectionMapper = new ClientConnectionMapper();
+        private ConnectionManager connectionManager;
+        
+        public void OnNetworkReady()
+        {
+            if (!NetworkManager.Singleton.IsServer)
+            {
+                enabled = false;
+                return;
+            }
+
+            connectionManager = GetComponent<ConnectionManager>();
+            
+            NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnect;
+        }
+
+        private void Start()
+        {
+            NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
+            NetworkManager.Singleton.OnServerStarted += ServerStartedHandler;
+        }
+
+        private void ServerStartedHandler()
+        {
+        }
+
+        private void ApprovalCheck(byte[] connectionData, ulong clientId, 
+            NetworkManager.ConnectionApprovedDelegate connectionApprovedCallback)
+        {
+            // connectionApproved needs to be called OR client can be disconnected explicitly
+            
+            if (connectionData.Length > MaxConnectPayload)
+            {
+                connectionApprovedCallback(false, 0, false, null, null);
+                return;
+            }
+            
+            // always accept local host
+            if (clientId == NetworkManager.Singleton.LocalClientId)
+            {
+                connectionApprovedCallback(true, null, true, null, null);
+                return;
+            }
+            
+            
+            
+            /* 
+            // Approval check happens for Host too, but obviously we want it to be approved
+            if (clientId == NetworkManager.Singleton.LocalClientId)
+            {
+                connectionApprovedCallback(true, null, true, null, null);
+                return;
+            }
+            
+            // Test for over-capacity connection. This needs to be done asap, to make sure we refuse connections asap and don't spend useless time server side
+            // on invalid users trying to connect
+            // todo this is currently still spending too much time server side.
+            if (GameContext.Singleton.MaxPlayerCount >= playerIdToGuid.Count)
+            {
+                // TODO-FIXME:Netcode Issue #796. We should be able to send a reason and disconnect without a coroutine delay.
+                // TODO:Netcode: In the future we expect Netcode to allow us to return more information as part of
+                // the approval callback, so that we can provide more context on a reject. In the meantime we must provide the extra information ourselves,
+                // and then manually close down the connection.
+                SendServerToClientConnectResult(clientId, ConnectStatus.ServerFull);
+                SendServerToClientSetDisconnectReason(clientId, ConnectStatus.ServerFull);
+                StartCoroutine(WaitToDisconnect(clientId));
+                return;
+            }
+            
+            string payload = System.Text.Encoding.UTF8.GetString(connectionData);
+            var connectionPayload = JsonUtility.FromJson<ConnectionPayload>(payload); // https://docs.unity3d.com/2020.2/Documentation/Manual/JSONSerialization.html
+
+            if (playerIdToGuid.ContainsValue(connectionPayload.Guid))
+            {
+                var oldClientId = playerIdToGuid.First(p => p.Value == connectionPayload.Guid).Key;
+                
+                // kicking old client to leave only current
+                SendServerToClientSetDisconnectReason(oldClientId, ConnectStatus.LoggedInAgain);
+                NetworkManager.Singleton.DisconnectClient(oldClientId);
+            }
+
+            var status = currentPhase.CanPlayerConnect(connectionPayload.Guid, connectionPayload.Username);
+            if (status != ConnectStatus.Success)
+            {
+                SendServerToClientConnectResult(clientId, ConnectStatus.ServerFull);
+                SendServerToClientSetDisconnectReason(clientId, ConnectStatus.ServerFull);
+                StartCoroutine(WaitToDisconnect(clientId));
+                return;
+            }
+
+            SendServerToClientConnectResult(clientId, ConnectStatus.Success);
+
+            playerIdToGuid.Add(clientId, connectionPayload.Guid);
+            connectionApprovedCallback(true, null, true, Vector3.zero, Quaternion.identity);
+             */
+        }
+
+        private void OnClientDisconnect(ulong clientId)
+        {
+            clientConnectionMapper.Remove(clientId);
+
+            if (clientId == NetworkManager.Singleton.LocalClientId)
+            {
+                // the ServerGameNetPortal may be initialized again, which will cause its OnNetworkSpawn to be called again.
+                // Consequently we need to unregister anything we registered, when the NetworkManager is shutting down.
+                NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnect;
+            }
+        }
+
+
+
+
+        /*
         [FormerlySerializedAs("phaseManager")] [FormerlySerializedAs("gameManager")] [SerializeField] private NetworkObject manager;
         
         private ConnectionManager connectionManager;
@@ -22,7 +135,7 @@ namespace CoopChaos
         private Dictionary<ulong, Guid> playerIdToGuid = new Dictionary<ulong, Guid>();
         private IServerPhase currentPhase;
 
-        public void OnNetworkReady()
+        public void _OnNetworkReady()
         {
             if (!NetworkManager.Singleton.IsServer)
             {
@@ -33,7 +146,7 @@ namespace CoopChaos
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnect;
         }
 
-        private void Start()
+        private void _Start()
         {
             connectionManager = GetComponent<ConnectionManager>();
             NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
@@ -158,5 +271,6 @@ namespace CoopChaos
                 NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnect;
             }
         }
+        */
     }
 }
