@@ -11,7 +11,7 @@ namespace CoopChaos
     {
         private Dictionary<Guid, PlayerModel> players = new Dictionary<Guid, PlayerModel>();
 
-        public PhaseType Type => PhaseType.Lobby;
+        public StageType Type => StageType.Lobby;
         public event Action<IServerPhase> OnPhaseChanged;
 
         public override void OnNetworkSpawn()

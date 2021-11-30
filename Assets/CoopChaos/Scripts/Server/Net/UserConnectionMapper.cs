@@ -6,6 +6,8 @@ namespace CoopChaos
     public class ClientConnectionMapper
     {
         private Dictionary<ulong, Guid> clientIdToClientToken = new Dictionary<ulong, Guid>();
+        
+        public int Count => clientIdToClientToken.Count;
 
         public Guid this[ulong connectionId]
         {
