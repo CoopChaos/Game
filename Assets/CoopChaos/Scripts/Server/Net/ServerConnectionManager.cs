@@ -15,11 +15,22 @@ namespace CoopChaos
     {
         private const int MaxConnectPayload = 1024;
 
+        [SerializeField] private NetworkObject initialStage;
+
         private MD5 md5 = MD5.Create();
         
-        private bool usersLocked = false;
         private UserConnectionMapper userConnectionMapper = new UserConnectionMapper();
         private ConnectionManager connectionManager;
+
+        public void StartServer(string ipAddress, int port)
+        {
+            NetworkManager.Singleton.NetworkConfig.NetworkTransport = connectionManager.NetworkTransport;
+
+            connectionManager.NetworkTransport.ConnectAddress = ipAddress;
+            connectionManager.NetworkTransport.ConnectPort = port;
+            
+            NetworkManager.Singleton.StartServer();
+        }
 
         public void OnNetworkReady()
         {
@@ -28,21 +39,28 @@ namespace CoopChaos
                 enabled = false;
                 return;
             }
-
-            connectionManager = GetComponent<ConnectionManager>();
             
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnect;
         }
 
-        private void Start()
+        private void Awake()
         {
+            connectionManager = GetComponent<ConnectionManager>();
+            
             NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
             NetworkManager.Singleton.OnServerStarted += ServerStartedHandler;
+        }
+        
+        private void OnDestroy()
+        {
+            NetworkManager.Singleton.ConnectionApprovalCallback -= ApprovalCheck;
+            NetworkManager.Singleton.OnServerStarted -= ServerStartedHandler;
         }
 
         private void ServerStartedHandler()
         {
-            // ...
+            var stage = Instantiate(initialStage);
+            stage.Spawn();
         }
 
         private void ApprovalCheck(byte[] connectionData, ulong clientId, 
@@ -70,8 +88,7 @@ namespace CoopChaos
             {
                 CustomMessagingHelper.StartSend()
                     .Write(ConnectStatus.ServerFull)
-                    .Send(clientId, NetworkMessage.ConnectResult)
-                    .Send(clientId, NetworkMessage.DisconnectReason);
+                    .Send(clientId, NetworkMessage.ConnectResult);
 
                 StartCoroutine(WaitToDisconnect(clientId));
                 return;
@@ -85,8 +102,7 @@ namespace CoopChaos
             {
                 CustomMessagingHelper.StartSend()
                     .Write(ConnectStatus.InvalidPayload)
-                    .Send(clientId, NetworkMessage.ConnectResult)
-                    .Send(clientId, NetworkMessage.DisconnectReason);
+                    .Send(clientId, NetworkMessage.ConnectResult);
 
                 StartCoroutine(WaitToDisconnect(clientId));
                 return;

@@ -1,5 +1,6 @@
 using System;
 using Unity.Netcode;
+using Unity.Netcode.Transports.UNET;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -8,14 +9,16 @@ namespace CoopChaos
     [RequireComponent(typeof(ClientConnectionManager), typeof(ServerConnectionManager))]
     public class ConnectionManager : MonoBehaviour
     {
-        private NetworkManager networkManager = NetworkManager.Singleton;
+        [SerializeField] 
+        private UNetTransport networkTransport;
+
         private ServerConnectionManager serverConnectionManager;
         private ClientConnectionManager clientConnectionManager;
 
         public static ConnectionManager Instance { get; private set; }
-        
-        public NetworkManager NetworkManager => networkManager;
 
+        public UNetTransport NetworkTransport => networkTransport;
+        
         private void Awake()
         {
             Assert.IsNull(Instance);
@@ -26,7 +29,7 @@ namespace CoopChaos
         {
             DontDestroyOnLoad(gameObject);
             
-            networkManager.OnServerStarted += OnNetworkReady;
+            NetworkManager.Singleton.OnServerStarted += OnNetworkReady;
         }
 
         private void OnNetworkReady()
