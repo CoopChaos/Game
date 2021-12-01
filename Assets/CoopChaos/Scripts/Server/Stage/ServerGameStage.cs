@@ -1,10 +1,8 @@
-using JetBrains.Annotations;
 using Unity.Netcode;
 
 namespace CoopChaos
 {
-    // behaviour of user over the whole connection
-    public class UserPersistentBehaviour : NetworkBehaviour
+    public class ServerGameStage : NetworkBehaviour
     {
         public override void OnNetworkSpawn()
         {

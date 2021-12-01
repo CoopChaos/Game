@@ -1,47 +1,89 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CoopChaos.Shared;
+using CoopChaos;
 using Unity.Netcode;
+using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
 namespace CoopChaos
 {
-    public class ServerLobbyPhase : NetworkBehaviour, IServerPhase
+    [RequireComponent(typeof(LobbyStageState))]
+    public class ServerLobbyStage : NetworkBehaviour
     {
-        private Dictionary<Guid, PlayerModel> players = new Dictionary<Guid, PlayerModel>();
-
-        public StageType Type => StageType.Lobby;
-        public event Action<IServerPhase> OnPhaseChanged;
+        private LobbyStageState state;
 
         public override void OnNetworkSpawn()
         {
             if (!IsServer)
             {
+                enabled = false;
                 return;
             }
+            
+            NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
+            NetworkManager.Singleton.OnClientDisconnectCallback += HandleClientDisconnected;
+            
+            state = GetComponent<LobbyStageState>();
+            state.OnToggleUserReady += HandleToggleUserReady;
 
-            NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
-        }
-
-        public ConnectStatus CanPlayerConnect(Guid playerId, string username)
-        {
-            if (players.Any(p => p.Value.Username == username))
+            foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
             {
-                return ConnectStatus.UsernameDuplicate;
+                var user = NetworkManager.Singleton.ConnectedClients[client.ClientId]
+                    .PlayerObject.GetComponent<UserPersistentBehaviour>();
+                state.Users.Add(new LobbyStageState.UserModel(client.ClientId, false, user.name));
             }
-
-            return ConnectStatus.Success;
         }
 
-        public void ConnectPlayer(Guid playerId, PlayerModel playerModel)
+        public override void OnNetworkDespawn()
         {
-            players.Add(playerId, playerModel);
+            UnregisterCallbacks();
         }
 
-        public void DisconnectPlayer(Guid playerId)
+        public override void OnDestroy()
         {
-            players.Remove(playerId);
+            UnregisterCallbacks();
+        }
+
+        private void UnregisterCallbacks()
+        {
+            NetworkManager.Singleton.OnClientConnectedCallback -= HandleClientConnected;
+            NetworkManager.Singleton.OnClientDisconnectCallback -= HandleClientDisconnected;
+            state.OnToggleUserReady -= HandleToggleUserReady;
+        }
+
+        private void HandleToggleUserReady(ulong clientId)
+        {
+            int clientIndex = state.Users.IndexWhere(u => u.ClientId == clientId);
+            
+            Assert.IsTrue(clientIndex != -1);
+            
+            state.Users[clientIndex] = new LobbyStageState.UserModel(
+                state.Users[clientIndex].ClientId,
+                !state.Users[clientIndex].Ready,
+                state.Users[clientIndex].RawUsername);
+            
+            state.UserReadyChangedClientRpc(clientId);
+
+            if (state.Users.All(u => u.Ready) && GameContext.Singleton.MinUserCount <= state.Users.Count)
+            {
+                NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
+            }
+        }
+
+        private void HandleClientConnected(ulong clientId)
+        {
+            var user = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.GetComponent<UserPersistentBehaviour>();
+            
+            state.Users.Add(new LobbyStageState.UserModel(clientId, false, user.name));
+            state.UserConnectedClientRpc(clientId);
+        }
+
+        private void HandleClientDisconnected(ulong clientId)
+        {
+            state.Users.RemoveAt(state.Users.IndexWhere(u => u.ClientId == clientId));
+            state.UserDisconnectedClientRpc(clientId);
         }
     }
 }

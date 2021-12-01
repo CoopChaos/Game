@@ -1,14 +1,16 @@
-namespace CoopChaos.Shared
+namespace CoopChaos
 {
     public class GameContext
     {        
         public static GameContext Singleton { get; } = new GameContext();
 
-        public int MaxPlayerCount { get; }
+        public int MaxUserCount { get; }
+        public int MinUserCount { get; }
         
         private GameContext()
         {
-            MaxPlayerCount = 8;
+            MaxUserCount = 8;
+            MinUserCount = 4;
         }
     }
 }

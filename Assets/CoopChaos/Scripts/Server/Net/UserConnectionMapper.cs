@@ -1,42 +1,45 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CoopChaos
 {
-    public class ClientConnectionMapper
+    public class UserConnectionMapper
     {
         private Dictionary<ulong, Guid> clientIdToClientToken = new Dictionary<ulong, Guid>();
         
         public int Count => clientIdToClientToken.Count;
 
-        public Guid this[ulong connectionId]
+        public Guid this[ulong clientId]
         {
             get
             {
-                clientIdToClientToken.TryGetValue(connectionId, out var clientId);
-                return clientId;
+                clientIdToClientToken.TryGetValue(clientId, out var tokenHash);
+                return tokenHash;
             }
         }
+
+        public ulong this[Guid tokenHash]
+            => clientIdToClientToken.FirstOrDefault(x => x.Value == tokenHash).Key;
         
-        
-        public void Add(Guid clientId, ulong connectionId)
+        public void Add(Guid tokenHash, ulong clientId)
         {
-            clientIdToClientToken.Add(connectionId, clientId);
+            clientIdToClientToken.Add(clientId, tokenHash);
         }
         
-        public bool TryGetClientId(ulong connectionId, out Guid clientId)
+        public bool TryGetClientId(ulong clientId, out Guid tokenHash)
         {
-            return clientIdToClientToken.TryGetValue(connectionId, out clientId);
+            return clientIdToClientToken.TryGetValue(clientId, out tokenHash);
         }
 
-        public bool ContainsKey(ulong connectionId)
+        public bool Contains(Guid tokenHash)
         {
-            return clientIdToClientToken.ContainsKey(connectionId);
+            return clientIdToClientToken.ContainsValue(tokenHash);
         }
 
-        public void Remove(ulong connectionId)
+        public void Remove(ulong clientId)
         {
-            clientIdToClientToken.Remove(connectionId);
+            clientIdToClientToken.Remove(clientId);
         }
 
         public void Clear()

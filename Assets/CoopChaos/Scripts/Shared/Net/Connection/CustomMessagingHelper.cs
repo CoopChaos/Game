@@ -1,22 +1,11 @@
 using Unity.Collections;
 using Unity.Netcode;
 
-namespace CoopChaos.Shared
+namespace CoopChaos
 {
-    
-    /*
-     * 
-        public void SendMessage<T>(ulong clientId, T value, NetworkMessage networkMessage) where T : unmanaged
-        {
-            var writer = new FastBufferWriter(sizeof(ConnectStatus), Allocator.Temp);
-            writer.WriteValueSafe(value);
-            NetworkManager.Singleton.CustomMessagingManager.SendNamedMessage(networkMessage.ToString(), clientId, writer);
-        }
-     */
-    
     public static class CustomMessagingHelper
     {
-        public static CustomMessage CreateSend() => new CustomMessage();
+        public static CustomMessage StartSend() => new CustomMessage();
 
         public class CustomMessage
         {
@@ -33,7 +22,7 @@ namespace CoopChaos.Shared
                 return this;
             }
             
-            public CustomMessage Send(ulong clientId, NetworkMessage networkMessage) where T : unmanaged
+            public CustomMessage Send(ulong clientId, NetworkMessage networkMessage)
             {
                 NetworkManager.Singleton.CustomMessagingManager.SendNamedMessage(networkMessage.ToString(), clientId, writer);
                 return this;

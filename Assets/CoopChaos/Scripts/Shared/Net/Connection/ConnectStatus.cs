@@ -3,6 +3,7 @@ namespace CoopChaos
     public enum ConnectStatus
     {
         Undefined,
+        InvalidPayload,           // payload did not verify as valid
         Success,                  // client successfully connected. This may also be a successful reconnect.
         ServerFull,               // can't join, server is already at capacity.
         UsernameDuplicate,        // username is already in use.

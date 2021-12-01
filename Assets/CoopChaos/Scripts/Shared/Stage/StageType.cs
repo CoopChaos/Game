@@ -1,6 +1,6 @@
-namespace CoopChaos.Shared
+namespace CoopChaos
 {
-    public enum PhaseType
+    public enum StageType
     {
         Lobby,
         Game,

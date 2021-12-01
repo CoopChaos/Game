@@ -11,7 +11,7 @@ namespace CoopChaos
         private NetworkManager networkManager = NetworkManager.Singleton;
         private ServerConnectionManager serverConnectionManager;
         private ClientConnectionManager clientConnectionManager;
-        
+
         public static ConnectionManager Instance { get; private set; }
         
         public NetworkManager NetworkManager => networkManager;
@@ -20,8 +20,6 @@ namespace CoopChaos
         {
             Assert.IsNull(Instance);
             Instance = this;
-            
-            
         }
 
         private void Start()
