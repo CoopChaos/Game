@@ -7,61 +7,61 @@ namespace CoopChaos
     {
         private NetworkList<UserModel> users = new NetworkList<UserModel>();
 
-        public event Action<ulong> OnToggleUserReady;
+        public event Action<Guid> OnToggleUserReady;
 
-        public event Action<ulong> OnUserReadyChanged;
-        public event Action<ulong> OnUserConnected;
-        public event Action<ulong> OnUserDisconnected;
+        public event Action<Guid, bool> OnUserReadyChanged;
+        public event Action<UserModel> OnUserConnected;
+        public event Action<Guid> OnUserDisconnected;
         
         public NetworkList<UserModel> Users => users;
         public override StageType Type => StageType.Lobby;
         
-        public void ToggleUserReady(ulong clientId)
+        public void ToggleUserReady(Guid clientHash)
         {
-            OnToggleUserReady?.Invoke(clientId);
+            OnToggleUserReady?.Invoke(clientHash);
         }
 
         [ClientRpc]
-        public void UserReadyChangedClientRpc(ulong clientId)
-            => OnUserReadyChanged?.Invoke(clientId);
+        public void UserReadyChangedClientRpc(Guid clientHash)
+            => OnUserReadyChanged?.Invoke(clientHash, users[users.IndexWhere(u => u.ClientHash == clientHash)].Ready);
 
         [ClientRpc]
-        public void UserConnectedClientRpc(ulong clientId) 
-            => OnUserConnected?.Invoke(clientId);
+        public void UserConnectedClientRpc(Guid clientHash) 
+            => OnUserConnected?.Invoke(users[users.IndexWhere(u => u.ClientHash == clientHash)]);
 
         [ClientRpc]
-        public void UserDisconnectedClientRpc(ulong clientId)
-            => OnUserDisconnected?.Invoke(clientId);
+        public void UserDisconnectedClientRpc(Guid clientHash)
+            => OnUserDisconnected?.Invoke(clientHash);
 
         public struct UserModel : INetworkSerializable, IEquatable<UserModel>
         {
-            private ulong clientId;
-            
+            private Guid clientHash;
+
             private bool ready;
             private NetworkString username;
 
-            public UserModel(ulong clientId, bool ready, NetworkString username)
+            public UserModel(Guid clientHash, bool ready, NetworkString username)
             {
-                this.clientId = clientId;
+                this.clientHash = clientHash;
                 this.ready = ready;
                 this.username = username;
             }
 
-            public ulong ClientId => clientId;
+            public Guid ClientHash => clientHash;
             public bool Ready => ready;
             public string Username => username.ToString();
             public NetworkString RawUsername => username;
             
             public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
             {
-                serializer.SerializeValue(ref clientId);
+                serializer.SerializeValue(ref clientHash);
                 serializer.SerializeValue(ref ready);
                 serializer.SerializeValue(ref username);
             }
 
             public bool Equals(UserModel other)
             {
-                return clientId == other.clientId && ready == other.ready && username.Equals(other.username);
+                return clientHash == other.clientHash && ready == other.ready && username.Equals(other.username);
             }
 
             public override bool Equals(object obj)
@@ -73,7 +73,7 @@ namespace CoopChaos
             {
                 unchecked
                 {
-                    var hashCode = clientId.GetHashCode();
+                    var hashCode = clientHash.GetHashCode();
                     hashCode = (hashCode * 397) ^ ready.GetHashCode();
                     hashCode = (hashCode * 397) ^ username.GetHashCode();
                     return hashCode;

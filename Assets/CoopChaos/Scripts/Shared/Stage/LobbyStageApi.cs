@@ -14,7 +14,7 @@ namespace CoopChaos
         [ServerRpc]
         public void ToggleReadyServerRpc()
         {
-            lobbyStageState.ToggleUserReady(OwnerClientId);
+            lobbyStageState.ToggleUserReady(UserConnectionMapper.Singleton[OwnerClientId]);
         }
     }
 }

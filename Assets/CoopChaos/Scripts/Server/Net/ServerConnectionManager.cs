@@ -11,6 +11,7 @@ using UnityEngine.Serialization;
 
 namespace CoopChaos
 {
+    [RequireComponent(typeof(ConnectionManager))]
     public class ServerConnectionManager : MonoBehaviour
     {
         private const int MaxConnectPayload = 1024;
@@ -19,7 +20,6 @@ namespace CoopChaos
 
         private MD5 md5 = MD5.Create();
         
-        private UserConnectionMapper userConnectionMapper = new UserConnectionMapper();
         private ConnectionManager connectionManager;
 
         public void StartServer(string ipAddress, int port)
@@ -50,7 +50,7 @@ namespace CoopChaos
             NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
             NetworkManager.Singleton.OnServerStarted += ServerStartedHandler;
         }
-        
+
         private void OnDestroy()
         {
             NetworkManager.Singleton.ConnectionApprovalCallback -= ApprovalCheck;
@@ -84,7 +84,7 @@ namespace CoopChaos
             }
             
             // ensure we have room for another connection
-            if (GameContext.Singleton.MaxUserCount >= userConnectionMapper.Count)
+            if (ServerGameContext.Singleton.MaxUserCount >= UserConnectionMapper.Singleton.Count)
             {
                 CustomMessagingHelper.StartSend()
                     .Write(ConnectStatus.ServerFull)
@@ -113,9 +113,9 @@ namespace CoopChaos
             var tokenHash = new Guid(md5.ComputeHash(connectionPayload.Token.ToByteArray()));
 
             // ensure user is only connected once and old connection is disconnected
-            if (userConnectionMapper.Contains(tokenHash))
+            if (UserConnectionMapper.Singleton.Contains(tokenHash))
             {
-                var oldClientId = userConnectionMapper[tokenHash];
+                var oldClientId = UserConnectionMapper.Singleton[tokenHash];
                 
                 CustomMessagingHelper.StartSend()
                     .Write(ConnectStatus.LoggedInAgain)
@@ -129,13 +129,13 @@ namespace CoopChaos
                 .Write(ConnectStatus.Success)
                 .Send(clientId, NetworkMessage.ConnectResult);
             
-            userConnectionMapper.Add(tokenHash, clientId);
+            UserConnectionMapper.Singleton.Add(tokenHash, clientId);
             connectionApprovedCallback(true, null, true, Vector3.zero, Quaternion.identity);
         }
 
         private void OnClientDisconnect(ulong clientId)
         {
-            userConnectionMapper.Remove(clientId);
+            UserConnectionMapper.Singleton.Remove(clientId);
 
             if (clientId == NetworkManager.Singleton.LocalClientId)
             {

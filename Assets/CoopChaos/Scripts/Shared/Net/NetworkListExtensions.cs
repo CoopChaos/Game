@@ -28,5 +28,15 @@ namespace CoopChaos
             return true;
         }
         
+        public static T First<T>(this NetworkList<T> list, Predicate<T> predicate) where T : unmanaged, IEquatable<T>
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (predicate(list[i]))
+                    return list[i];
+            }
+
+            throw new Exception("No element found");
+        }
     }
 }

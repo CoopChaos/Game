@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 
 namespace CoopChaos
 {
-    [RequireComponent(typeof(ClientConnectionManager), typeof(ServerConnectionManager))]
+    [RequireComponent(typeof(ClientConnectionManager), typeof(ServerConnectionManager), typeof(UserConnectionMapper))]
     public class ConnectionManager : MonoBehaviour
     {
         [SerializeField] 

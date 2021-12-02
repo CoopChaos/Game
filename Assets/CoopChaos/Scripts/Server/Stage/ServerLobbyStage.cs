@@ -30,9 +30,9 @@ namespace CoopChaos
 
             foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
             {
-                var user = NetworkManager.Singleton.ConnectedClients[client.ClientId]
-                    .PlayerObject.GetComponent<UserPersistentBehaviour>();
-                state.Users.Add(new LobbyStageState.UserModel(client.ClientId, false, user.name));
+                var user = NetworkManager.Singleton.ConnectedClients[client.ClientId].PlayerObject.GetComponent<UserPersistentBehaviour>();
+                
+                state.Users.Add(new LobbyStageState.UserModel(user.UserModel.ClientHash, false, user.name));
             }
         }
 
@@ -53,20 +53,20 @@ namespace CoopChaos
             state.OnToggleUserReady -= HandleToggleUserReady;
         }
 
-        private void HandleToggleUserReady(ulong clientId)
+        private void HandleToggleUserReady(Guid clientHash)
         {
-            int clientIndex = state.Users.IndexWhere(u => u.ClientId == clientId);
+            int clientIndex = state.Users.IndexWhere(u => u.ClientHash == clientHash);
             
             Assert.IsTrue(clientIndex != -1);
             
             state.Users[clientIndex] = new LobbyStageState.UserModel(
-                state.Users[clientIndex].ClientId,
+                state.Users[clientIndex].ClientHash,
                 !state.Users[clientIndex].Ready,
                 state.Users[clientIndex].RawUsername);
             
-            state.UserReadyChangedClientRpc(clientId);
+            state.UserReadyChangedClientRpc(clientHash);
 
-            if (state.Users.All(u => u.Ready) && GameContext.Singleton.MinUserCount <= state.Users.Count)
+            if (state.Users.All(u => u.Ready) && ServerGameContext.Singleton.MinUserCount <= state.Users.Count)
             {
                 NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
             }
@@ -76,14 +76,16 @@ namespace CoopChaos
         {
             var user = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.GetComponent<UserPersistentBehaviour>();
             
-            state.Users.Add(new LobbyStageState.UserModel(clientId, false, user.name));
-            state.UserConnectedClientRpc(clientId);
+            state.Users.Add(new LobbyStageState.UserModel(user.UserModel.ClientHash, false, user.name));
+            state.UserConnectedClientRpc(user.UserModel.ClientHash);
         }
 
         private void HandleClientDisconnected(ulong clientId)
         {
-            state.Users.RemoveAt(state.Users.IndexWhere(u => u.ClientId == clientId));
-            state.UserDisconnectedClientRpc(clientId);
+            var user = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.GetComponent<UserPersistentBehaviour>();
+            
+            state.Users.RemoveAt(state.Users.IndexWhere(u => u.ClientHash == user.UserModel.ClientHash));
+            state.UserDisconnectedClientRpc(user.UserModel.ClientHash);
         }
     }
 }

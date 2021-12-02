@@ -14,7 +14,7 @@ namespace CoopChaos
         protected override void Update()
         {
             base.Update();
-            
+
             if (NetworkManager.IsConnectedClient || NetworkManager.IsListening)
             {
                 if (CanCommitToTransform)

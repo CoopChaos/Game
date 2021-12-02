@@ -3,6 +3,7 @@ using System.Text;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UNET;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace CoopChaos
 {
@@ -47,6 +48,7 @@ namespace CoopChaos
         public void StopClient()
         {
             NetworkManager.Singleton.Shutdown();
+            SceneManager.LoadScene("MainMenu");
         }
 
         public void OnNetworkReady()
