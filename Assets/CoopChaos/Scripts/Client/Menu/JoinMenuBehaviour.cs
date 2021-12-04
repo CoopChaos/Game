@@ -19,6 +19,7 @@ namespace CoopChaos.Menu
 
         private ClientConnectionManager clientConnectionManager;
         private ServerConnectionManager serverConnectionManager;
+        private ConnectionManager connectionManager;
         
         public void OnSelectJoin()
         {
@@ -35,7 +36,7 @@ namespace CoopChaos.Menu
         
         public void OnSelectServer()
         {
-            if (serverConnectionManager.StartServer(ipAddress.text, 29909) == false)
+            if (connectionManager.StartHost(ipAddress.text, 29909) == false)
             {
                 errorMessage.SetErrorMessage("Failed to start server");
             }
@@ -64,6 +65,7 @@ namespace CoopChaos.Menu
         {
             clientConnectionManager = FindObjectOfType<ClientConnectionManager>();
             serverConnectionManager = FindObjectOfType<ServerConnectionManager>();
+            connectionManager = FindObjectOfType<ConnectionManager>();
             
             clientConnectionManager.OnDisconnected += HandleOnDisconnected;
             clientConnectionManager.OnConnectingFinished += HandleOnConnectingFinished;

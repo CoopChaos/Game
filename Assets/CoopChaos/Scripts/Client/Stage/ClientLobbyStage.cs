@@ -33,6 +33,11 @@ namespace CoopChaos
             state.OnUserConnected += HandleOnUserConnected;
             state.OnUserDisconnected += HandleOnUserDisconnected;
             state.OnUserReadyChanged += HandleOnUserReadyChanged;
+
+            foreach (var user in state.Users)
+            {
+                AddUserEntry(user);
+            }
         }
 
         public void OnSelectToggleReady()
@@ -50,6 +55,11 @@ namespace CoopChaos
             if (userEntries.ContainsKey(user.ClientHash))
                 return;
             
+            AddUserEntry(user);
+        }
+        
+        private void AddUserEntry(LobbyStageState.UserModel user)
+        {
             var entry = Instantiate(userEntryPrefab, userEntryContainer.transform).GetComponent<ClientLobbyUserEntryBehaviour>();
             entry.SetUser(user);
         }

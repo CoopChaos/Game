@@ -21,7 +21,16 @@ namespace CoopChaos
         public static ConnectionManager Instance { get; private set; }
 
         public UnityTransport NetworkTransport => networkTransport;
-        
+
+        // host starts the server and client on the same machine
+        public bool StartHost(string ipAddress, int port)
+        {
+            NetworkManager.Singleton.NetworkConfig.NetworkTransport = NetworkTransport;
+            NetworkTransport.SetConnectionData(ipAddress, (ushort) port);
+            
+            return NetworkManager.Singleton.StartHost();
+        }
+
         private void Awake()
         {
             Assert.IsNull(Instance);
