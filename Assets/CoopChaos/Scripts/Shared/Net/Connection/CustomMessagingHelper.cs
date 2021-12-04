@@ -13,7 +13,7 @@ namespace CoopChaos
             
             public CustomMessage()
             {
-                writer = new FastBufferWriter(sizeof(ConnectStatus), Allocator.Temp);
+                writer = new FastBufferWriter(sizeof(ConnectResult), Allocator.Temp);
             }
             
             public CustomMessage Write<T>(T value) where T : unmanaged

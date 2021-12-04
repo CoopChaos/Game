@@ -9,22 +9,28 @@ namespace CoopChaos
     [RequireComponent(typeof(ClientConnectionManager), typeof(ServerConnectionManager), typeof(UserConnectionMapper))]
     public class ConnectionManager : MonoBehaviour
     {
-        [SerializeField] 
-        private UNetTransport networkTransport;
+        // we need to use the new unitytransport because the old unet transport causes
+        // an exception when the client is unable to connect to the server without any timeout
+        // event called
+        [SerializeField]
+        private UnityTransport networkTransport;
 
         private ServerConnectionManager serverConnectionManager;
         private ClientConnectionManager clientConnectionManager;
 
         public static ConnectionManager Instance { get; private set; }
 
-        public UNetTransport NetworkTransport => networkTransport;
+        public UnityTransport NetworkTransport => networkTransport;
         
         private void Awake()
         {
             Assert.IsNull(Instance);
             Instance = this;
+            
+            serverConnectionManager = GetComponent<ServerConnectionManager>();
+            clientConnectionManager = GetComponent<ClientConnectionManager>();
         }
-
+        
         private void Start()
         {
             DontDestroyOnLoad(gameObject);

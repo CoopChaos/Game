@@ -14,15 +14,20 @@ namespace CoopChaos
 
         private ConnectionManager connectionManager;
         
-        public event Action<ConnectStatus> OnDisconnected;
-        public event Action<ConnectStatus> OnConnected;
+        private ConnectResult lastConnectResult;
+        private DisconnectReason lastDisconnectReason;
         
-        public void StartClient(string ipAddress, int port)
-        {
-            NetworkManager.Singleton.NetworkConfig.NetworkTransport = connectionManager.NetworkTransport;
+        public event Action<ConnectResult> OnConnectingFinished;
+        public event Action<DisconnectReason> OnDisconnected;
 
-            connectionManager.NetworkTransport.ConnectAddress = ipAddress;
-            connectionManager.NetworkTransport.ConnectPort = port;
+        
+        public bool StartClient(string ipAddress, int port)
+        {
+            lastConnectResult = ConnectResult.Undefined;
+            lastDisconnectReason = DisconnectReason.Undefined;
+            
+            NetworkManager.Singleton.NetworkConfig.NetworkTransport = connectionManager.NetworkTransport;
+            connectionManager.NetworkTransport.SetConnectionData(ipAddress, (ushort) port);
 
             var token = ClientSettings.GetToken();
 
@@ -35,14 +40,18 @@ namespace CoopChaos
                     }));
 
             NetworkManager.Singleton.NetworkConfig.ClientConnectionBufferTimeout = TimeoutDuration;
-            NetworkManager.Singleton.StartClient();
-            
+
+            if (!NetworkManager.Singleton.StartClient())
+                return false;
+
             NetworkManager.Singleton.CustomMessagingManager.RegisterNamedMessageHandler(
                 NetworkMessage.ConnectResult.ToString(),
                 HandleConnectResultMessage);
             NetworkManager.Singleton.CustomMessagingManager.RegisterNamedMessageHandler(
                 NetworkMessage.DisconnectReason.ToString(),
-                HandleDisconnectResultMessage);
+                HandleDisconnectReasonMessage);
+
+            return true;
         }
 
         public void StopClient()
@@ -64,19 +73,68 @@ namespace CoopChaos
             connectionManager = GetComponent<ConnectionManager>();
         }
 
-        private void HandleConnectResultMessage(ulong clientID, FastBufferReader reader)
+        private void Start()
         {
-            reader.ReadValueSafe(out ConnectStatus status);
-            OnConnected?.Invoke(status);
-            
-            if (status != ConnectStatus.Success)
-                OnDisconnected?.Invoke(status);
+            NetworkManager.Singleton.OnClientDisconnectCallback += HandleOnClientDisconnect;
         }
 
-        private void HandleDisconnectResultMessage(ulong clientId, FastBufferReader reader)
+        private void OnDestroy()
         {
-            reader.ReadValueSafe(out ConnectStatus status);
-            OnDisconnected?.Invoke(status);
+            if (NetworkManager.Singleton != null)
+            {
+                NetworkManager.Singleton.CustomMessagingManager.UnregisterNamedMessageHandler(
+                    NetworkMessage.ConnectResult.ToString());
+                NetworkManager.Singleton.CustomMessagingManager.UnregisterNamedMessageHandler(
+                    NetworkMessage.DisconnectReason.ToString());
+
+                NetworkManager.Singleton.OnClientDisconnectCallback -= HandleOnClientDisconnect;
+            }
+        }
+
+        private void HandleOnClientDisconnect(ulong clientId)
+        {
+            NetworkManager.Singleton.Shutdown();
+
+            // handle disconnect on connecting
+            if (lastConnectResult == ConnectResult.Undefined)
+            {
+                lastConnectResult = ConnectResult.Timeout;
+            }
+            
+            if (SceneManager.GetActiveScene().name != "MainMenu")
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
+
+            if (lastConnectResult != ConnectResult.Success)
+            {
+                OnConnectingFinished?.Invoke(lastConnectResult);
+                return;
+            }
+            
+            // handle disconnect on running
+            if (lastDisconnectReason == DisconnectReason.Undefined)
+            {
+                lastDisconnectReason = DisconnectReason.Timeout;
+            }
+            
+            OnDisconnected?.Invoke(lastDisconnectReason);
+        }
+
+        private void HandleConnectResultMessage(ulong clientID, FastBufferReader reader)
+        {
+            reader.ReadValueSafe(out ConnectResult status);
+            
+            if (status == ConnectResult.Success)
+                OnConnectingFinished?.Invoke(status);
+            
+            lastConnectResult = status;
+        }
+
+        private void HandleDisconnectReasonMessage(ulong clientId, FastBufferReader reader)
+        {
+            reader.ReadValueSafe(out DisconnectReason status);
+            lastDisconnectReason = status;
         }
     }
 }

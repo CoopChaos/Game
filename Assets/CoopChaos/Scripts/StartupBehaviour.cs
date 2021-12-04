@@ -9,7 +9,7 @@ namespace CoopChaos
     {
         private void Start()
         {
-            SceneManager.LoadScene("Lobby");
+            SceneManager.LoadScene("MainMenu");
         }
     }
 }

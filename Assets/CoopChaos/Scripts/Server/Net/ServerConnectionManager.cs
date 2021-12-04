@@ -7,6 +7,7 @@ using CoopChaos;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 namespace CoopChaos
@@ -22,14 +23,12 @@ namespace CoopChaos
         
         private ConnectionManager connectionManager;
 
-        public void StartServer(string ipAddress, int port)
+        public bool StartServer(string ipAddress, int port)
         {
             NetworkManager.Singleton.NetworkConfig.NetworkTransport = connectionManager.NetworkTransport;
-
-            connectionManager.NetworkTransport.ConnectAddress = ipAddress;
-            connectionManager.NetworkTransport.ConnectPort = port;
+            connectionManager.NetworkTransport.SetConnectionData(ipAddress, (ushort) port);
             
-            NetworkManager.Singleton.StartServer();
+            return NetworkManager.Singleton.StartServer();
         }
 
         public void OnNetworkReady()
@@ -43,7 +42,7 @@ namespace CoopChaos
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnect;
         }
 
-        private void Awake()
+        private void Start()
         {
             connectionManager = GetComponent<ConnectionManager>();
             
@@ -53,14 +52,21 @@ namespace CoopChaos
 
         private void OnDestroy()
         {
-            NetworkManager.Singleton.ConnectionApprovalCallback -= ApprovalCheck;
-            NetworkManager.Singleton.OnServerStarted -= ServerStartedHandler;
+            if (NetworkManager.Singleton != null)
+            {
+                NetworkManager.Singleton.ConnectionApprovalCallback -= ApprovalCheck;
+                NetworkManager.Singleton.OnServerStarted -= ServerStartedHandler;
+            }
         }
 
         private void ServerStartedHandler()
         {
+            /*
             var stage = Instantiate(initialStage);
             stage.Spawn();
+            */
+
+            NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
         }
 
         private void ApprovalCheck(byte[] connectionData, ulong clientId, 
@@ -87,7 +93,7 @@ namespace CoopChaos
             if (ServerGameContext.Singleton.MaxUserCount >= UserConnectionMapper.Singleton.Count)
             {
                 CustomMessagingHelper.StartSend()
-                    .Write(ConnectStatus.ServerFull)
+                    .Write(ConnectResult.ServerFull)
                     .Send(clientId, NetworkMessage.ConnectResult);
 
                 StartCoroutine(WaitToDisconnect(clientId));
@@ -101,7 +107,7 @@ namespace CoopChaos
             if (connectionPayload.Verify() == false)
             {
                 CustomMessagingHelper.StartSend()
-                    .Write(ConnectStatus.InvalidPayload)
+                    .Write(ConnectResult.InvalidPayload)
                     .Send(clientId, NetworkMessage.ConnectResult);
 
                 StartCoroutine(WaitToDisconnect(clientId));
@@ -118,7 +124,7 @@ namespace CoopChaos
                 var oldClientId = UserConnectionMapper.Singleton[tokenHash];
                 
                 CustomMessagingHelper.StartSend()
-                    .Write(ConnectStatus.LoggedInAgain)
+                    .Write(DisconnectReason.LoggedInAgain)
                     .Send(oldClientId, NetworkMessage.DisconnectReason);
                 
                 NetworkManager.Singleton.DisconnectClient(oldClientId);
@@ -126,7 +132,7 @@ namespace CoopChaos
             
             // connection seems fine so we accpet it
             CustomMessagingHelper.StartSend()
-                .Write(ConnectStatus.Success)
+                .Write(ConnectResult.Success)
                 .Send(clientId, NetworkMessage.ConnectResult);
             
             UserConnectionMapper.Singleton.Add(tokenHash, clientId);

@@ -22,6 +22,7 @@ namespace CoopChaos.Shared
         {
             Assert.IsNull(Singleton);
             Singleton = this;
+            DontDestroyOnLoad(gameObject);
         }
 
         public override void OnDestroy()

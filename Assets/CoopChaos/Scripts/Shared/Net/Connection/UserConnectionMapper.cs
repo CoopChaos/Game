@@ -10,13 +10,13 @@ namespace CoopChaos
     [RequireComponent(typeof(ConnectionManager))]
     public class UserConnectionMapper : NetworkBehaviour
     {
-        private NetworkList<Connection> connections = new NetworkList<Connection>();
+        private NetworkList<Connection> connections;
         public static UserConnectionMapper Singleton { get; private set; }
 
         public override void OnNetworkSpawn()
         {
-            connections.Clear();
-            
+            connections = new NetworkList<Connection>();
+
             if (IsServer)
             {
                 foreach (var connection in NetworkManager.Singleton.ConnectedClientsList)
