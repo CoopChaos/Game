@@ -17,7 +17,8 @@ namespace CoopChaos
     {
         private const int MaxConnectPayload = 1024;
 
-        [SerializeField] private NetworkObject initialStage;
+        [SerializeField] 
+        private NetworkObject[] globalNetworkObjectPrefabs;
 
         private byte[] salt = new byte[32];
         private MD5 md5 = MD5.Create();
@@ -70,7 +71,13 @@ namespace CoopChaos
                 user.UserModel = new ServerUserModel(user.name, NetworkManager.Singleton.LocalClientId, Guid.Empty);
             }
             
-            NetworkManager.Singleton.SceneManager.LoadScene("StartupNetwork", LoadSceneMode.Single);
+            foreach (NetworkObject networkObjectPrefab in globalNetworkObjectPrefabs)
+            {
+                var networkObject = Instantiate(networkObjectPrefab);
+                networkObject.Spawn();
+            }
+
+            NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
         }
 
         private void OnClientDisconnect(ulong clientId)
