@@ -455,6 +455,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   userEntryPrefab: {fileID: 5956022303780419427, guid: 413aaf36cefddd94c9f628d49bdb7b15, type: 3}
   userEntryContainer: {fileID: 735660744}
+  lobbyStatusText: {fileID: 1397866652}
 --- !u!114 &468365030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -972,7 +973,7 @@ GameObject:
   - component: {fileID: 1397866653}
   - component: {fileID: 1397866652}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text_LobbyStatus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1017,7 +1018,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: (4 / 8) Players 2 more needed
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
