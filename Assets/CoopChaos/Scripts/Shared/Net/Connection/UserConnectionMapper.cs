@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -10,6 +11,8 @@ namespace CoopChaos
     public class UserConnectionMapper : NetworkBehaviour
     {
         private NetworkList<Connection> connections;
+        private static MD5 md5 = MD5.Create();
+        
         public static UserConnectionMapper Singleton { get; private set; }
 
         public override void OnNetworkSpawn()
@@ -49,7 +52,11 @@ namespace CoopChaos
 
         public ulong this[Guid clientHash]
             => connections.First(x => x.ClientHash == clientHash).ClientId;
-        
+
+        // converts a private client token to a public client hash
+        public static Guid TokenToClientHash(Guid clientToken) 
+            => new Guid(md5.ComputeHash(clientToken.ToByteArray()));
+
         public void Add(Guid clientHash, ulong clientId)
         {
             connections.Add(new Connection(clientId, clientHash));

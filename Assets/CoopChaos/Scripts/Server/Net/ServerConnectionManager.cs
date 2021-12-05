@@ -20,8 +20,6 @@ namespace CoopChaos
         [SerializeField] 
         private NetworkObject[] globalNetworkObjectPrefabs;
 
-        private byte[] salt = new byte[32];
-        private MD5 md5 = MD5.Create();
         private ConnectionManager connectionManager;
 
         public bool StartServer(string ipAddress, int port)
@@ -49,8 +47,6 @@ namespace CoopChaos
             
             NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
             NetworkManager.Singleton.OnServerStarted += ServerStartedHandler;
-            
-            new System.Random().NextBytes(salt);
         }
 
         private void OnDestroy()
@@ -66,9 +62,10 @@ namespace CoopChaos
         {
             if (NetworkManager.Singleton.IsHost)
             {
+                var clientHash = UserConnectionMapper.TokenToClientHash(ClientSettings.GetToken());
                 var user = NetworkManager.Singleton.ConnectedClients[NetworkManager.Singleton.LocalClientId].PlayerObject
                     .GetComponent<ServerUserPersistentBehaviour>();
-                user.UserModel = new ServerUserModel("User-Host", NetworkManager.Singleton.LocalClientId, Guid.Empty);
+                user.UserModel = new ServerUserModel("User-Host", NetworkManager.Singleton.LocalClientId, clientHash);
             }
             
             foreach (NetworkObject networkObjectPrefab in globalNetworkObjectPrefabs)
@@ -76,7 +73,8 @@ namespace CoopChaos
                 var networkObject = Instantiate(networkObjectPrefab);
                 networkObject.Spawn();
             }
-
+            
+            // TODO: if host, currently localuser is not registed in UserConnectionMapper
             NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
         }
 
@@ -139,7 +137,7 @@ namespace CoopChaos
 
             // we hash the token, so we can easily share it with other clients without worrying
             // about the client knowing the token
-            var clientHash = new Guid(ConvertClientTokenToClientHash(connectionPayload.Token.ToByteArray()));
+            var clientHash = UserConnectionMapper.TokenToClientHash(connectionPayload.Token);
 
             // ensure user is only connected once and old connection is disconnected
             if (UserConnectionMapper.Singleton.Contains(clientHash))
@@ -165,9 +163,6 @@ namespace CoopChaos
                 .GetComponent<ServerUserPersistentBehaviour>();
             user.UserModel = new ServerUserModel(connectionPayload.Username, clientId, clientHash);
         }
-
-        private byte[] ConvertClientTokenToClientHash(byte[] token)
-            => md5.ComputeHash(token.Select((c, i) => (byte)(c ^ salt[i])).ToArray());
 
         // this might seem dirty, but is currently the only way to ensure
         // the client receives the disconnect reason. see Netcode Issue #796

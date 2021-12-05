@@ -19,7 +19,7 @@ namespace CoopChaos
         private ClientConnectionManager clientConnectionManager;
 
         public static ConnectionManager Instance { get; private set; }
-
+        
         public UnityTransport NetworkTransport => networkTransport;
 
         // host starts the server and client on the same machine

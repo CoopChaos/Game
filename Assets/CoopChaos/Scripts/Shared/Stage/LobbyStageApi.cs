@@ -7,10 +7,10 @@ namespace CoopChaos
     {
         private LobbyStageState lobbyStageState;
 
-        [ServerRpc]
-        public void ToggleReadyServerRpc()
+        [ServerRpc(RequireOwnership = false)]
+        public void ToggleReadyServerRpc(Guid clientToken)
         {
-            lobbyStageState.ToggleUserReady(UserConnectionMapper.Singleton[OwnerClientId]);
+            lobbyStageState.ToggleUserReady(UserConnectionMapper.TokenToClientHash(clientToken));
         }
 
         private void Start()

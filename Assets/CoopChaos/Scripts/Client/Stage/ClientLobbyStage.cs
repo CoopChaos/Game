@@ -42,7 +42,7 @@ namespace CoopChaos
 
         public void OnSelectToggleReady()
         {
-            api.ToggleReadyServerRpc();
+            api.ToggleReadyServerRpc(ClientSettings.GetToken());
         }
 
         public void OnSelectDisconnect()
@@ -62,6 +62,7 @@ namespace CoopChaos
         {
             var entry = Instantiate(userEntryPrefab, userEntryContainer.transform).GetComponent<ClientLobbyUserEntryBehaviour>();
             entry.SetUser(user);
+            userEntries[user.ClientHash] = entry;
         }
 
         private void HandleOnUserDisconnected(Guid clientHash)
