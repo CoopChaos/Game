@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 
 namespace CoopChaos
@@ -6,15 +7,15 @@ namespace CoopChaos
     {
         private LobbyStageState lobbyStageState;
 
-        public LobbyStageApi(LobbyStageState lobbyStageState)
-        {
-            this.lobbyStageState = lobbyStageState;
-        }
-
         [ServerRpc]
         public void ToggleReadyServerRpc()
         {
             lobbyStageState.ToggleUserReady(UserConnectionMapper.Singleton[OwnerClientId]);
+        }
+
+        private void Start()
+        {
+            lobbyStageState = GetComponent<LobbyStageState>();
         }
     }
 }

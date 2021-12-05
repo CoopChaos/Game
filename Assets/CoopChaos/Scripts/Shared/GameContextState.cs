@@ -18,7 +18,7 @@ namespace CoopChaos.Shared
             set => gameContext.Value = value;
         }
 
-        public void Awake()
+        private void Awake()
         {
             Assert.IsNull(Singleton);
             Singleton = this;
@@ -28,6 +28,12 @@ namespace CoopChaos.Shared
         public override void OnDestroy()
         {
             Singleton = null;
+        }
+
+        public override void OnNetworkSpawn()
+        {
+            if (IsServer)
+                gameContext.Value = GameContext.Default;
         }
     }
 }

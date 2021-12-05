@@ -7,7 +7,6 @@ using UnityEngine.Assertions;
 
 namespace CoopChaos
 {
-    [RequireComponent(typeof(ConnectionManager))]
     public class UserConnectionMapper : NetworkBehaviour
     {
         private NetworkList<Connection> connections;
@@ -21,7 +20,7 @@ namespace CoopChaos
             {
                 foreach (var connection in NetworkManager.Singleton.ConnectedClientsList)
                 {
-                    var user = connection.PlayerObject.GetComponent<UserPersistentBehaviour>();
+                    var user = connection.PlayerObject.GetComponent<ServerUserPersistentBehaviour>();
                     connections.Add(new Connection(user.UserModel.ClientId, user.UserModel.ClientHash));
                 }
                 

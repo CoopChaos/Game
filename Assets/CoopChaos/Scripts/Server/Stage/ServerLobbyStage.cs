@@ -30,9 +30,9 @@ namespace CoopChaos
 
             foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
             {
-                var user = NetworkManager.Singleton.ConnectedClients[client.ClientId].PlayerObject.GetComponent<UserPersistentBehaviour>();
-                
+                var user = NetworkManager.Singleton.ConnectedClients[client.ClientId].PlayerObject.GetComponent<ServerUserPersistentBehaviour>();
                 state.Users.Add(new LobbyStageState.UserModel(user.UserModel.ClientHash, false, user.name));
+                state.UserConnectedClientRpc(user.UserModel.ClientHash);
             }
         }
 
@@ -78,7 +78,7 @@ namespace CoopChaos
 
         private void HandleClientConnected(ulong clientId)
         {
-            var user = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.GetComponent<UserPersistentBehaviour>();
+            var user = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.GetComponent<ServerUserPersistentBehaviour>();
             
             state.Users.Add(new LobbyStageState.UserModel(user.UserModel.ClientHash, false, user.name));
             state.UserConnectedClientRpc(user.UserModel.ClientHash);
@@ -86,7 +86,7 @@ namespace CoopChaos
 
         private void HandleClientDisconnected(ulong clientId)
         {
-            var user = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.GetComponent<UserPersistentBehaviour>();
+            var user = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.GetComponent<ServerUserPersistentBehaviour>();
             
             state.Users.RemoveAt(state.Users.IndexWhere(u => u.ClientHash == user.UserModel.ClientHash));
             state.UserDisconnectedClientRpc(user.UserModel.ClientHash);

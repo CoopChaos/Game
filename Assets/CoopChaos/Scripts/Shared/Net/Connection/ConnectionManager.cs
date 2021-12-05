@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 
 namespace CoopChaos
 {
-    [RequireComponent(typeof(ClientConnectionManager), typeof(ServerConnectionManager), typeof(UserConnectionMapper))]
+    [RequireComponent(typeof(ClientConnectionManager), typeof(ServerConnectionManager))]
     public class ConnectionManager : MonoBehaviour
     {
         // we need to use the new unitytransport because the old unet transport causes

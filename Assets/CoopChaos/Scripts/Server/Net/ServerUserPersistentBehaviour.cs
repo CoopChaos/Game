@@ -1,21 +1,18 @@
 using System;
 using JetBrains.Annotations;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace CoopChaos
 {
     // behaviour of user over the whole connection
-    public class UserPersistentBehaviour : NetworkBehaviour
+    public class ServerUserPersistentBehaviour : MonoBehaviour
     {
         public ServerUserModel UserModel { get; set; }
 
-        public override void OnNetworkSpawn()
+        private void Awake()
         {
-            if (!IsServer)
-            {
-                enabled = false;
-                return;
-            }
+            DontDestroyOnLoad(gameObject);
         }
     }
 }

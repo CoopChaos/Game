@@ -19,8 +19,8 @@ namespace CoopChaos
 
         [SerializeField] private NetworkObject initialStage;
 
+        private byte[] salt = new byte[32];
         private MD5 md5 = MD5.Create();
-        
         private ConnectionManager connectionManager;
 
         public bool StartServer(string ipAddress, int port)
@@ -48,6 +48,8 @@ namespace CoopChaos
             
             NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
             NetworkManager.Singleton.OnServerStarted += ServerStartedHandler;
+            
+            new System.Random().NextBytes(salt);
         }
 
         private void OnDestroy()
@@ -61,14 +63,28 @@ namespace CoopChaos
 
         private void ServerStartedHandler()
         {
-            /*
-            var stage = Instantiate(initialStage);
-            stage.Spawn();
-            */
-
-            NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
+            if (NetworkManager.Singleton.IsHost)
+            {
+                var user = NetworkManager.Singleton.ConnectedClients[NetworkManager.Singleton.LocalClientId].PlayerObject
+                    .GetComponent<ServerUserPersistentBehaviour>();
+                user.UserModel = new ServerUserModel(user.name, NetworkManager.Singleton.LocalClientId, Guid.Empty);
+            }
+            
+            NetworkManager.Singleton.SceneManager.LoadScene("StartupNetwork", LoadSceneMode.Single);
         }
 
+        private void OnClientDisconnect(ulong clientId)
+        {
+            UserConnectionMapper.Singleton.Remove(clientId);
+
+            if (clientId == NetworkManager.Singleton.LocalClientId)
+            {
+                // the ServerGameNetPortal may be initialized again, which will cause its OnNetworkSpawn to be called again.
+                // Consequently we need to unregister anything we registered, when the NetworkManager is shutting down.
+                NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnect;
+            }
+        }
+        
         private void ApprovalCheck(byte[] connectionData, ulong clientId, 
             NetworkManager.ConnectionApprovedDelegate connectionApprovedCallback)
             // connectionApproved needs to be called OR client can be disconnected explicitly
@@ -116,12 +132,12 @@ namespace CoopChaos
 
             // we hash the token, so we can easily share it with other clients without worrying
             // about the client knowing the token
-            var tokenHash = new Guid(md5.ComputeHash(connectionPayload.Token.ToByteArray()));
+            var clientHash = new Guid(ConvertClientTokenToClientHash(connectionPayload.Token.ToByteArray()));
 
             // ensure user is only connected once and old connection is disconnected
-            if (UserConnectionMapper.Singleton.Contains(tokenHash))
+            if (UserConnectionMapper.Singleton.Contains(clientHash))
             {
-                var oldClientId = UserConnectionMapper.Singleton[tokenHash];
+                var oldClientId = UserConnectionMapper.Singleton[clientHash];
                 
                 CustomMessagingHelper.StartSend()
                     .Write(DisconnectReason.LoggedInAgain)
@@ -135,21 +151,16 @@ namespace CoopChaos
                 .Write(ConnectResult.Success)
                 .Send(clientId, NetworkMessage.ConnectResult);
             
-            UserConnectionMapper.Singleton.Add(tokenHash, clientId);
+            UserConnectionMapper.Singleton.Add(clientHash, clientId);
             connectionApprovedCallback(true, null, true, Vector3.zero, Quaternion.identity);
+
+            var user = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject
+                .GetComponent<ServerUserPersistentBehaviour>();
+            user.UserModel = new ServerUserModel(user.name, clientId, clientHash);
         }
 
-        private void OnClientDisconnect(ulong clientId)
-        {
-            UserConnectionMapper.Singleton.Remove(clientId);
-
-            if (clientId == NetworkManager.Singleton.LocalClientId)
-            {
-                // the ServerGameNetPortal may be initialized again, which will cause its OnNetworkSpawn to be called again.
-                // Consequently we need to unregister anything we registered, when the NetworkManager is shutting down.
-                NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnect;
-            }
-        }
+        private byte[] ConvertClientTokenToClientHash(byte[] token)
+            => md5.ComputeHash(token.Select((c, i) => (byte)(c ^ salt[i])).ToArray());
 
         // this might seem dirty, but is currently the only way to ensure
         // the client receives the disconnect reason. see Netcode Issue #796
