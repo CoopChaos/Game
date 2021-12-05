@@ -31,7 +31,7 @@ namespace CoopChaos
             foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
             {
                 var user = NetworkManager.Singleton.ConnectedClients[client.ClientId].PlayerObject.GetComponent<ServerUserPersistentBehaviour>();
-                state.Users.Add(new LobbyStageState.UserModel(user.UserModel.ClientHash, false, user.name));
+                state.Users.Add(new LobbyStageState.UserModel(user.UserModel.ClientHash, false, user.UserModel.Username));
                 state.UserConnectedClientRpc(user.UserModel.ClientHash);
             }
         }

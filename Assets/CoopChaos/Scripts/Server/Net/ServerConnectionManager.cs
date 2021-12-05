@@ -68,7 +68,7 @@ namespace CoopChaos
             {
                 var user = NetworkManager.Singleton.ConnectedClients[NetworkManager.Singleton.LocalClientId].PlayerObject
                     .GetComponent<ServerUserPersistentBehaviour>();
-                user.UserModel = new ServerUserModel(user.name, NetworkManager.Singleton.LocalClientId, Guid.Empty);
+                user.UserModel = new ServerUserModel("User-Host", NetworkManager.Singleton.LocalClientId, Guid.Empty);
             }
             
             foreach (NetworkObject networkObjectPrefab in globalNetworkObjectPrefabs)
@@ -163,7 +163,7 @@ namespace CoopChaos
 
             var user = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject
                 .GetComponent<ServerUserPersistentBehaviour>();
-            user.UserModel = new ServerUserModel(user.name, clientId, clientHash);
+            user.UserModel = new ServerUserModel(connectionPayload.Username, clientId, clientHash);
         }
 
         private byte[] ConvertClientTokenToClientHash(byte[] token)

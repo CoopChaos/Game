@@ -8,15 +8,23 @@ namespace CoopChaos
         [SerializeField] private TextMeshProUGUI entryText;
 
         private string baseText;
+        private bool lastReady;
         
         public void SetReady(bool ready)
         {
-            entryText.text = (ready ? "(Ready)" : "(Not Ready)") + " " + baseText;
+            lastReady = ready;
+            UpdateText();
         }
         
         public void SetUser(LobbyStageState.UserModel user)
         {
             baseText = user.Username;
+            UpdateText();
+        }
+
+        private void UpdateText()
+        {
+            entryText.text = (lastReady ? "(Ready)" : "(Not Ready)") + " " + baseText;
         }
     }
 }
