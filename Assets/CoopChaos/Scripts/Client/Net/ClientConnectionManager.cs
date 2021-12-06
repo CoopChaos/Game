@@ -68,6 +68,11 @@ namespace CoopChaos
                 enabled = false;
             }
         }
+        
+        public void OnShutdown()
+        {
+            OnDisconnected?.Invoke(DisconnectReason.UserRequestedDisconnect);
+        }
 
         private void Awake()
         {

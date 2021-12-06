@@ -1,4 +1,6 @@
+using System;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace CoopChaos
 {
@@ -8,19 +10,17 @@ namespace CoopChaos
         
         public override void OnNetworkSpawn()
         {
-            if (!IsClient)
-            {
-                enabled = false;
-                return;
-            }
-            
-            
         }
 
-        [ServerRpc]
-        public void ToggleReady()
+        [ServerRpc(RequireOwnership = true)]
+        public void ToggleReadyServerRpc()
         {
-            
+            state.ToggleUserReady(UserConnectionMapper.Singleton[OwnerClientId]);
+        }
+
+        private void Awake()
+        {
+            state = FindObjectOfType<LobbyStageState>();
         }
     }
 }

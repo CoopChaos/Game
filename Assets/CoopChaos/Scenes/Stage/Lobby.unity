@@ -429,6 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bc11f37e0d640aa9cf99782916fc5f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lobbyUserPrefab: {fileID: 4457457444948958552, guid: cef25f60c87c98a46ae800137395de01, type: 3}
 --- !u!114 &468365028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -680,7 +681,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2110391807}
   m_HandleRect: {fileID: 2110391806}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

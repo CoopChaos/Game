@@ -10,12 +10,20 @@ using UnityEngine.SceneManagement;
 namespace CoopChaos
 {
     [RequireComponent(typeof(LobbyStageState))]
-    public class ServerLobbyStage : NetworkBehaviour
+    public class ServerLobbyStage : Stage
     {
         private LobbyStageState state;
+        
+        [SerializeField]
+        private NetworkObject lobbyUserPrefab;
+
+
+        public override StageType Type => StageType.Lobby;
 
         public override void OnNetworkSpawn()
         {
+            Assert.IsNotNull(lobbyUserPrefab);
+            
             if (!IsServer)
             {
                 enabled = false;
@@ -26,13 +34,15 @@ namespace CoopChaos
             NetworkManager.Singleton.OnClientDisconnectCallback += HandleClientDisconnected;
             
             state = GetComponent<LobbyStageState>();
-            
             Assert.IsNotNull(state);
             
             state.OnToggleUserReady += HandleToggleUserReady;
 
             foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
             {
+                var lobbyUser = Instantiate(lobbyUserPrefab);
+                lobbyUser.SpawnWithOwnership(client.ClientId, true);
+
                 var user = NetworkManager.Singleton.ConnectedClients[client.ClientId].PlayerObject.GetComponent<ServerUserPersistentBehaviour>();
                 state.Users.Add(new LobbyStageState.UserModel(user.UserModel.ClientHash, false, user.UserModel.Username));
                 state.UserConnectedClientRpc(user.UserModel.ClientHash);
@@ -44,7 +54,7 @@ namespace CoopChaos
             UnregisterCallbacks();
         }
 
-        public override void OnDestroy()
+        protected override void OnDestroy()
         {
             UnregisterCallbacks();
         }

@@ -1,8 +1,10 @@
 using System;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace CoopChaos
 {
+    [RequireComponent(typeof(ClientLobbyStage), typeof(ServerLobbyStage))]
     public class LobbyStageState : Stage
     {
         private NetworkList<UserModel> users = new NetworkList<UserModel>();

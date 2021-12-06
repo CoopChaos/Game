@@ -34,8 +34,16 @@ namespace CoopChaos
             }
 
             state = GetComponent<LobbyStageState>();
-            user = NetworkManager.LocalClient.PlayerObject.GetComponent<LobbyStageUser>();
 
+            // we do own a lobbystageuser networkobject, somewhere ...
+            foreach (var ownedObject in NetworkManager.ConnectedClients[NetworkManager.LocalClientId].OwnedObjects)
+            {
+                user = ownedObject.GetComponent<LobbyStageUser>();
+
+                if (user != null)
+                    break;
+            }
+            
             Assert.IsNotNull(state);
             Assert.IsNotNull(user);
             
@@ -45,15 +53,15 @@ namespace CoopChaos
             state.OnUserDisconnected += HandleOnUserDisconnected;
             state.OnUserReadyChanged += HandleOnUserReadyChanged;
 
-            foreach (var user in state.Users)
+            foreach (var userInLobby in state.Users)
             {
-                AddUserEntry(user);
+                AddUserEntry(userInLobby);
             }
         }
 
         public void OnSelectToggleReady()
         {
-            // api.ToggleReadyServerRpc(ClientSettings.GetToken());
+            user.ToggleReadyServerRpc();
         }
 
         public void OnSelectDisconnect()

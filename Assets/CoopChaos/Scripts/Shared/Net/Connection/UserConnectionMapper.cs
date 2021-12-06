@@ -10,33 +10,18 @@ namespace CoopChaos
 {
     public class UserConnectionMapper : NetworkBehaviour
     {
-        private NetworkList<Connection> connections;
+        private NetworkList<Connection> connections = new NetworkList<Connection>();
         private static MD5 md5 = MD5.Create();
         
         public static UserConnectionMapper Singleton { get; private set; }
 
-        public override void OnNetworkSpawn()
-        {
-            connections = new NetworkList<Connection>();
+        public Guid LocalClientHash => this[NetworkManager.Singleton.LocalClientId];
 
-            if (IsServer)
-            {
-                foreach (var connection in NetworkManager.Singleton.ConnectedClientsList)
-                {
-                    var user = connection.PlayerObject.GetComponent<ServerUserPersistentBehaviour>();
-                    connections.Add(new Connection(user.UserModel.ClientId, user.UserModel.ClientHash));
-                }
-                
-                // userconnectionmapper is manually handled by connectionmapper to
-                // prevent racing conditions casued by client connect and disconnect events
-            }
-        }
-
-        private void Start()
+        private void Awake()
         {
             Assert.IsNull(Singleton);
             Singleton = this;
-            // DontDestroyOnLoad(gameObject); ist already ensured by ConnectionManager
+            DontDestroyOnLoad(gameObject);
         }
 
         public override void OnDestroy()

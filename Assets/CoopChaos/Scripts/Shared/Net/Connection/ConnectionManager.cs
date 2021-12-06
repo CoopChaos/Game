@@ -31,6 +31,18 @@ namespace CoopChaos
             return NetworkManager.Singleton.StartHost();
         }
 
+        // disconnects the client or stops the server
+        public void Disconnect()
+        {
+            if (NetworkManager.Singleton.IsServer)
+                serverConnectionManager.OnShutdown();
+            
+            if (NetworkManager.Singleton.IsClient)
+                clientConnectionManager.OnShutdown();
+
+            NetworkManager.Singleton.Shutdown();
+        }
+
         private void Awake()
         {
             Assert.IsNull(Instance);

@@ -17,10 +17,11 @@ namespace CoopChaos
     public class ServerConnectionManager : MonoBehaviour
     {
         private const int MaxConnectPayload = 1024;
-
+        
         [SerializeField] 
         private NetworkObject[] globalNetworkObjectPrefabs;
-
+        
+        private List<NetworkObject> globalNetworkObjects = new List<NetworkObject>();
         private ConnectionManager connectionManager;
 
         public bool StartServer(string ipAddress, int port)
@@ -40,6 +41,16 @@ namespace CoopChaos
             }
             
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnect;
+        }
+
+        public void OnShutdown()
+        {
+            foreach (var globalNetworkObject in globalNetworkObjects)
+            {
+                Destroy(globalNetworkObject);
+            }
+            
+            globalNetworkObjects.Clear();
         }
 
         private void Start()
@@ -63,21 +74,20 @@ namespace CoopChaos
 
         private void ServerStartedHandler()
         {
-            if (NetworkManager.Singleton.IsHost)
-            {
-                var clientHash = UserConnectionMapper.TokenToClientHash(ClientSettings.GetToken());
-                var user = NetworkManager.Singleton.ConnectedClients[NetworkManager.Singleton.LocalClientId].PlayerObject
-                    .GetComponent<ServerUserPersistentBehaviour>();
-                user.UserModel = new ServerUserModel("User-Host", NetworkManager.Singleton.LocalClientId, clientHash);
-            }
-            
             foreach (NetworkObject networkObjectPrefab in globalNetworkObjectPrefabs)
             {
                 var networkObject = Instantiate(networkObjectPrefab);
                 networkObject.Spawn();
+                globalNetworkObjects.Add(networkObject);
             }
             
-            // TODO: if host, currently localuser is not registed in UserConnectionMapper
+            // we need to manually handle local host because it is not handled by approval check
+            if (NetworkManager.Singleton.IsHost)
+            {
+                var clientHash = UserConnectionMapper.TokenToClientHash(ClientSettings.GetToken());
+                PrepareUser(NetworkManager.Singleton.LocalClientId, clientHash, "User-Host");
+            }
+            
             NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
         }
 
@@ -159,12 +169,17 @@ namespace CoopChaos
                 .Write(ConnectResult.Success)
                 .Send(clientId, NetworkMessage.ConnectResult);
             
-            UserConnectionMapper.Singleton.Add(clientHash, clientId);
             connectionApprovedCallback(true, null, true, Vector3.zero, Quaternion.identity);
+            PrepareUser(clientId, clientHash, connectionPayload.Username);
+        }
 
+        private void PrepareUser(ulong clientId, Guid clientHash, string username)
+        {
             var user = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject
                 .GetComponent<ServerUserPersistentBehaviour>();
-            user.UserModel = new ServerUserModel(connectionPayload.Username, clientId, clientHash);
+
+            user.UserModel = new ServerUserModel(username, clientId, clientHash);
+            UserConnectionMapper.Singleton.Add(clientHash, clientId);
         }
 
         // this might seem dirty, but is currently the only way to ensure
