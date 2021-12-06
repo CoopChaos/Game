@@ -36,9 +36,11 @@ namespace CoopChaos
                 JsonUtility.ToJson(
                     new ConnectionPayload()
                     {
-                        Token = token,
+                        RawToken = token.ToString(),
                         Username = "User" + (new System.Random()).Next()
                     }));
+
+            string s = Encoding.UTF8.GetString(NetworkManager.Singleton.NetworkConfig.ConnectionData);
 
             NetworkManager.Singleton.NetworkConfig.ClientConnectionBufferTimeout = TimeoutDuration;
 

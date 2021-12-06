@@ -9,11 +9,15 @@ namespace CoopChaos
         
         // semi secret token allowing to identify the client
         // after reconnect and assign it to the correct player
-        public Guid Token;
-        
+        public string RawToken;
         public string Username;
+
+        public Guid Token => new Guid(RawToken);
         
         public bool Verify()
-            => string.IsNullOrWhiteSpace(Username) == false && Username.Length <= MaxUsernameLength && Token != Guid.Empty;
+            => string.IsNullOrWhiteSpace(Username) == false 
+               && Username.Length <= MaxUsernameLength 
+               && !string.IsNullOrWhiteSpace(RawToken) 
+               && Token != Guid.Empty;
     }
 }

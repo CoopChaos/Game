@@ -124,7 +124,7 @@ namespace CoopChaos
             }
             
             // ensure we have room for another connection
-            if (ServerGameContext.Singleton.MaxUserCount >= UserConnectionMapper.Singleton.Count)
+            if (UserConnectionMapper.Singleton.Count >= ServerGameContext.Singleton.MaxUserCount)
             {
                 CustomMessagingHelper.StartSend()
                     .Write(ConnectResult.ServerFull)

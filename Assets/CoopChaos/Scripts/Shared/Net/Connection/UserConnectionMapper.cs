@@ -10,7 +10,7 @@ namespace CoopChaos
 {
     public class UserConnectionMapper : NetworkBehaviour
     {
-        private NetworkList<Connection> connections = new NetworkList<Connection>();
+        private NetworkList<Connection> connections;
         private static MD5 md5 = MD5.Create();
         
         public static UserConnectionMapper Singleton { get; private set; }
@@ -19,6 +19,8 @@ namespace CoopChaos
 
         private void Awake()
         {
+            connections = new NetworkList<Connection>();
+            
             Assert.IsNull(Singleton);
             Singleton = this;
             DontDestroyOnLoad(gameObject);

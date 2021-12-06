@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using CoopChaos.Shared;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
@@ -23,6 +24,8 @@ namespace CoopChaos
 
         public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
+            
             Assert.IsNotNull(userEntryPrefab);
             Assert.IsNotNull(userEntryContainer);
             Assert.IsNotNull(lobbyStatusText);
@@ -35,23 +38,11 @@ namespace CoopChaos
 
             state = GetComponent<LobbyStageState>();
 
-            // we do own a lobbystageuser networkobject, somewhere ...
-            foreach (var ownedObject in NetworkManager.ConnectedClients[NetworkManager.LocalClientId].OwnedObjects)
-            {
-                user = ownedObject.GetComponent<LobbyStageUser>();
-
-                if (user != null)
-                    break;
-            }
-            
             Assert.IsNotNull(state);
-            Assert.IsNotNull(user);
             
             UpdateLobbyUIState();
 
-            state.OnUserConnected += HandleOnUserConnected;
-            state.OnUserDisconnected += HandleOnUserDisconnected;
-            state.OnUserReadyChanged += HandleOnUserReadyChanged;
+            state.Users.OnListChanged += HandleOnUsersListChanged;
 
             foreach (var userInLobby in state.Users)
             {
@@ -61,6 +52,21 @@ namespace CoopChaos
 
         public void OnSelectToggleReady()
         {
+            // TODO: remove, quick hack
+            // we do own a lobbystageuser networkobject, somewhere ...
+            var objects = NetworkManager.IsHost ? NetworkManager.ConnectedClients[NetworkManager.LocalClientId].OwnedObjects : NetworkManager.LocalClient.OwnedObjects;
+            foreach (var ownedObject in objects)
+            {
+                user = ownedObject.GetComponent<LobbyStageUser>();
+
+                if (user != null)
+                    break;
+            }
+            
+            Assert.IsNotNull(user);
+            
+            
+            
             user.ToggleReadyServerRpc();
         }
 
@@ -68,14 +74,34 @@ namespace CoopChaos
         {
             FindObjectOfType<ClientConnectionManager>().StopClient();
         }
-
-        private void HandleOnUserConnected(LobbyStageState.UserModel user)
+        
+        private void HandleOnUsersListChanged(NetworkListEvent<LobbyStageState.UserModel> listEvent)
         {
-            if (userEntries.ContainsKey(user.ClientHash))
-                return;
-            
-            AddUserEntry(user);
-            UpdateLobbyUIState();
+            switch (listEvent.Type.ToAbstract())
+            {
+                case AbstractNetworkListEvent.Add:
+                    if (userEntries.ContainsKey(listEvent.Value.ClientHash))
+                        return;
+
+                    AddUserEntry(listEvent.Value);
+                    UpdateLobbyUIState();
+                    
+                    break;
+                case AbstractNetworkListEvent.Change:
+                    userEntries[listEvent.Value.ClientHash].SetReady(listEvent.Value.Ready);
+                    
+                    break;
+                case AbstractNetworkListEvent.Clear:
+                    userEntries.Clear();
+                    
+                    break;
+                case AbstractNetworkListEvent.Remove:
+                    Destroy(userEntries[listEvent.Value.ClientHash].gameObject);
+                    userEntries.Remove(listEvent.Value.ClientHash);
+                    UpdateLobbyUIState();
+                    
+                    break;
+            }
         }
 
         private void AddUserEntry(LobbyStageState.UserModel user)
@@ -85,26 +111,11 @@ namespace CoopChaos
             userEntries[user.ClientHash] = entry;
         }
 
-        private void HandleOnUserDisconnected(Guid clientHash)
-        {
-            if (!userEntries.ContainsKey(clientHash))
-                return;
-
-            Destroy(userEntries[clientHash].gameObject);
-            userEntries.Remove(clientHash);
-            UpdateLobbyUIState();
-        }
-        
         private void UpdateLobbyUIState()
         {
             lobbyStatusText.SetText(state.Users.Count >= GameContextState.Singleton.GameContext.MinUserCount
                 ? $"({state.Users.Count} / {GameContextState.Singleton.GameContext.MaxUserCount}) in Lobby (set ready to start)"
                 : $"({state.Users.Count} / {GameContextState.Singleton.GameContext.MaxUserCount}) in Lobby - {GameContextState.Singleton.GameContext.MinUserCount - state.Users.Count} remaining");
-        }
-
-        private void HandleOnUserReadyChanged(Guid clientHash, bool isReady)
-        {
-            userEntries[clientHash].SetReady(isReady);
         }
     }
 }

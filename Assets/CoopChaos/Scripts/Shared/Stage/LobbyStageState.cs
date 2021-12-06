@@ -7,14 +7,10 @@ namespace CoopChaos
     [RequireComponent(typeof(ClientLobbyStage), typeof(ServerLobbyStage))]
     public class LobbyStageState : Stage
     {
-        private NetworkList<UserModel> users = new NetworkList<UserModel>();
+        private NetworkList<UserModel> users;
 
         public event Action<Guid> OnToggleUserReady;
 
-        public event Action<Guid, bool> OnUserReadyChanged;
-        public event Action<UserModel> OnUserConnected;
-        public event Action<Guid> OnUserDisconnected;
-        
         public NetworkList<UserModel> Users => users;
         public override StageType Type => StageType.Lobby;
         
@@ -23,17 +19,10 @@ namespace CoopChaos
             OnToggleUserReady?.Invoke(clientHash);
         }
 
-        [ClientRpc]
-        public void UserReadyChangedClientRpc(Guid clientHash)
-            => OnUserReadyChanged?.Invoke(clientHash, users[users.IndexWhere(u => u.ClientHash == clientHash)].Ready);
-
-        [ClientRpc]
-        public void UserConnectedClientRpc(Guid clientHash) 
-            => OnUserConnected?.Invoke(users[users.IndexWhere(u => u.ClientHash == clientHash)]);
-
-        [ClientRpc]
-        public void UserDisconnectedClientRpc(Guid clientHash)
-            => OnUserDisconnected?.Invoke(clientHash);
+        protected void Awake()
+        {
+            users = new NetworkList<UserModel>();
+        }
 
         public struct UserModel : INetworkSerializable, IEquatable<UserModel>
         {
