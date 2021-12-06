@@ -1,5 +1,7 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace CoopChaos
 {
@@ -25,6 +27,11 @@ namespace CoopChaos
         private void UpdateText()
         {
             entryText.text = (lastReady ? "(Ready)" : "(Not Ready)") + " " + baseText;
+        }
+
+        private void Awake()
+        {
+            Assert.IsNotNull(entryText);
         }
     }
 }

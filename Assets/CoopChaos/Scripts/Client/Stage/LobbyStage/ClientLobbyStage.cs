@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using CoopChaos.Shared;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
 namespace CoopChaos
@@ -13,8 +15,7 @@ namespace CoopChaos
         [SerializeField] private TextMeshProUGUI lobbyStatusText;
         
         private LobbyStageState state;
-        private LobbyStageApi api;
-        private int maxPlayerCount = 8;
+        private LobbyStageUser user;
 
         private Dictionary<Guid, ClientLobbyUserEntryBehaviour> userEntries = new Dictionary<Guid, ClientLobbyUserEntryBehaviour>(); 
 
@@ -22,7 +23,9 @@ namespace CoopChaos
 
         public override void OnNetworkSpawn()
         {
-            base.OnNetworkSpawn();
+            Assert.IsNotNull(userEntryPrefab);
+            Assert.IsNotNull(userEntryContainer);
+            Assert.IsNotNull(lobbyStatusText);
             
             if (!IsClient)
             {
@@ -31,7 +34,10 @@ namespace CoopChaos
             }
 
             state = GetComponent<LobbyStageState>();
-            api = GetComponent<LobbyStageApi>();
+            user = NetworkManager.LocalClient.PlayerObject.GetComponent<LobbyStageUser>();
+
+            Assert.IsNotNull(state);
+            Assert.IsNotNull(user);
             
             UpdateLobbyUIState();
 
@@ -47,17 +53,12 @@ namespace CoopChaos
 
         public void OnSelectToggleReady()
         {
-            api.ToggleReadyServerRpc(ClientSettings.GetToken());
+            // api.ToggleReadyServerRpc(ClientSettings.GetToken());
         }
 
         public void OnSelectDisconnect()
         {
             FindObjectOfType<ClientConnectionManager>().StopClient();
-        }
-
-        private void UpdateLobbyUIState()
-        {
-            lobbyStatusText.SetText($"({state.Users.Count} / {maxPlayerCount}) in Lobby - {maxPlayerCount - state.Users.Count} remaining");
         }
 
         private void HandleOnUserConnected(LobbyStageState.UserModel user)
@@ -68,7 +69,7 @@ namespace CoopChaos
             AddUserEntry(user);
             UpdateLobbyUIState();
         }
-        
+
         private void AddUserEntry(LobbyStageState.UserModel user)
         {
             var entry = Instantiate(userEntryPrefab, userEntryContainer.transform).GetComponent<ClientLobbyUserEntryBehaviour>();
@@ -84,6 +85,13 @@ namespace CoopChaos
             Destroy(userEntries[clientHash].gameObject);
             userEntries.Remove(clientHash);
             UpdateLobbyUIState();
+        }
+        
+        private void UpdateLobbyUIState()
+        {
+            lobbyStatusText.SetText(state.Users.Count >= GameContextState.Singleton.GameContext.MinUserCount
+                ? $"({state.Users.Count} / {GameContextState.Singleton.GameContext.MaxUserCount}) in Lobby (set ready to start)"
+                : $"({state.Users.Count} / {GameContextState.Singleton.GameContext.MaxUserCount}) in Lobby - {GameContextState.Singleton.GameContext.MinUserCount - state.Users.Count} remaining");
         }
 
         private void HandleOnUserReadyChanged(Guid clientHash, bool isReady)

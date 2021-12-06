@@ -7,6 +7,7 @@ using CoopChaos;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
@@ -44,6 +45,8 @@ namespace CoopChaos
         private void Start()
         {
             connectionManager = GetComponent<ConnectionManager>();
+            
+            Assert.IsNotNull(connectionManager);
             
             NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
             NetworkManager.Singleton.OnServerStarted += ServerStartedHandler;

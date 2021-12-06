@@ -26,6 +26,9 @@ namespace CoopChaos
             NetworkManager.Singleton.OnClientDisconnectCallback += HandleClientDisconnected;
             
             state = GetComponent<LobbyStageState>();
+            
+            Assert.IsNotNull(state);
+            
             state.OnToggleUserReady += HandleToggleUserReady;
 
             foreach (var client in NetworkManager.Singleton.ConnectedClientsList)

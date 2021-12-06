@@ -38,6 +38,9 @@ namespace CoopChaos
             
             serverConnectionManager = GetComponent<ServerConnectionManager>();
             clientConnectionManager = GetComponent<ClientConnectionManager>();
+            
+            Assert.IsNotNull(serverConnectionManager);
+            Assert.IsNotNull(clientConnectionManager);
         }
         
         private void Start()

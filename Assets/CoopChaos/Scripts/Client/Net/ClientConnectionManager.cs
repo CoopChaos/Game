@@ -3,6 +3,7 @@ using System.Text;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UNET;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
 namespace CoopChaos
@@ -71,6 +72,7 @@ namespace CoopChaos
         private void Awake()
         {
             connectionManager = GetComponent<ConnectionManager>();
+            Assert.IsNotNull(connectionManager);
         }
 
         private void Start()

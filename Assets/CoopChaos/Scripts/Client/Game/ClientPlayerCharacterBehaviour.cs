@@ -1,6 +1,7 @@
 using System;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 
 namespace CoopChaos
@@ -34,6 +35,11 @@ namespace CoopChaos
         {
             Vector2 moveInput = moveInputAction.ReadValue<Vector2>();
             rigidbody.velocity += moveInput * Time.deltaTime * speed;
+        }
+
+        private void Awake()
+        {
+            Assert.IsNotNull(characterCamera);
         }
     }
 }
