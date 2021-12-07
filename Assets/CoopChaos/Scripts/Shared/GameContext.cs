@@ -8,7 +8,7 @@ namespace CoopChaos.Shared
         private int maxUserCount;
         private int minUserCount;
         
-        public static GameContext Default => new GameContext(8, 4);
+        public static GameContext Default => new GameContext(8, 1);
 
         public GameContext(int maxUserCount, int minUserCount)
         {

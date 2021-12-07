@@ -16,11 +16,35 @@ namespace CoopChaos
         [SerializeField] private TextMeshProUGUI lobbyStatusText;
         
         private LobbyStageState state;
-        private LobbyStageUser user;
-
+        private LobbyStageUser lobbyUser;
+        
         private Dictionary<Guid, ClientLobbyUserEntryBehaviour> userEntries = new Dictionary<Guid, ClientLobbyUserEntryBehaviour>(); 
 
         public override StageType Type => StageType.Lobby;
+
+        // we load the lobbyuser lazy because it does not exist in scene directly on spawn of
+        // ClientLobbyStage but has to be synchronized
+        private LobbyStageUser LazyLobbyUser
+        {
+            get
+            {
+                if (lobbyUser == null)
+                {
+                    foreach (var lobbyUser in FindObjectsOfType<LobbyStageUser>())
+                    {
+                        if (lobbyUser.IsOwner)
+                        {
+                            this.lobbyUser = lobbyUser;
+                            break;
+                        }
+                    }
+
+                    Assert.IsNotNull(lobbyUser);
+                }
+
+                return lobbyUser;
+            }
+        }
 
         public override void OnNetworkSpawn()
         {
@@ -37,7 +61,6 @@ namespace CoopChaos
             }
 
             state = GetComponent<LobbyStageState>();
-
             Assert.IsNotNull(state);
             
             UpdateLobbyUIState();
@@ -52,22 +75,7 @@ namespace CoopChaos
 
         public void OnSelectToggleReady()
         {
-            // TODO: remove, quick hack
-            // we do own a lobbystageuser networkobject, somewhere ...
-            var objects = NetworkManager.IsHost ? NetworkManager.ConnectedClients[NetworkManager.LocalClientId].OwnedObjects : NetworkManager.LocalClient.OwnedObjects;
-            foreach (var ownedObject in objects)
-            {
-                user = ownedObject.GetComponent<LobbyStageUser>();
-
-                if (user != null)
-                    break;
-            }
-            
-            Assert.IsNotNull(user);
-            
-            
-            
-            user.ToggleReadyServerRpc();
+            LazyLobbyUser.ToggleReadyServerRpc();
         }
 
         public void OnSelectDisconnect()

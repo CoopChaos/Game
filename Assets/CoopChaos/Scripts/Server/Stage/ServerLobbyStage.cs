@@ -106,16 +106,8 @@ namespace CoopChaos
             var client = NetworkManager.Singleton.ConnectedClients[clientId];
             
             var lobbyUser = Instantiate(lobbyUserPrefab);
-            lobbyUser.Spawn(true);
+            lobbyUser.SpawnWithOwnership(clientId, true);
             
-            Debug.Log("!:" + NetworkManager.Singleton.ConnectedClients[clientId].OwnedObjects.Count);
-            lobbyUser.ChangeOwnership(clientId);
-            
-            Debug.Log("§:" + NetworkManager.Singleton.ConnectedClients[clientId].OwnedObjects.Count);
-            lobbyUser.ChangeOwnership(clientId);
-            
-            Debug.Log("$:" + NetworkManager.Singleton.ConnectedClients[clientId].OwnedObjects.Count);
-
             var user = NetworkManager.Singleton.ConnectedClients[client.ClientId].PlayerObject
                 .GetComponent<ServerUserPersistentBehaviour>();
             state.Users.Add(new LobbyStageState.UserModel(user.UserModel.ClientHash, false, user.UserModel.Username));
