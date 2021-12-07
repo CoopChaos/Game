@@ -66,8 +66,6 @@ namespace CoopChaos
                 NetworkManager.Singleton.OnClientConnectedCallback -= HandleClientConnected;
                 NetworkManager.Singleton.OnClientDisconnectCallback -= HandleClientDisconnected;
             }
-
-            state.OnToggleUserReady -= HandleToggleUserReady;
         }
 
         private void HandleToggleUserReady(Guid clientHash)
