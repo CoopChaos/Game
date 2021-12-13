@@ -9,6 +9,7 @@ namespace CoopChaos
     public class ServerGameStage : Stage
     {
         [SerializeField] private NetworkObject playerPrefab;
+        [SerializeField] private Transform playerSpawn;
 
         private Dictionary<Guid, NetworkObject> players = new Dictionary<Guid, NetworkObject>();
 
@@ -27,7 +28,7 @@ namespace CoopChaos
             
             foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
             {
-                var player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+                var player = Instantiate(playerPrefab, playerSpawn.position, playerSpawn.rotation);
                 player.SpawnWithOwnership(client.ClientId);
                 players.Add(UserConnectionMapper.Singleton[client.ClientId], player);
             }
