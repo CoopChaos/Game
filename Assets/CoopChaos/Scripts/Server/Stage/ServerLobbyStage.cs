@@ -58,9 +58,6 @@ namespace CoopChaos
 
         private void UnregisterCallbacks()
         {
-            if (!IsServer)
-                return;
-            
             if (NetworkManager.Singleton != null)
             {
                 NetworkManager.Singleton.OnClientConnectedCallback -= HandleClientConnected;

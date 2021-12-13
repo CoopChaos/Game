@@ -11,3 +11,7 @@ sehr buggy ist. sollte soweit wie möglich auf ownership für clients verzichten
 nicht das ownership ändern, denn die änderungsfunktion hat einen bug, dass die falsche 
 clientid zugewiesen wird (no joke) wenn du deine ownership objekte finden willst geht
 das durch FindObjectsOfType<T> (oder ähnlich) und filter nach .IsOwner
+## IsServer and IsClient with Resource cleanup in OnNetworkDespawn
+das aufräumen von resourcen in OnNetworkDespawn sollte nicht abhängig von IsServer oder IsClient 
+umgesetzt werden, da nach dem Shutdown des Servers oder Clients IsServer und IsClient sofort
+auf false gesetzt wird.
