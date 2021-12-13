@@ -33,7 +33,7 @@ namespace CoopChaos.Shared
         public override void OnNetworkSpawn()
         {
             if (IsServer)
-                gameContext.Value = GameContext.Default;
+                gameContext.Value = GameContext.Singleton;
         }
     }
 }

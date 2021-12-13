@@ -1,9 +1,17 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace CoopChaos
 {
     public class ServerGameStage : Stage
     {
+        [SerializeField] private NetworkObject playerPrefab;
+
+        private Dictionary<Guid, NetworkObject> players = new Dictionary<Guid, NetworkObject>();
+
         public override StageType Type => StageType.Game;
 
         public override void OnNetworkSpawn()
@@ -16,6 +24,13 @@ namespace CoopChaos
 
             NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
             NetworkManager.Singleton.OnClientConnectedCallback += HandleClientDisconnected;
+            
+            foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
+            {
+                var player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+                player.SpawnWithOwnership(client.ClientId);
+                players.Add(UserConnectionMapper.Singleton[client.ClientId], player);
+            }
         }
 
         public override void OnNetworkDespawn()
@@ -30,9 +45,6 @@ namespace CoopChaos
 
         private void UnregisterCallbacks()
         {
-            if (!IsServer)
-                return;
-            
             if (NetworkManager.Singleton != null)
             {
                 NetworkManager.Singleton.OnClientConnectedCallback -= HandleClientConnected;
@@ -42,10 +54,24 @@ namespace CoopChaos
 
         private void HandleClientConnected(ulong clientId)
         {
+            Guid clientHash = UserConnectionMapper.Singleton[clientId];
+            if (players.ContainsKey(clientHash))
+            {
+                players[clientHash].ChangeOwnership(clientId);   
+            }
+            else
+            {
+                NetworkManager.DisconnectClient(clientId);   
+            }
         }
         
         private void HandleClientDisconnected(ulong clientId)
         {
+            Guid clientHash = UserConnectionMapper.Singleton[clientId];
+            if (players.ContainsKey(clientHash))
+            {
+                players[clientHash].ChangeOwnership(clientId);
+            }
         }
     }
 }

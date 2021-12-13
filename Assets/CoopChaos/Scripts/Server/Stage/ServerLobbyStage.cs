@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CoopChaos;
+using CoopChaos.Shared;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -76,7 +77,7 @@ namespace CoopChaos
                 !state.Users[clientIndex].Ready,
                 state.Users[clientIndex].RawUsername);
 
-            if (state.Users.All(u => u.Ready) && ServerGameContext.Singleton.MinUserCount <= state.Users.Count)
+            if (state.Users.All(u => u.Ready) && GameContext.Singleton.MinUserCount <= state.Users.Count)
             {
                 NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
             }

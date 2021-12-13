@@ -1,14 +1,14 @@
 using System;
 using Unity.Netcode;
 
-namespace CoopChaos.Shared
+namespace CoopChaos
 {
     public struct GameContext : INetworkSerializable, IEquatable<GameContext>
     {
         private int maxUserCount;
         private int minUserCount;
         
-        public static GameContext Default => new GameContext(8, 1);
+        public static GameContext Singleton => new GameContext(8, 1);
 
         public GameContext(int maxUserCount, int minUserCount)
         {

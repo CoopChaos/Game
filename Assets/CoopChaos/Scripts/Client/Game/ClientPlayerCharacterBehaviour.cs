@@ -14,6 +14,7 @@ namespace CoopChaos
 
         private Rigidbody2D rigidbody;
         private InputAction moveInputAction;
+        private InputAction interactInputAction;
 
         public override void OnNetworkSpawn()
         {
@@ -28,6 +29,7 @@ namespace CoopChaos
 
             var playerInput = GetComponent<PlayerInput>();
             moveInputAction = playerInput.actions["move"];
+            interactInputAction = playerInput.actions["interact"];
             rigidbody = GetComponent<Rigidbody2D>(); 
         }
 
