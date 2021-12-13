@@ -9,12 +9,17 @@ namespace CoopChaos
     [RequireComponent(typeof(Rigidbody2D), typeof(PlayerInput))]
     public class ClientPlayerCharacterBehaviour : NetworkBehaviour
     {
-        [SerializeField] private float speed = 5f;
+        [SerializeField] private float speed = 12f;
         [SerializeField] private GameObject characterCamera;
-
+        
         private Rigidbody2D rigidbody;
         private InputAction moveInputAction;
         private InputAction interactInputAction;
+
+        public void SetColor(Color color)
+        {
+            GetComponentInChildren<SpriteRenderer>().color = color;
+        }
 
         public override void OnNetworkSpawn()
         {

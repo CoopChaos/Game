@@ -30,6 +30,11 @@ namespace CoopChaos
             {
                 var player = Instantiate(playerPrefab, playerSpawn.position, playerSpawn.rotation);
                 player.SpawnWithOwnership(client.ClientId);
+                
+                // random unity color
+                var color = new Color(UnityEngine.Random.Range(0.4f, 1f), UnityEngine.Random.Range(0.4f, 1f), UnityEngine.Random.Range(0.4f, 1f));
+                player.GetComponent<ClientPlayerCharacterBehaviour>().SetColor(color);
+                
                 players.Add(UserConnectionMapper.Singleton[client.ClientId], player);
             }
         }
