@@ -38,7 +38,7 @@ namespace CoopChaos
             rigidbody = GetComponent<Rigidbody2D>(); 
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             Vector2 moveInput = moveInputAction.ReadValue<Vector2>();
             rigidbody.velocity += moveInput * Time.deltaTime * speed;
