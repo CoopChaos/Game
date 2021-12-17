@@ -9,15 +9,8 @@ namespace CoopChaos
     {
         private NetworkList<UserModel> users;
 
-        public event Action<Guid> OnToggleUserReady;
-
         public NetworkList<UserModel> Users => users;
         public override StageType Type => StageType.Lobby;
-        
-        public void ToggleUserReady(Guid clientHash)
-        {
-            OnToggleUserReady?.Invoke(clientHash);
-        }
 
         protected void Awake()
         {

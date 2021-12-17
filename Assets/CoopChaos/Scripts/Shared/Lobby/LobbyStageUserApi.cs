@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace CoopChaos
 {
-    public class LobbyStageUser : NetworkBehaviour
+    public class LobbyStageUserApi : NetworkBehaviour
     {
-        private LobbyStageState state;
+        private ServerLobbyStage serverLobbyStage;
         
         public override void OnNetworkSpawn()
         {
@@ -15,12 +15,12 @@ namespace CoopChaos
         [ServerRpc(RequireOwnership = true)]
         public void ToggleReadyServerRpc()
         {
-            state.ToggleUserReady(UserConnectionMapper.Singleton[OwnerClientId]);
+            serverLobbyStage.ToggleUserReady(OwnerClientId);
         }
 
         private void Awake()
         {
-            state = FindObjectOfType<LobbyStageState>();
+            serverLobbyStage = FindObjectOfType<ServerLobbyStage>();
         }
     }
 }

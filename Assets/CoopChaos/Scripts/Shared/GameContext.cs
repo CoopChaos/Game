@@ -9,7 +9,7 @@ namespace CoopChaos
         private int minUserCount;
         private float interactRange;
         
-        public static GameContext Singleton => new GameContext(8, 1, 3f);
+        public static GameContext Singleton => new GameContext(8, 1, 2.5f);
 
         public GameContext(int maxUserCount, int minUserCount, float interactRange)
         {

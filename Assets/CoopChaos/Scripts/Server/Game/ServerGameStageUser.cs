@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CoopChaos
 {
-    public class ServerPlayerCharacterBehaviour : NetworkBehaviour
+    public class ServerGameStageUser : NetworkBehaviour
     {
         public override void OnNetworkSpawn()
         {

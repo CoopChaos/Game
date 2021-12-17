@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -11,14 +12,18 @@ namespace CoopChaos
 
         public override void OnNetworkSpawn()
         {
-            serverSpaceship = FindObjectOfType<ServerSpaceship>();
-            Assert.IsNotNull(serverSpaceship);
         }
 
         [ServerRpc]
-        public void Interact(int interactableObjectId)
+        public void InteractServerRpc(int interactableObjectId)
         {
-            serverSpaceship.InteractFromPlayer(OwnerClientId, interactableObjectId);
+            serverSpaceship.InteractWith(OwnerClientId, interactableObjectId);
+        }
+
+        private void Start()
+        {
+            serverSpaceship = FindObjectOfType<ServerSpaceship>();
+            Assert.IsNotNull(serverSpaceship);
         }
     }
 }

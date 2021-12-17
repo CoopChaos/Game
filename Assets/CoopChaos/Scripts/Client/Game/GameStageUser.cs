@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace CoopChaos
 {
-    [RequireComponent(typeof(Rigidbody2D), typeof(PlayerInput))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(PlayerInput), typeof(GameStageUserApi))]
     public class GameStageUser : NetworkBehaviour
     {
         [SerializeField] private float speed = 12f;
@@ -27,34 +27,31 @@ namespace CoopChaos
 
         public void OnInteract()
         {
-            api.Interact(currentInteractable.InteractableObjectId);
+            if (currentInteractable != null)
+            {
+                api.InteractServerRpc(currentInteractable.InteractableObjectId);
+            }
         }
 
         public override void OnNetworkSpawn()
         {
             Debug.Assert(characterCamera != null, "Character camera is null");
 
-            if (!IsClient || !IsOwner)
-            {
-                enabled = false;
-                characterCamera.SetActive(false);
-                return;
-            }
-            
-            api = GetComponent<GameStageUserApi>();
-            spaceshipState = FindObjectOfType<SpaceshipState>();
-            rigidbody = GetComponent<Rigidbody2D>();
-            
-            Assert.IsNotNull(api);
-            Assert.IsNotNull(spaceshipState);
-            Assert.IsNotNull(rigidbody);
-            
             var playerInput = GetComponent<PlayerInput>();
             Assert.IsNotNull(playerInput);
             
+            if (!IsClient || !IsOwner)
+            {
+                playerInput.enabled = false;
+
+                enabled = false;
+                characterCamera.SetActive(false);
+                
+                return;
+            }
+            
             moveInputAction = playerInput.actions["move"];
             interactInputAction = playerInput.actions["interact"];
-            
         }
 
         private void FixedUpdate()
@@ -62,6 +59,8 @@ namespace CoopChaos
             Vector2 moveInput = moveInputAction.ReadValue<Vector2>();
             rigidbody.velocity += moveInput * Time.deltaTime * speed;
         }
+        
+        
 
         private void Update()
         {
@@ -86,22 +85,38 @@ namespace CoopChaos
                 }
             }
 
-            if (currentInteractable != null && currentInteractable != closestInteractableObject)
+            if (closestDistance > GameContext.Singleton.InteractRange)
             {
-                currentInteractable.Unhighlight();
-                currentInteractable = null;
+                closestInteractableObject = null;
             }
 
-            if (closestInteractableObject != null && closestDistance < GameContext.Singleton.InteractRange)
+            if (currentInteractable != closestInteractableObject)
             {
-                closestInteractableObject.Highlight();
-                currentInteractable = closestInteractableObject;
+                if (currentInteractable != null)
+                {
+                    currentInteractable.Unhighlight();
+                    currentInteractable = null;
+                }
+
+                if (closestInteractableObject != null)
+                {
+                    closestInteractableObject.Highlight();
+                    currentInteractable = closestInteractableObject;
+                }
             }
         }
 
-        private void Awake()
+        private void Start()
         {
             Assert.IsNotNull(characterCamera);
+            
+            api = GetComponent<GameStageUserApi>();
+            spaceshipState = FindObjectOfType<SpaceshipState>();
+            rigidbody = GetComponent<Rigidbody2D>();
+            
+            Assert.IsNotNull(api);
+            Assert.IsNotNull(spaceshipState);
+            Assert.IsNotNull(rigidbody);
         }
     }
 }

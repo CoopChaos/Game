@@ -18,8 +18,25 @@ namespace CoopChaos
         [SerializeField]
         private NetworkObject lobbyUserPrefab;
 
-
         public override StageType Type => StageType.Lobby;
+
+        public void ToggleUserReady(ulong clientId)
+        {
+            var clientHash = UserConnectionMapper.Singleton[clientId];
+            int clientIndex = state.Users.IndexWhere(u => u.ClientHash == clientHash);
+            
+            Assert.IsTrue(clientIndex != -1);
+            
+            state.Users[clientIndex] = new LobbyStageState.UserModel(
+                state.Users[clientIndex].ClientHash,
+                !state.Users[clientIndex].Ready,
+                state.Users[clientIndex].RawUsername);
+
+            if (state.Users.All(u => u.Ready) && GameContext.Singleton.MinUserCount <= state.Users.Count)
+            {
+                NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
+            }
+        }
 
         public override void OnNetworkSpawn()
         {
@@ -39,8 +56,6 @@ namespace CoopChaos
             state = GetComponent<LobbyStageState>();
             Assert.IsNotNull(state);
             
-            state.OnToggleUserReady += HandleToggleUserReady;
-
             foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
             {
                 AddLobbyUser(client.ClientId);
@@ -63,23 +78,6 @@ namespace CoopChaos
             {
                 NetworkManager.Singleton.OnClientConnectedCallback -= HandleClientConnected;
                 NetworkManager.Singleton.OnClientDisconnectCallback -= HandleClientDisconnected;
-            }
-        }
-
-        private void HandleToggleUserReady(Guid clientHash)
-        {
-            int clientIndex = state.Users.IndexWhere(u => u.ClientHash == clientHash);
-            
-            Assert.IsTrue(clientIndex != -1);
-            
-            state.Users[clientIndex] = new LobbyStageState.UserModel(
-                state.Users[clientIndex].ClientHash,
-                !state.Users[clientIndex].Ready,
-                state.Users[clientIndex].RawUsername);
-
-            if (state.Users.All(u => u.Ready) && GameContext.Singleton.MinUserCount <= state.Users.Count)
-            {
-                NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
             }
         }
 

@@ -15,6 +15,9 @@ namespace CoopChaos
 
         public override StageType Type => StageType.Game;
 
+        public NetworkObject GetPlayerObjectByClientHash(Guid clientHash)
+            => players[clientHash];
+
         public override void OnNetworkSpawn()
         {
             if (!IsServer)

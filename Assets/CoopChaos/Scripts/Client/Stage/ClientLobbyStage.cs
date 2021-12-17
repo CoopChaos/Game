@@ -16,7 +16,7 @@ namespace CoopChaos
         [SerializeField] private TextMeshProUGUI lobbyStatusText;
         
         private LobbyStageState state;
-        private LobbyStageUser lobbyUser;
+        private LobbyStageUserApi _lobbyUserApi;
         
         private Dictionary<Guid, ClientLobbyUserEntryBehaviour> userEntries = new Dictionary<Guid, ClientLobbyUserEntryBehaviour>(); 
 
@@ -24,25 +24,25 @@ namespace CoopChaos
 
         // we load the lobbyuser lazy because it does not exist in scene directly on spawn of
         // ClientLobbyStage but has to be synchronized
-        private LobbyStageUser LazyLobbyUser
+        private LobbyStageUserApi LazyLobbyUserApi
         {
             get
             {
-                if (lobbyUser == null)
+                if (_lobbyUserApi == null)
                 {
-                    foreach (var lobbyUser in FindObjectsOfType<LobbyStageUser>())
+                    foreach (var lobbyUser in FindObjectsOfType<LobbyStageUserApi>())
                     {
                         if (lobbyUser.IsOwner)
                         {
-                            this.lobbyUser = lobbyUser;
+                            this._lobbyUserApi = lobbyUser;
                             break;
                         }
                     }
 
-                    Assert.IsNotNull(lobbyUser);
+                    Assert.IsNotNull(_lobbyUserApi);
                 }
 
-                return lobbyUser;
+                return _lobbyUserApi;
             }
         }
 
@@ -75,7 +75,7 @@ namespace CoopChaos
 
         public void OnSelectToggleReady()
         {
-            LazyLobbyUser.ToggleReadyServerRpc();
+            LazyLobbyUserApi.ToggleReadyServerRpc();
         }
 
         public void OnSelectDisconnect()

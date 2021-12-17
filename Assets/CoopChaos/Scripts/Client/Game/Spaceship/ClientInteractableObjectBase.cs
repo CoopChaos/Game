@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine.Assertions;
 
@@ -16,12 +17,16 @@ namespace CoopChaos
             }
             
             var state = GetComponent<InteractableObjectStateBase>();
-            interactable = GetComponent<InteractableObjectBehaviour>();
             
             Assert.IsNotNull(state);
             Assert.IsNotNull(interactable);
             
             interactable.InteractableObjectId = state.InteractableObjectId;
+        }
+
+        protected virtual void Awake()
+        {
+            interactable = GetComponent<InteractableObjectBehaviour>();
         }
     }
 }
