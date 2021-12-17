@@ -1,6 +1,6 @@
 namespace CoopChaos
 {
-    public class ClientSpaceshipBehaviour
+    public class ClientSpaceship
     {
         
     }

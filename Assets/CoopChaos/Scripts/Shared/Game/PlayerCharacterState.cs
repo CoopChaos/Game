@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CoopChaos
 {
-    public class PlayerCharacterStateBehaviour : NetworkBehaviour
+    public class PlayerCharacterState : NetworkBehaviour
     {
         [ServerRpc]
         public void SetTargetPositionServerRpc()
