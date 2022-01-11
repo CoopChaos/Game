@@ -1,5 +1,6 @@
 using System;
 using Unity.Netcode;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
@@ -13,7 +14,7 @@ namespace Yame
         [SerializeField] private GameObject characterCamera;
 
         private GameStageUserApi api;
-        private InteractableObjectBehaviour currentInteractable;
+        private ClientInteractableObjectBase currentInteractable;
         private SpaceshipState spaceshipState;
 
         private Rigidbody2D rigidbody;
@@ -29,7 +30,7 @@ namespace Yame
         {
             if (currentInteractable != null)
             {
-                api.InteractServerRpc(currentInteractable.InteractableObjectId);
+                api.InteractServerRpc(currentInteractable.NetworkObjectId);
             }
         }
 
@@ -69,9 +70,9 @@ namespace Yame
 
         private void HighlightCloseInteractableObjects()
         {
-            var interactableObjects = FindObjectsOfType<InteractableObjectBehaviour>();
+            var interactableObjects = FindObjectsOfType<ClientInteractableObjectBase>();
 
-            InteractableObjectBehaviour closestInteractableObject = null;
+            ClientInteractableObjectBase closestInteractableObject = null;
             float closestDistance = float.MaxValue;
 
             foreach (var interactableObject in interactableObjects)

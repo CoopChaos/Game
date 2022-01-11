@@ -7,7 +7,7 @@ namespace Yame
     public abstract class InteractableObjectStateBase : NetworkBehaviour
     {
         private static int interactableObjectIdCounter = 1;
-        public int InteractableObjectId { get; private set; }
+        private int InteractableObjectId { get; set; }
 
         public override void OnNetworkSpawn()
         {

@@ -20,5 +20,10 @@ namespace Yame
             doorInteractableState = GetComponent<DoorInteractableState>();
             Assert.IsNotNull(doorInteractableState);
         }
+
+        protected override void Start()
+        {
+            base.Start();
+        }
     }
 }

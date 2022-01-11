@@ -4,14 +4,24 @@ using UnityEngine.Assertions;
 
 namespace Yame
 {
-    [RequireComponent(typeof(DoorInteractableState), typeof(InteractableObjectBehaviour))]
+    [RequireComponent(typeof(DoorInteractableState))]
     public class ClientDoorInteractable : ClientInteractableObjectBase
     {
         [SerializeField] private GameObject highlight;
         [SerializeField] private GameObject doorSprite;
         
         private DoorInteractableState doorInteractableState;
-        
+
+        public override void Highlight()
+        {
+            highlight.SetActive(true);
+        }
+
+        public override void Unhighlight()
+        {
+            highlight.SetActive(false);
+        }
+
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
@@ -23,25 +33,11 @@ namespace Yame
         {
             doorSprite.SetActive(!open);
         }
-        
-        private void HandleOnHighlight()
-        {
-            highlight.SetActive(true);
-        }
-        
-        private void HandleOnUnhighlight()
-        {
-            highlight.SetActive(false);
-        }
 
         protected override void Awake()
         {
             base.Awake();
-            
             doorInteractableState = GetComponent<DoorInteractableState>();
-            
-            interactable.OnHighlight += HandleOnHighlight;
-            interactable.OnUnhighlight += HandleOnUnhighlight;
         }
     }
 }

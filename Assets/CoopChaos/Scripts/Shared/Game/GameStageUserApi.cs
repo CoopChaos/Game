@@ -15,7 +15,7 @@ namespace Yame
         }
 
         [ServerRpc]
-        public void InteractServerRpc(int interactableObjectId)
+        public void InteractServerRpc(ulong interactableObjectId)
         {
             serverSpaceship.InteractWith(OwnerClientId, interactableObjectId);
         }

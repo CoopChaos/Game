@@ -1,12 +1,16 @@
 using System;
 using Unity.Netcode;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace Yame
 {
-    public class ClientInteractableObjectBase : NetworkBehaviour
+    public abstract class ClientInteractableObjectBase : NetworkBehaviour
     {
-        protected InteractableObjectBehaviour interactable;
+        public virtual Vector2 InteractionPoint => gameObject.transform.position;
+
+        public abstract void Highlight();
+        public abstract void Unhighlight();
 
         public override void OnNetworkSpawn()
         {
@@ -19,14 +23,10 @@ namespace Yame
             var state = GetComponent<InteractableObjectStateBase>();
             
             Assert.IsNotNull(state);
-            Assert.IsNotNull(interactable);
-            
-            interactable.InteractableObjectId = state.InteractableObjectId;
         }
 
         protected virtual void Awake()
         {
-            interactable = GetComponent<InteractableObjectBehaviour>();
         }
     }
 }

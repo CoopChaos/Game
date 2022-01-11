@@ -10,11 +10,18 @@ namespace Yame
     public class ServerSpaceship : NetworkBehaviour
     {
         private ServerGameStage serverGameStage;
-        private Dictionary<int, ServerInteractableObjectBase> interactableObjects = new Dictionary<int, ServerInteractableObjectBase>();
+        private Dictionary<ulong, ServerInteractableObjectBase> interactableObjects = new Dictionary<ulong, ServerInteractableObjectBase>();
 
-        public void InteractWith(ulong clientId, int interactableObjectId)
+        public void RegisterInteractableObject(ServerInteractableObjectBase interactableObject)
+        {
+            Assert.IsTrue(!interactableObjects.ContainsKey(interactableObject.NetworkObjectId));
+            interactableObjects.Add(interactableObject.NetworkObjectId, interactableObject);
+        }
+        
+        public void InteractWith(ulong clientId, ulong interactableObjectId)
         {
             Assert.IsTrue(interactableObjects.ContainsKey(interactableObjectId));
+            
             var interactableObject = interactableObjects[interactableObjectId];
             var player = serverGameStage.GetPlayerObjectByClientHash(UserConnectionMapper.Singleton[clientId]);
 
@@ -42,9 +49,11 @@ namespace Yame
 
         private void Start()
         {
-            interactableObjects = GetComponentsInChildren<InteractableObjectStateBase>().ToDictionary(
-                i => i.InteractableObjectId,
-                i => i.GetComponent<ServerInteractableObjectBase>());
+            /*
+                interactableObjects = GetComponentsInChildren<InteractableObjectStateBase>().ToDictionary(
+                    i => i.InteractableObjectId,
+                    i => i.GetComponent<ServerInteractableObjectBase>());
+            */
         }
     }
 }
