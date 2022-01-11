@@ -4,7 +4,7 @@ using Unity.Netcode.Transports.UNET;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace CoopChaos
+namespace Yame
 {
     [RequireComponent(typeof(ClientConnectionManager), typeof(ServerConnectionManager))]
     public class ConnectionManager : MonoBehaviour

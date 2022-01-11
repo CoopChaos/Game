@@ -1,4 +1,4 @@
-namespace CoopChaos
+namespace Yame
 {
     public enum ConnectResult
     {

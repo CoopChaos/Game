@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace CoopChaos
+namespace Yame
 {
     // works as a proxy for objects in spaceship
     // every object in a spaceship that can be interacted with has a InteractableObjectBehaviour

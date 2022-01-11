@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace CoopChaos
+namespace Yame
 {
     public class SpaceshipState : MonoBehaviour
     {

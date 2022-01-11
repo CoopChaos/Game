@@ -2,7 +2,7 @@ using System;
 using Unity.Netcode;
 using UnityEngine.Assertions;
 
-namespace CoopChaos.Shared
+namespace Yame.Shared
 {
     public class GameContextState : NetworkBehaviour
     {

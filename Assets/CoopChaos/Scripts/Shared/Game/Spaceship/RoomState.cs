@@ -1,6 +1,6 @@
 using Unity.Netcode;
 
-namespace CoopChaos
+namespace Yame
 {
     public class RoomState : NetworkBehaviour
     {

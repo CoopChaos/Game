@@ -1,7 +1,7 @@
 using System;
 using Unity.Netcode;
 
-namespace CoopChaos
+namespace Yame
 {
     public class GameStageState : NetworkBehaviour
     {

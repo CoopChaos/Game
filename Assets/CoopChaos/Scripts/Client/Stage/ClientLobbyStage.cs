@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
-using CoopChaos.Shared;
+using Yame.Shared;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
-namespace CoopChaos
+namespace Yame
 {
     public class ClientLobbyStage : Stage
     {

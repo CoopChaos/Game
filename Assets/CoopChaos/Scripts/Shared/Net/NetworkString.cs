@@ -1,7 +1,7 @@
 using Unity.Collections;
 using Unity.Netcode;
 
-namespace CoopChaos
+namespace Yame
 {
     // 32 character network string
     public struct NetworkString : INetworkSerializable

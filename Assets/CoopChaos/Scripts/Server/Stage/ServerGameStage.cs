@@ -4,7 +4,7 @@ using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace CoopChaos
+namespace Yame
 {
     public class ServerGameStage : Stage
     {

@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace CoopChaos
+namespace Yame
 {
     public class ErrorMessageBehaviour : MonoBehaviour
     {

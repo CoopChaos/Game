@@ -1,6 +1,6 @@
 using System;
 
-namespace CoopChaos
+namespace Yame
 {
     [Serializable]
     public class ConnectionPayload

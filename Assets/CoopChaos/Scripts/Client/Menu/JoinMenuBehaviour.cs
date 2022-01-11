@@ -4,7 +4,7 @@ using Unity.Netcode;
 using Unity.Netcode.Transports.UNET;
 using UnityEngine;
 
-namespace CoopChaos.Menu
+namespace Yame.Menu
 {
     public class JoinMenuBehaviour : MonoBehaviour
     {

@@ -2,7 +2,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace CoopChaos
+namespace Yame
 {
     [RequireComponent(typeof(DoorInteractableState), typeof(InteractableObjectBehaviour))]
     public class ClientDoorInteractable : ClientInteractableObjectBase

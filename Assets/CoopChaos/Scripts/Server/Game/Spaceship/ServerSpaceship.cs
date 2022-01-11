@@ -5,7 +5,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace CoopChaos
+namespace Yame
 {
     public class ServerSpaceship : NetworkBehaviour
     {

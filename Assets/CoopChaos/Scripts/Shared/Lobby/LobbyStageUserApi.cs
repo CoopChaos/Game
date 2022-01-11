@@ -2,7 +2,7 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace CoopChaos
+namespace Yame
 {
     public class LobbyStageUserApi : NetworkBehaviour
     {

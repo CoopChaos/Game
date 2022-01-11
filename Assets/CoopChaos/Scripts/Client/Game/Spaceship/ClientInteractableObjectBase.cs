@@ -2,7 +2,7 @@ using System;
 using Unity.Netcode;
 using UnityEngine.Assertions;
 
-namespace CoopChaos
+namespace Yame
 {
     public class ClientInteractableObjectBase : NetworkBehaviour
     {
