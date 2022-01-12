@@ -17,10 +17,13 @@ namespace CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship
         private NetworkVariable<bool> fulfilled;
 
         private NetworkVariable<ulong> clientId;
+        
+        private NetworkVariable<float> timeToFulFill;
 
         public NetworkVariable<bool> Claimed => claimed;
         public NetworkVariable<bool> Fulfilled => fulfilled;
         public NetworkVariable<ulong> ClientId => clientId;
+        public NetworkVariable<float> TimeToFulFill => timeToFulFill;
 
         public override void OnNetworkSpawn()
         {

@@ -1,3 +1,4 @@
+using System;
 using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
 using UnityEngine;
 
@@ -8,6 +9,9 @@ namespace Yame
     {
         [SerializeField] private GameObject deviceSprite;
         [SerializeField] private GameObject highlight;
+
+        private float timer = 0;
+        private bool claimedByMe = false;
         
         private DeviceInteractableState deviceInteractableState;
         
@@ -18,9 +22,14 @@ namespace Yame
             deviceInteractableState.Claimed.OnValueChanged = HandleClaimChanged;
         }
 
-        private void HandleClaimChanged(bool open, bool oldOpen)
+        private void HandleClaimChanged(bool claim, bool oldClaim)
         {
-            deviceSprite.SetActive(!open);
+            if (true)
+            {
+                Debug.Log("Claimed");
+            }
+            
+            deviceSprite.SetActive(!claim);
         }
         
         private void HandleOnHighlight()
@@ -41,6 +50,23 @@ namespace Yame
             
             interactable.OnHighlight += HandleOnHighlight;
             interactable.OnUnhighlight += HandleOnUnhighlight;
+        }
+
+        public void Update()
+        {
+            float timeToFulfill = deviceInteractableState.TimeToFulFill.Value;
+            
+            // handle timer start and running
+            if (claimedByMe && timer < timeToFulfill)
+            {
+                timer += Time.deltaTime;
+            }
+            
+            // handle task aborted
+            if (!claimedByMe && timer > 0 && timer < timeToFulfill)
+            {
+                timer = 0;
+            }
         }
     }
 }
