@@ -10,6 +10,8 @@ namespace Yame
         private DeviceInteractableState deviceInteractableState;
         private float timer = 0;
 
+        // TODO: check if role is suited to interact with the device
+        
         public override void Interact(ulong clientId)
         {
             deviceInteractableState.Claimed.Value = !deviceInteractableState.Claimed.Value;
