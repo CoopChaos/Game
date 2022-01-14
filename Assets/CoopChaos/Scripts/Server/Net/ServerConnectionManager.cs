@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
-using Yame;
+using CoopChaos;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -11,7 +11,7 @@ using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
-namespace Yame
+namespace CoopChaos
 {
     [RequireComponent(typeof(ConnectionManager))]
     public class ServerConnectionManager : MonoBehaviour

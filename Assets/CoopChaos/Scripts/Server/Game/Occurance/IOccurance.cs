@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Yame
+namespace CoopChaos
 {
     public interface IOccurance
     {

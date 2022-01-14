@@ -1,4 +1,4 @@
-namespace Yame
+namespace CoopChaos
 {
     public class ClientGameStage : Stage
     {

@@ -2,7 +2,7 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Yame
+namespace CoopChaos
 {
     public abstract class Stage : NetworkBehaviour
     {

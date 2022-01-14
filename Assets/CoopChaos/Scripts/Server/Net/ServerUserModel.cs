@@ -1,6 +1,6 @@
 using System;
 
-namespace Yame
+namespace CoopChaos
 {
     public class ServerUserModel
     {

@@ -1,6 +1,6 @@
 using Unity.Netcode;
 
-namespace Yame
+namespace CoopChaos
 {
     public enum AbstractNetworkListEvent
     {

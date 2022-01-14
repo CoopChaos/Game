@@ -1,7 +1,7 @@
 using Unity.Collections;
 using Unity.Netcode;
 
-namespace Yame
+namespace CoopChaos
 {
     public static class CustomMessagingHelper
     {

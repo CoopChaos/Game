@@ -2,7 +2,7 @@ using System;
 using Unity.Netcode;
 using UnityEngine.Assertions;
 
-namespace Yame
+namespace CoopChaos
 {
     public abstract class InteractableObjectStateBase : NetworkBehaviour
     {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Yame
+namespace CoopChaos
 {
     public class FightOccurance : IOccurance
     {

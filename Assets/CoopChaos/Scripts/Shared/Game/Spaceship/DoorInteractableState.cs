@@ -3,7 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Yame
+namespace CoopChaos
 {
     [RequireComponent(typeof(ServerDoorInteractable), typeof(ClientDoorInteractable), typeof(Collider2D))]
     public class DoorInteractableState : InteractableObjectStateBase

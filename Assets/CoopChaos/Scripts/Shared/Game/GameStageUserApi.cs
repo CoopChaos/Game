@@ -3,7 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Yame
+namespace CoopChaos
 {
     // the object of this component is owned by the player
     public class GameStageUserApi : NetworkBehaviour

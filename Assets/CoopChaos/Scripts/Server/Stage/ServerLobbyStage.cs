@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Yame;
-using Yame.Shared;
+using CoopChaos;
+using CoopChaos.Shared;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
-namespace Yame
+namespace CoopChaos
 {
     [RequireComponent(typeof(LobbyStageState))]
     public class ServerLobbyStage : Stage

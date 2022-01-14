@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Yame
+namespace CoopChaos
 {
     // behaviour of user over the whole connection
     public class ServerUserPersistentBehaviour : MonoBehaviour

@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Yame
+namespace CoopChaos
 {
     public class ClientLobbyUserEntryBehaviour : MonoBehaviour
     {

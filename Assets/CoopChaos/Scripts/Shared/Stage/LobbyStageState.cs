@@ -2,7 +2,7 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Yame
+namespace CoopChaos
 {
     [RequireComponent(typeof(ClientLobbyStage), typeof(ServerLobbyStage))]
     public class LobbyStageState : Stage

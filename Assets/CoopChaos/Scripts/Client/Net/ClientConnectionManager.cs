@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
-namespace Yame
+namespace CoopChaos
 {
     [RequireComponent(typeof(ConnectionManager))]
     public class ClientConnectionManager : MonoBehaviour

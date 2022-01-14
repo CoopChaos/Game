@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Yame
+namespace CoopChaos
 {
     public interface IOccuranceObject
     {

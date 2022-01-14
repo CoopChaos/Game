@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Yame
+namespace CoopChaos
 {
     public static class ArrayExtensions
     {
