@@ -30,7 +30,14 @@ namespace Yame.Threat
                 i => i.name,
                 i => i.GetComponent<ServerDeviceInteractable>());
             
-            Debug.Log(objectives.Count);
+            Debug.Log("--- NEW THREAT ---");
+            Debug.Log("Objectives: " + objectives.Count);
+            
+            foreach (var serverDeviceInteractable in objectives)
+            {
+                Debug.Log(serverDeviceInteractable.Value.deviceInteractableState.TaskDescription);
+            }
+
         }
     }
 }

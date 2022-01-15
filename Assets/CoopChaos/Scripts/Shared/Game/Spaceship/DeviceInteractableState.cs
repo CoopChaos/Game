@@ -20,10 +20,14 @@ namespace CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship
         
         private NetworkVariable<float> timeToFulFill;
 
+        private string taskDescription;
+
         public NetworkVariable<bool> Claimed => claimed;
         public NetworkVariable<bool> Fulfilled => fulfilled;
         public NetworkVariable<ulong> ClientId => clientId;
         public NetworkVariable<float> TimeToFulFill => timeToFulFill;
+        
+        public string TaskDescription => taskDescription;
 
         public override void OnNetworkSpawn()
         {
@@ -40,6 +44,7 @@ namespace CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship
             fulfilled = new NetworkVariable<bool>(false);
             clientId = new NetworkVariable<ulong>();
             timeToFulFill = new NetworkVariable<float>(10);
+            taskDescription = "Lorem Ipsum Dolor";
         }
 
         private void HandleOpenChanged(bool open, bool oldOpen)
