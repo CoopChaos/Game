@@ -36,8 +36,10 @@ namespace CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship
         {
             base.Awake();
             
-            claimed = new NetworkVariable<bool>(true);
-            fulfilled = new NetworkVariable<bool>(true);
+            claimed = new NetworkVariable<bool>(false);
+            fulfilled = new NetworkVariable<bool>(false);
+            clientId = new NetworkVariable<ulong>();
+            timeToFulFill = new NetworkVariable<float>(10);
         }
 
         private void HandleOpenChanged(bool open, bool oldOpen)

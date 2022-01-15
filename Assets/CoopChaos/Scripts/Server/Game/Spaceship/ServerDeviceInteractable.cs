@@ -7,7 +7,7 @@ namespace Yame
     [RequireComponent(typeof(DeviceInteractableState))]
     public class ServerDeviceInteractable : ServerInteractableObjectBase
     {
-        private DeviceInteractableState deviceInteractableState;
+        public DeviceInteractableState deviceInteractableState;
         private float timer = 0;
 
         // TODO: check if role is suited to interact with the device
@@ -40,7 +40,8 @@ namespace Yame
             if (claimed && timer >= timeToFulfill)
             {
                 deviceInteractableState.Fulfilled.Value = true;
-                deviceInteractableState.Fulfilled.Value = false;
+                deviceInteractableState.Claimed.Value = false;
+                Debug.Log("--- Server Timer Finished ---");
             }
             
             // handle task aborted
@@ -49,6 +50,11 @@ namespace Yame
                 deviceInteractableState.Claimed.Value = false;
                 timer = 0;
             }
+        }
+        
+        protected void Awake()
+        {
+            deviceInteractableState = GetComponent<DeviceInteractableState>();
         }
     }
 }

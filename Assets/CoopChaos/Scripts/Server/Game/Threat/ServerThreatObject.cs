@@ -1,23 +1,36 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace Yame.Threat
 {
     public class ServerThreatObject : NetworkBehaviour
     {
         private ThreatObject threatObject;
+        private Dictionary<string, ServerDeviceInteractable> objectives = new Dictionary<string, ServerDeviceInteractable>();
 
-        public void Update()
+        private bool threatCompleted = false;
+
+        private void Update()
         {
-            foreach (var o in threatObject.objectives)
+            // threadCompleted is true when every sub objective is finished
+            foreach (var i in objectives)
             {
-                if (!o.Fulfilled.Value)
-                {
-                    threatObject.Finished.Value = false;
-                    break;
-                }
-
-                threatObject.Finished.Value = true;
+                threatCompleted = i.Value.deviceInteractableState.Fulfilled.Value;
             }
+            
+            if(threatCompleted) Debug.Log("Threat completed");
+        }
+
+        private void Start()
+        {
+            objectives = GetComponentsInChildren<ServerDeviceInteractable>().ToDictionary(
+                i => i.name,
+                i => i.GetComponent<ServerDeviceInteractable>());
+            
+            Debug.Log(objectives.Count);
         }
     }
 }
