@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
 using Unity.Netcode;
@@ -8,8 +9,9 @@ namespace Yame.Threat
     public class ThreatObject : NetworkBehaviour
     {
         // TODO: make this a network varaible
-        public List<DeviceInteractableState> objectives;
-        private string threatDescription;
+        public NetworkVariable<NetworkString> objectives;
+        public NetworkString threatName;
+        public NetworkString trheatObjectives;
         
         private NetworkVariable<bool> timeConstrained;
         private NetworkVariable<float> timeToSolve;

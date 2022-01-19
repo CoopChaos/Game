@@ -20,8 +20,12 @@ namespace Yame.Threat
             {
                 threatCompleted = i.Value.deviceInteractableState.Fulfilled.Value;
             }
-            
-            if(threatCompleted) Debug.Log("Threat completed");
+
+            if (threatCompleted)
+            {
+                threatObject.Finished.Value = true;
+                Debug.Log("Threat completed");
+            }
         }
 
         private void Start()
@@ -38,6 +42,16 @@ namespace Yame.Threat
                 Debug.Log(serverDeviceInteractable.Value.deviceInteractableState.TaskDescription);
             }
 
+            threatObject.threatName = "TestThreat";
+            threatObject.trheatObjectives = "TestObjectives";
+            threatObject.Finished.Value = false;
+
         }
+        
+        protected void Awake()
+        {
+            threatObject = GetComponent<ThreatObject>();
+        }
+
     }
 }
