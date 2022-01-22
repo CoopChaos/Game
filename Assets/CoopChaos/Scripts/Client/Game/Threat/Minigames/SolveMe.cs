@@ -8,11 +8,11 @@ namespace CoopChaos
     {
         public Button solverButton;
 
-        public override void Start()
+        public override void StartMinigame()
         {
-            base.Start();
-            
+            base.StartMinigame();
             solverButton.onClick.AddListener(ButtonClicked);
+            Debug.Log("Started");
         }
 
         void ButtonClicked()
