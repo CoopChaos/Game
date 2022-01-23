@@ -10,7 +10,7 @@ namespace CoopChaos
     [RequireComponent(typeof(Rigidbody2D), typeof(PlayerInput), typeof(GameStageUserApi))]
     public class GameStageUser : NetworkBehaviour
     {
-        [SerializeField] private float speed = 12f;
+        [SerializeField] private float speed = 150f;
         [SerializeField] private GameObject characterCamera;
 
         private GameStageUserApi api;
@@ -18,6 +18,7 @@ namespace CoopChaos
         private SpaceshipState spaceshipState;
 
         private Rigidbody2D rigidbody;
+        private Vector2 movement;
         private InputAction moveInputAction;
         private InputAction interactInputAction;
 
@@ -57,14 +58,22 @@ namespace CoopChaos
 
         private void FixedUpdate()
         {
-            Vector2 moveInput = moveInputAction.ReadValue<Vector2>();
-            rigidbody.velocity += moveInput * Time.deltaTime * speed;
+            //rigidbody.MovePosition(rigidbody.position + movement * speed * Time.fixedDeltaTime);
+            //Vector2 moveInput = moveInputAction.ReadValue<Vector2>();
+            rigidbody.velocity += movement * speed * Time.fixedDeltaTime ; 
+            
+            // Movement
+            //rigidbody.AddForce(movement * speed);
+            
         }
         
         
 
         private void Update()
         {
+            // Input
+            movement = moveInputAction.ReadValue<Vector2>();
+            
             HighlightCloseInteractableObjects();
         }
 
