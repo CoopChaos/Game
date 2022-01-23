@@ -2988,6 +2988,8 @@ GameObject:
   - component: {fileID: 902668536}
   - component: {fileID: 902668535}
   - component: {fileID: 902668539}
+  - component: {fileID: 902668541}
+  - component: {fileID: 902668540}
   m_Layer: 0
   m_Name: ThreatTriggerZone
   m_TagString: Untagged
@@ -3107,7 +3109,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 902668531}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62f41c1908314d9e9c9c6e00c9043ca3, type: 3}
   m_Name: 
@@ -3154,6 +3156,31 @@ MonoBehaviour:
   deviceSprite: {fileID: 902668531}
   highlight: {fileID: 182102272}
   minigame: {fileID: 1720193131}
+--- !u!114 &902668540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902668531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d29371aebe640b0a8788d49568001e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deviceInteractableState: {fileID: 0}
+--- !u!114 &902668541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902668531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 271616fe0ab54efab5222d3f9fd938fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &908218850
 GameObject:
   m_ObjectHideFlags: 0

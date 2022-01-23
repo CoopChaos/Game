@@ -15,7 +15,7 @@ namespace Yame
 
         private bool claimedByMe = false;
         
-        private DeviceInteractableState deviceInteractableState;
+        private DeviceInteractableBaseState deviceInteractableState;
         
         public override void OnNetworkSpawn()
         {
@@ -43,7 +43,7 @@ namespace Yame
         {
             base.Awake();
             
-            deviceInteractableState = GetComponent<DeviceInteractableState>();
+            deviceInteractableState = GetComponent<DeviceInteractableBaseState>();
             baseThreatMinigame = minigame.GetComponent<BaseThreatMinigame>();
             
             interactable.OnHighlight += HandleOnHighlight;
