@@ -10,7 +10,7 @@ namespace CoopChaos
 
         protected virtual void Start()
         {
-            FindObjectOfType<ServerSpaceship>().RegisterInteractableObject(this);
+            FindObjectOfType<ServerGameStage>().RegisterInteractableObject(this);
         }
     }
 }

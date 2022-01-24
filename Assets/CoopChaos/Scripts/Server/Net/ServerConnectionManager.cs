@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using UnityEngine.Tilemaps;
 
 namespace CoopChaos
 {

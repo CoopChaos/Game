@@ -61,8 +61,6 @@ namespace CoopChaos
             rigidbody.velocity += moveInput * Time.deltaTime * speed;
         }
         
-        
-
         private void Update()
         {
             HighlightCloseInteractableObjects();

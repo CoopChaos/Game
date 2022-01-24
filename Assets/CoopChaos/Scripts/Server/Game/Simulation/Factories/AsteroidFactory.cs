@@ -1,0 +1,30 @@
+using CoopChaos.Simulation.Components;
+using DefaultEcs;
+
+namespace CoopChaos.Simulation.Factories
+{
+    public static class AsteroidFactory
+    {
+        public static Entity CreateAsteroid(this World world, float x, float y, float mass, float size)
+        {
+            var entity = world.CreateEntity();
+            
+            entity.Set(new ObjectComponent()
+            {
+                X = x,
+                Y = y,
+                VelocityX = 0f,
+                VelocityY = 0f,
+                Mass = mass,
+                Size = size,
+            });
+            
+            entity.Set(new DetectionTypeComponent()
+            {
+                Type = DetectionType.NaturalDeadObject
+            });
+            
+            return entity;
+        }
+    }
+}
