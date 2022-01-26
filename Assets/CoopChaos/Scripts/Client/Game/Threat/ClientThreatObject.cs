@@ -16,7 +16,9 @@ namespace Yame.Threat
         private void Update()
         {
             threatPanel.enabled = !threatObject.Finished.Value;
-            threatTitle.text = threatObject.threatName.ToString();
+            threatTitle.text = threatObject.threatName.ToString()
+                               + "( " + threatObject.numTasksFinished
+                               + " / " + threatObject.numTasksTotal + " )";
             threatObjectives.text = threatObject.trheatObjectives.ToString();
         }
         

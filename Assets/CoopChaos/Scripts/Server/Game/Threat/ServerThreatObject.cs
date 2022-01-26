@@ -15,11 +15,15 @@ namespace Yame.Threat
 
         private void Update()
         {
+            int compCounter = 0;
             // threadCompleted is true when every sub objective is finished
             foreach (var i in objectives)
             {
                 threatCompleted = i.Value.deviceInteractableState.Fulfilled.Value;
+                if (i.Value.deviceInteractableState.Fulfilled.Value) compCounter++;
             }
+
+            threatObject.numTasksFinished.Value = compCounter;
 
             if (threatCompleted)
             {
@@ -45,7 +49,7 @@ namespace Yame.Threat
             threatObject.trheatObjectives = "TestObjectives";
             threatObject.Finished.Value = false;
             threatObject.Finished.OnValueChanged = OnFinishChanged;
-
+            threatObject.numTasksTotal.Value = objectives.Count;
         }
 
         private void OnFinishChanged(bool previousvalue, bool newvalue)

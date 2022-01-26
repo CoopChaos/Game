@@ -12,7 +12,9 @@ namespace Yame.Threat
         public NetworkVariable<NetworkString> objectives;
         public NetworkString threatName;
         public NetworkString trheatObjectives;
-        
+        public NetworkVariable<int> numTasksTotal;
+        public NetworkVariable<int> numTasksFinished;
+
         private NetworkVariable<bool> timeConstrained;
         private NetworkVariable<float> timeToSolve;
 
