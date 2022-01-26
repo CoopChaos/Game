@@ -5,16 +5,11 @@ using UnityEngine;
 
 namespace Yame
 {
-    [RequireComponent(typeof(DeviceInteractableState), typeof(InteractableObjectBehaviour))]
-    public class ClientDeviceInteractableMinigame : ClientInteractableObjectBase
+    public class ClientDeviceInteractableMinigame : ClientDeviceInteractableBase
     {
-        [SerializeField] private GameObject deviceSprite;
-        [SerializeField] private GameObject highlight;
         [SerializeField] private GameObject minigame;
         private BaseThreatMinigame baseThreatMinigame;
 
-        private bool claimedByMe = false;
-        
         private DeviceInteractableBaseState deviceInteractableState;
         
         public override void OnNetworkSpawn()
@@ -24,30 +19,18 @@ namespace Yame
             deviceInteractableState.Claimed.OnValueChanged = HandleClaimChanged;
         }
 
-        private void HandleClaimChanged(bool claim, bool oldClaim)
+        protected override void HandleClaimChanged(bool claim, bool oldClaim)
         {
+            base.HandleClaimChanged(claim, oldClaim);
             baseThreatMinigame.StartMinigame();
         }
         
-        private void HandleOnHighlight()
-        {
-            highlight.SetActive(true);
-        }
-        
-        private void HandleOnUnhighlight()
-        {
-            highlight.SetActive(false);
-        }
-
         protected override void Awake()
         {
             base.Awake();
             
             deviceInteractableState = GetComponent<DeviceInteractableBaseState>();
             baseThreatMinigame = minigame.GetComponent<BaseThreatMinigame>();
-            
-            interactable.OnHighlight += HandleOnHighlight;
-            interactable.OnUnhighlight += HandleOnUnhighlight;
         }
 
         public void Update()

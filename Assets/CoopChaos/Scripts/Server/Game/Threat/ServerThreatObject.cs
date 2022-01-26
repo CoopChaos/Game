@@ -9,7 +9,7 @@ namespace Yame.Threat
     public class ServerThreatObject : NetworkBehaviour
     {
         private ThreatObject threatObject;
-        private Dictionary<string, ServerDeviceInteractable> objectives = new Dictionary<string, ServerDeviceInteractable>();
+        private Dictionary<string, ServerDeviceInteractableBase> objectives = new Dictionary<string, ServerDeviceInteractableBase>();
 
         private bool threatCompleted = false;
 
@@ -24,15 +24,14 @@ namespace Yame.Threat
             if (threatCompleted)
             {
                 threatObject.Finished.Value = true;
-                Debug.Log("Threat completed");
             }
         }
 
         private void Start()
         {
-            objectives = GetComponentsInChildren<ServerDeviceInteractable>().ToDictionary(
+            objectives = GetComponentsInChildren<ServerDeviceInteractableBase>().ToDictionary(
                 i => i.name,
-                i => i.GetComponent<ServerDeviceInteractable>());
+                i => i.GetComponent<ServerDeviceInteractableBase>());
             
             Debug.Log("--- NEW THREAT ---");
             Debug.Log("Objectives: " + objectives.Count);
@@ -45,9 +44,15 @@ namespace Yame.Threat
             threatObject.threatName = "TestThreat";
             threatObject.trheatObjectives = "TestObjectives";
             threatObject.Finished.Value = false;
+            threatObject.Finished.OnValueChanged = OnFinishChanged;
 
         }
-        
+
+        private void OnFinishChanged(bool previousvalue, bool newvalue)
+        {
+            if(previousvalue == false && newvalue == true) Debug.Log("Threat completed");
+        }
+
         protected void Awake()
         {
             threatObject = GetComponent<ThreatObject>();

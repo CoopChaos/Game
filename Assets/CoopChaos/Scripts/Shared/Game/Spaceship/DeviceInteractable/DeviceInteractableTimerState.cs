@@ -5,8 +5,7 @@ using Yame;
 
 namespace CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship
 {
-    [RequireComponent(typeof(ServerDeviceInteractable), typeof(ClientDeviceInteractable))]
-    public class DeviceInteractableState : DeviceInteractableBaseState
+    public class DeviceInteractableTimerState : DeviceInteractableBaseState
     {
         private NetworkVariable<float> timeToFulFill;
         public NetworkVariable<float> TimeToFulFill => timeToFulFill;

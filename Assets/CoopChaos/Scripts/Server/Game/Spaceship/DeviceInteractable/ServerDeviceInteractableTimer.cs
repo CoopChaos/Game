@@ -4,10 +4,9 @@ using UnityEngine;
 
 namespace Yame
 {
-    [RequireComponent(typeof(DeviceInteractableState))]
-    public class ServerDeviceInteractable : ServerInteractableObjectBase
+    public class ServerDeviceInteractableTimer : ServerInteractableObjectBase
     {
-        public DeviceInteractableState deviceInteractableState;
+        public DeviceInteractableTimerState deviceInteractableState;
         private float timer = 0;
 
         // TODO: check if role is suited to interact with the device
@@ -54,7 +53,7 @@ namespace Yame
         
         protected void Awake()
         {
-            deviceInteractableState = GetComponent<DeviceInteractableState>();
+            deviceInteractableState = GetComponent<DeviceInteractableTimerState>();
         }
     }
 }
