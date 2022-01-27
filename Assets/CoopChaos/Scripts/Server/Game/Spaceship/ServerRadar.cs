@@ -27,7 +27,8 @@ namespace CoopChaos
             radarState.RadarEntities.Add(new RadarEntity(20, 20, 0));
             radarState.RadarEntities.Add(new RadarEntity(40, 10, 0));
             radarState.RadarEntities.Add(new RadarEntity(60, 60, 0));
-            radarState.UpdateRadarClientRpc();
+            radarState.RadarEntities.RemoveAt(2);
+            radarState.RadarEntities[0] = new RadarEntity(0, 0, 0);
         }
 
         private void Awake()

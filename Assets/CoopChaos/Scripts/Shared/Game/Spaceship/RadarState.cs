@@ -1,4 +1,3 @@
-using System;
 using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
 using Unity.Netcode;
 using UnityEngine;
@@ -9,7 +8,6 @@ namespace CoopChaos
     public class RadarState : NetworkBehaviour
     {
         private NetworkList<RadarEntity> radarEntities;
-        public event Action OnRadarUpdate;
 
         public NetworkList<RadarEntity> RadarEntities => radarEntities;
         
@@ -22,13 +20,5 @@ namespace CoopChaos
         {
             radarEntities = new NetworkList<RadarEntity>();
         }
-
-        [ClientRpc]
-        public void UpdateRadarClientRpc()
-        {
-            OnRadarUpdate?.Invoke();
-        }
-
-        
     }
 }

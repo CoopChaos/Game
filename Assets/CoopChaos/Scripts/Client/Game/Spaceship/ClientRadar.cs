@@ -24,27 +24,41 @@ namespace CoopChaos
                 return;
             }
             
-            radarState.OnRadarUpdate += HandleRadarUpdate;
+            radarState.RadarEntities.OnListChanged += HandleListChanged;
         }
 
-        private void HandleRadarUpdate()
+        private void HandleListChanged(NetworkListEvent<RadarEntity> changeEvent)
         {
-            Debug.Log("Client Handle update");
-            foreach (var radarObject in radarObjects)
-            {             
-                Destroy(radarObject);
-            }
-
-            
-            
-            foreach (var entity in radarState.RadarEntities)
+            switch (changeEvent.Type)
             {
-                Debug.Log("Draw");
-                var elem= Instantiate(radarPointPrefab, new Vector2(entity.X, entity.Y), Quaternion.identity);
-                elem.transform.SetParent(radarMenu.transform, false);
-                radarObjects.Add(elem);
+                case NetworkListEvent<RadarEntity>.EventType.Add:
+                    HandleAdd(changeEvent.Index, changeEvent.Value);
+                    break;
+                case NetworkListEvent<RadarEntity>.EventType.RemoveAt:
+                    HandleRemove(changeEvent.Index);
+                    break;
+                case NetworkListEvent<RadarEntity>.EventType.Value:
+                    HandleValueChange(changeEvent.Index, changeEvent.Value);
+                    break;
             }
-            
+        }
+        
+        private void HandleAdd(int index, RadarEntity value)
+        {
+            var elem= Instantiate(radarPointPrefab, new Vector2(value.X, value.Y), Quaternion.identity);
+            elem.transform.SetParent(radarMenu.transform, false);
+            radarObjects.Add(elem);
+        }
+        
+        private void HandleRemove(int index)
+        {
+            Destroy(radarObjects[index]);
+            radarObjects.RemoveAt(index);
+        }
+        
+        private void HandleValueChange(int index, RadarEntity value)
+        {
+            radarObjects[index].transform.localPosition = new Vector2(value.X, value.X);
         }
 
         private void Awake()
@@ -52,9 +66,9 @@ namespace CoopChaos
             radarMenu = GameObject.Find("RadarMenu");
             radarState = GetComponent<RadarState>();
             radarObjects = new List<GameObject>();
-
-
+            
             Assert.IsNotNull(radarMenu);
+            Assert.IsNotNull(radarState);
         }
     }
 }

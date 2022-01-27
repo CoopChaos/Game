@@ -1,4 +1,5 @@
 using System;
+using CoopChaos.CoopChaos.Scripts.Client.Game.Spaceship;
 using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
 using Unity.Netcode;
 using UnityEditor.PackageManager;
@@ -41,20 +42,14 @@ namespace CoopChaos
                 api.InteractServerRpc(currentInteractable.NetworkObjectId);
                 if (currentInteractable is ClientSpaceshipControlInteractable)
                 {
-                    Debug.LogWarning("HALLO WELT HIER BIN ICH");
-
-                    //spaceshipControlMenu.SetActive(!spaceshipControlMenu.activeSelf);
-                    radarMenu.SetActive(!radarMenu.activeSelf);
-                    /*var elem = Instantiate(circle, Vector3.zero, Quaternion.identity);
-                    elem.transform.SetParent(radarMenu.transform, false);*/
+                    spaceshipControlMenu.SetActive(!spaceshipControlMenu.activeSelf);
                 } 
+                else if (currentInteractable is ClientRadarInteractable)
+                {
+                    radarMenu.SetActive(!radarMenu.activeSelf);
+                }
                 
             }
-        }
-
-        public void showControlWindow()
-        {
-            
         }
 
         public override void OnNetworkSpawn()

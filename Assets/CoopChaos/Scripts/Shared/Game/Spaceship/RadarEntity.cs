@@ -6,14 +6,13 @@ namespace CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship
     public struct RadarEntity : INetworkSerializable, IEquatable<RadarEntity>
     {
         private Guid uid;
-        private int x;
-        private int y;
+        private float x;
+        private float y;
         private EntityType type;
 
         public enum EntityType
         {
-            Player,
-            Enemy,
+            Spaceship,
             Asteroid,
             Bullet
         }
@@ -22,12 +21,12 @@ namespace CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship
             this.x = x;
             this.y = y;
             this.type = type;
-            this.uid = Guid.NewGuid();
+            uid = Guid.NewGuid();
         }
 
         public Guid Uid => uid;
-        public int X => x;
-        public int Y => y;
+        public float X => x;
+        public float Y => y;
         public EntityType Type => type;
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
