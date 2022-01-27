@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEngine;
 
 namespace CoopChaos
 {
-    [RequireComponent(typeof(ServerSpaceshipControlInteractable), typeof(ClientSpaceshipControlInteractable))]
     public class SpaceshipControlInteractableState : InteractableObjectStateBase
     {
         private NetworkVariable<bool> isBlocked;
