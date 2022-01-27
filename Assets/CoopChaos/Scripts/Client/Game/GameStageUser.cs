@@ -1,9 +1,11 @@
 using System;
+using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
 using Unity.Netcode;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 namespace CoopChaos
 {
@@ -12,10 +14,15 @@ namespace CoopChaos
     {
         [SerializeField] private float speed = 150f;
         [SerializeField] private GameObject characterCamera;
+        [SerializeField] private GameObject circle;
 
+        private GameObject spaceshipControlMenu;
+        private GameObject radarMenu;
         private GameStageUserApi api;
         private ClientInteractableObjectBase currentInteractable;
         private SpaceshipState spaceshipState;
+        
+        
 
         private Rigidbody2D rigidbody;
         private Vector2 movement;
@@ -32,7 +39,22 @@ namespace CoopChaos
             if (currentInteractable != null)
             {
                 api.InteractServerRpc(currentInteractable.NetworkObjectId);
+                if (currentInteractable is ClientSpaceshipControlInteractable)
+                {
+                    Debug.LogWarning("HALLO WELT HIER BIN ICH");
+
+                    //spaceshipControlMenu.SetActive(!spaceshipControlMenu.activeSelf);
+                    radarMenu.SetActive(!radarMenu.activeSelf);
+                    /*var elem = Instantiate(circle, Vector3.zero, Quaternion.identity);
+                    elem.transform.SetParent(radarMenu.transform, false);*/
+                } 
+                
             }
+        }
+
+        public void showControlWindow()
+        {
+            
         }
 
         public override void OnNetworkSpawn()
@@ -123,10 +145,17 @@ namespace CoopChaos
             api = GetComponent<GameStageUserApi>();
             spaceshipState = FindObjectOfType<SpaceshipState>();
             rigidbody = GetComponent<Rigidbody2D>();
-            
+            spaceshipControlMenu = GameObject.Find("SpaceshipControlMenu");
+            spaceshipControlMenu.SetActive(false);
+            radarMenu = GameObject.Find("RadarMenu");
+            radarMenu.SetActive(false);
+
+
             Assert.IsNotNull(api);
             Assert.IsNotNull(spaceshipState);
             Assert.IsNotNull(rigidbody);
+            Assert.IsNotNull(spaceshipControlMenu);
+            Assert.IsNotNull(radarMenu);
         }
     }
 }
