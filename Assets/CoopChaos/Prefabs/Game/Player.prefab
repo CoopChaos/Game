@@ -200,6 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 300
   characterCamera: {fileID: 3539881295227425305}
+  circle: {fileID: 2444420548244542548, guid: 8f73f7fc1e7657d47af36dd07559637f, type: 3}
 --- !u!114 &1074660571335864966
 MonoBehaviour:
   m_ObjectHideFlags: 0
