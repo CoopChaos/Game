@@ -121,8 +121,7 @@ namespace CoopChaos
 
         private void UpdateLobbyUIState()
         {
-            lobbyStatusText.SetText(state.Users.Count >= GameContextState.Singleton.GameContext.MinUserCount
-                ? $"({state.Users.Count} / {GameContextState.Singleton.GameContext.MaxUserCount}) in Lobby (set ready to start)"
+            lobbyStatusText.SetText(state.Users.Count >= GameContextState.Singleton.GameContext.MinUserCount ? $"({state.Users.Count} / {GameContextState.Singleton.GameContext.MaxUserCount}) in Lobby (set ready to start)"
                 : $"({state.Users.Count} / {GameContextState.Singleton.GameContext.MaxUserCount}) in Lobby - {GameContextState.Singleton.GameContext.MinUserCount - state.Users.Count} remaining");
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace CoopChaos
 {
@@ -12,12 +13,37 @@ namespace CoopChaos
         [SerializeField] private Transform playerSpawn;
 
         private Dictionary<Guid, NetworkObject> players = new Dictionary<Guid, NetworkObject>();
+        private Dictionary<ulong, ServerInteractableObjectBase> interactableObjects = new Dictionary<ulong, ServerInteractableObjectBase>();
 
         public override StageType Type => StageType.Game;
 
         public NetworkObject GetPlayerObjectByClientHash(Guid clientHash)
             => players[clientHash];
+        
+        
+        public void RegisterInteractableObject(ServerInteractableObjectBase interactableObject)
+        {
+            Assert.IsTrue(!interactableObjects.ContainsKey(interactableObject.NetworkObjectId));
+            interactableObjects.Add(interactableObject.NetworkObjectId, interactableObject);
+        }
+        
+        public void InteractWith(ulong clientId, ulong interactableObjectId)
+        {
+            Assert.IsTrue(interactableObjects.ContainsKey(interactableObjectId));
+            
+            var interactableObject = interactableObjects[interactableObjectId];
+            var player = GetPlayerObjectByClientHash(UserConnectionMapper.Singleton[clientId]);
 
+            if (Vector2.Distance(interactableObject.gameObject.transform.position, player.transform.position) 
+                > GameContext.Singleton.InteractRange)
+            {
+                Debug.LogWarning("Player interacted with object but is too far away");
+                return;
+            }
+            
+            interactableObject.Interact(clientId);
+        }
+        
         public override void OnNetworkSpawn()
         {
             if (!IsServer)

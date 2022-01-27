@@ -8,7 +8,7 @@ namespace CoopChaos
     // the object of this component is owned by the player
     public class GameStageUserApi : NetworkBehaviour
     {
-        private ServerSpaceship serverSpaceship;
+        private ServerGameStage serverGameStage;
 
         public override void OnNetworkSpawn()
         {
@@ -17,13 +17,13 @@ namespace CoopChaos
         [ServerRpc]
         public void InteractServerRpc(ulong interactableObjectId)
         {
-            serverSpaceship.InteractWith(OwnerClientId, interactableObjectId);
+            serverGameStage.InteractWith(OwnerClientId, interactableObjectId);
         }
 
         private void Start()
         {
-            serverSpaceship = FindObjectOfType<ServerSpaceship>();
-            Assert.IsNotNull(serverSpaceship);
+            serverGameStage = FindObjectOfType<ServerGameStage>();
+            Assert.IsNotNull(serverGameStage);
         }
     }
 }

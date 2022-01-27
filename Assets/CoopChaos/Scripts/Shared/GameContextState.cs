@@ -7,7 +7,7 @@ namespace CoopChaos.Shared
     public class GameContextState : NetworkBehaviour
     {
         private NetworkVariable<GameContext> gameContext = new NetworkVariable<GameContext>();
-        
+
         public static GameContextState Singleton { get; private set; } 
         
         // gamecontext can only be correctly set by the server (guaranteed by networkvariable)

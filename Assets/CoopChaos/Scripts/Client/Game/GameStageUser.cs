@@ -84,8 +84,6 @@ namespace CoopChaos
             
         }
         
-        
-
         private void Update()
         {
             // Input
