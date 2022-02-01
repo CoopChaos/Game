@@ -41,6 +41,7 @@ namespace CoopChaos.Rooms
                 foreach (var entity in entities.GetEntities())
                 {
                     ref var entityOc = ref entity.Get<ObjectComponent>();
+                    ref var entityDetectionType = ref entity.Get<DetectionTypeComponent>();
 
                     var dx = spaceshipOc.X - entityOc.X;
                     var dy = spaceshipOc.Y - entityOc.Y;
