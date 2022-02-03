@@ -10,7 +10,7 @@ namespace CoopChaos.Simulation
     {
         private World world;
         private List<ISystem> systems;
-        
+
         private Entity SpawnEntity()
         {
             return world.CreateEntity();
@@ -30,24 +30,8 @@ namespace CoopChaos.Simulation
             systems = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())
                 .Where(p => typeof(ISystem).IsAssignableFrom(p) && !p.IsInterface && !p.IsAbstract)
-                .Select(Activator.CreateInstance)
-                .Cast<ISystem>()
+                .Select(t => Activator.CreateInstance(t, world) as ISystem)
                 .ToList();
-
-            foreach (var system in systems)
-            {
-                system.World = world;
-            }
-            
-            
-        }
-
-        private void Update()
-        {
-            foreach (var system in systems)
-            {
-                system.Update(Time.deltaTime);
-            }
         }
     }
 }

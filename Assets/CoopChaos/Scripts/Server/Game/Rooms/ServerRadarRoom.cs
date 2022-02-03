@@ -1,6 +1,7 @@
 using System;
 using CoopChaos.Simulation;
 using CoopChaos.Simulation.Components;
+using CoopChaos.Simulation.Factories;
 using DefaultEcs;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace CoopChaos.Rooms
         private EntitySet entities;
         private EntitySet playerSpaceship;
 
-        private void Awake()
+        private void Start()
         {
             simulation = FindObjectOfType<SimulationBehaviour>();
             
@@ -34,24 +35,26 @@ namespace CoopChaos.Rooms
             {
                 lastTime = Time.time;
 
-                var spaceship = playerSpaceship.GetEntities()[0];
-                // clear radar list
-                ref var spaceshipOc = ref spaceship.Get<ObjectComponent>();
-                
-                foreach (var entity in entities.GetEntities())
+                if (playerSpaceship.TryGetSingleEntity(out var spaceship))
                 {
-                    ref var entityOc = ref entity.Get<ObjectComponent>();
-                    ref var entityDetectionType = ref entity.Get<DetectionTypeComponent>();
-
-                    var dx = spaceshipOc.X - entityOc.X;
-                    var dy = spaceshipOc.Y - entityOc.Y;
-                    
-                    var distance = Mathf.Sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < 10f)
+                    // clear radar list
+                    ref var spaceshipOc = ref spaceship.Get<ObjectComponent>();
+                
+                    foreach (var entity in entities.GetEntities())
                     {
-                        // add to radar list
-                        // offset position by spaceship position
+                        ref var entityOc = ref entity.Get<ObjectComponent>();
+                        ref var entityDetectionType = ref entity.Get<DetectionTypeComponent>();
+
+                        var dx = spaceshipOc.X - entityOc.X;
+                        var dy = spaceshipOc.Y - entityOc.Y;
+                    
+                        var distance = Mathf.Sqrt(dx * dx + dy * dy);
+                    
+                        if (distance < 10f)
+                        {
+                            // add to radar list
+                            // offset position by spaceship position
+                        }
                     }
                 }
             }
