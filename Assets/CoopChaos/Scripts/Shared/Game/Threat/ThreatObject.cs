@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CoopChaos;
 using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
 using Unity.Netcode;
 using UnityEngine;

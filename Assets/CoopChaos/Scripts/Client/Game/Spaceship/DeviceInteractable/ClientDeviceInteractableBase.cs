@@ -1,4 +1,5 @@
 using System;
+using CoopChaos;
 using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
 using UnityEngine;
 
@@ -22,23 +23,22 @@ namespace Yame
             
             deviceSprite.SetActive(!claim);
         }
-
-        private void HandleOnHighlight()
-        {
-            highlight.SetActive(true);
-        }
         
-        private void HandleOnUnhighlight()
+        public override void Highlight()
         {
-            highlight.SetActive(false);
+            throw new NotImplementedException();
+        }
+
+        public override void Unhighlight()
+        {
+            throw new NotImplementedException();
         }
 
         protected override void Awake()
         {
             base.Awake();
             
-            interactable.OnHighlight += HandleOnHighlight;
-            interactable.OnUnhighlight += HandleOnUnhighlight;
+            // TODO reimplement highlight
         }
     }
 }

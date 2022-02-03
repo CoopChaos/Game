@@ -1,4 +1,5 @@
 using System;
+using CoopChaos;
 using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
 using UnityEngine;
 
