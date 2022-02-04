@@ -70,13 +70,14 @@ namespace CoopChaos.Rooms
                     
                         var distance = Mathf.Sqrt(dx * dx + dy * dy);
                     
-                    if (distance < 10f)
-                    {
-                        // add to radar list
-                        radarState.RadarEntities.Add(new RadarEntity(dx, dy, entityDetectionType.Type));
-                        
-                        // offset position by spaceship position
+                        if (distance < 10f)
+                        {
+                            // add to radar list
+                            radarState.RadarEntities.Add(new RadarEntity(dx, dy, entityDetectionType.Type));
+                            
+                            // offset position by spaceship position
 
+                        }
                     }
                 }
             }
