@@ -5,6 +5,7 @@ namespace CoopChaos
         MainMenu,
         Lobby,
         Game,
-        GameOver
+        GameOver,
+        GameStart
     }
 }

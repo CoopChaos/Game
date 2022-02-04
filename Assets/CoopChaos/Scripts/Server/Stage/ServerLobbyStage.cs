@@ -34,7 +34,7 @@ namespace CoopChaos
 
             if (state.Users.All(u => u.Ready) && GameContext.Singleton.MinUserCount <= state.Users.Count)
             {
-                NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
+                NetworkManager.SceneManager.LoadScene("StartScreen", LoadSceneMode.Single);
             }
         }
 
