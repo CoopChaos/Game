@@ -9,6 +9,7 @@ namespace Yame.Threat
     public class ServerThreatObject : NetworkBehaviour
     {
         private ThreatObject threatObject;
+        private String[] objectivesString;
 
         private bool threatCompleted = false;
 
@@ -39,9 +40,12 @@ namespace Yame.Threat
             Debug.Log("--- NEW THREAT ---");
             Debug.Log("Objectives: " + threatObject.threatObjectives.Count);
 
+            objectivesString = new string[threatObject.threatObjectives.Count];
+
             foreach (var serverDeviceInteractable in threatObject.threatObjectives)
             {
                 Debug.Log(serverDeviceInteractable.Value.deviceInteractableState.TaskDescription);
+                objectivesString[0] = serverDeviceInteractable.Value.deviceInteractableState.TaskDescription;
             }
             
             threatObject.threatName = "TestThreat";
@@ -50,12 +54,12 @@ namespace Yame.Threat
             threatObject.Finished.OnValueChanged = OnFinishChanged;
             threatObject.numTasksTotal.Value = threatObject.threatObjectives.Count;
             
-            threatObject.CommunicateTaskInfosToClientClientRpc(threatObject.threatName, threatObject.threatDescription, threatObject.threatObjectives);
+            threatObject.CommunicateTaskInfosToClientClientRpc(threatObject.threatName, threatObject.threatDescription);
         }
 
         private void OnFinishChanged(bool previousvalue, bool newvalue)
         {
-            threatObject.CommunicateTaskInfosToClientClientRpc(threatObject.threatName, threatObject.threatDescription, threatObject.threatObjectives);
+            threatObject.CommunicateTaskInfosToClientClientRpc(threatObject.threatName, threatObject.threatDescription);
             
             if(previousvalue == false && newvalue == true) Debug.Log("Threat completed");
         }

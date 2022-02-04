@@ -24,16 +24,16 @@ namespace Yame.Threat
         public NetworkVariable<bool> Finished => finished;
         
         public Dictionary<string, ServerDeviceInteractableBase> threatObjectives = new Dictionary<string, ServerDeviceInteractableBase>();
-
+        private String[] threatObjectivesString;
+        
         [ClientRpc]
         public void CommunicateTaskInfosToClientClientRpc(
             String title,
-            String description,
-            Dictionary<String, ServerDeviceInteractableBase> objectives)
+            String description)
         {
             this.threatName = title;
             this.threatDescription = description;
-            this.threatObjectives = objectives;
+            // this.threatObjectivesString = objectives;
         }
 
     }
