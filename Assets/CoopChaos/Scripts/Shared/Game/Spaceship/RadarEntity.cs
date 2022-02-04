@@ -1,22 +1,18 @@
 using System;
+using CoopChaos.Simulation.Components;
 using Unity.Netcode;
 
 namespace CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship
 {
-    public struct RadarEntity : INetworkSerializable, IEquatable<RadarEntity>
+    public struct 
+    RadarEntity : INetworkSerializable, IEquatable<RadarEntity>
     {
         private Guid uid;
         private float x;
         private float y;
-        private EntityType type;
+        private DetectionType type;
 
-        public enum EntityType
-        {
-            Spaceship,
-            Asteroid,
-            Bullet
-        }
-        public RadarEntity(int x, int y, EntityType type)
+        public RadarEntity(float x, float y, DetectionType type)
         {
             this.x = x;
             this.y = y;
@@ -27,7 +23,7 @@ namespace CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship
         public Guid Uid => uid;
         public float X => x;
         public float Y => y;
-        public EntityType Type => type;
+        public DetectionType Type => type;
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {

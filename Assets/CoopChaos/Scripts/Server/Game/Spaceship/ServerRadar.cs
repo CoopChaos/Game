@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
 using Unity.Netcode;
 using UnityEngine;

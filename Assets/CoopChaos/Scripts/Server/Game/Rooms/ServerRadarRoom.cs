@@ -1,21 +1,40 @@
-using System;
 using CoopChaos.Simulation;
 using CoopChaos.Simulation.Components;
 using DefaultEcs;
 using UnityEngine;
+using Unity.Netcode;
+using UnityEngine.Assertions;
+using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
 
 namespace CoopChaos.Rooms
 {
-    public class ServerRadarRoom : MonoBehaviour
+    [RequireComponent(typeof(RadarState))]
+    public class ServerRadarRoom : NetworkBehaviour
     {
+        private RadarState radarState;
+
         private SimulationBehaviour simulation;
         private float lastTime = 0f;
 
         private EntitySet entities;
         private EntitySet playerSpaceship;
 
+
+        public override void OnNetworkSpawn()
+        {
+            if(!IsServer)
+            {
+                enabled = false;
+                return;
+            }
+        }
+
         private void Awake()
         {
+            radarState = GetComponent<RadarState>();
+            Assert.IsNotNull(radarState);
+
+            
             simulation = FindObjectOfType<SimulationBehaviour>();
             
             entities = simulation.World.GetEntities()
@@ -34,8 +53,15 @@ namespace CoopChaos.Rooms
             {
                 lastTime = Time.time;
 
-                var spaceship = playerSpaceship.GetEntities()[0];
+                var spaceship = new Entity();
+                spaceship.Set(new PlayerSpaceshipComponent());
+                
+
+
                 // clear radar list
+                radarState.RadarEntities.Clear();
+
+
                 ref var spaceshipOc = ref spaceship.Get<ObjectComponent>();
                 
                 foreach (var entity in entities.GetEntities())
@@ -50,7 +76,10 @@ namespace CoopChaos.Rooms
                     if (distance < 10f)
                     {
                         // add to radar list
+                        radarState.RadarEntities.Add(new RadarEntity(dx, dy, entityDetectionType.Type));
+                        
                         // offset position by spaceship position
+
                     }
                 }
             }

@@ -905,6 +905,49 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &661267207
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 661267209}
+  - component: {fileID: 661267208}
+  m_Layer: 0
+  m_Name: Simulation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &661267208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661267207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09238a67144049e481ef3b86e7fe8845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &661267209
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661267207}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 69.219635, y: 373.2342, z: -550.7037}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &665925535
 GameObject:
   m_ObjectHideFlags: 0
@@ -2213,8 +2256,8 @@ GameObject:
   - component: {fileID: 2131947238}
   - component: {fileID: 2131947239}
   - component: {fileID: 2131947241}
-  - component: {fileID: 2131947240}
   - component: {fileID: 2131947242}
+  - component: {fileID: 2131947240}
   m_Layer: 5
   m_Name: RadarMenu
   m_TagString: Untagged
@@ -2265,7 +2308,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2131947237}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52d4040191314734380f4c307ae8db6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e7bd56dea684807bfbf05dc9feaaefd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2131947241
