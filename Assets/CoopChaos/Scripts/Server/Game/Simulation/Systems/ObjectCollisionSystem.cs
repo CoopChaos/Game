@@ -18,21 +18,22 @@ namespace CoopChaos.Simulation.Systems
          * 
          */
 
+        private World world;
         private EntitySet changedEntities;
         private EntitySet entities;
 
-        public ObjectCollisionSystem()
+        public ObjectCollisionSystem(World world)
         {
-            changedEntities = World.GetEntities()
+            this.world = world;
+            
+            changedEntities = world.GetEntities()
                 .WhenChanged<ObjectComponent>()
                 .AsSet();
             
-            entities = World.GetEntities()
+            entities = world.GetEntities()
                 .With<ObjectComponent>()
                 .AsSet();
         }
-
-        public World World { get; set; }
         
         public void Update(float deltaTime)
         {

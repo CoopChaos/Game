@@ -1,5 +1,8 @@
 using CoopChaos.Simulation.Components;
 using DefaultEcs;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 namespace CoopChaos.Simulation.Factories
 {
@@ -8,7 +11,7 @@ namespace CoopChaos.Simulation.Factories
         public static Entity CreateAsteroid(this World world, float x, float y, float mass, float size)
         {
             var entity = world.CreateEntity();
-            
+
             entity.Set(new ObjectComponent()
             {
                 X = x,

@@ -7,10 +7,13 @@ namespace CoopChaos.Simulation.Systems
 {
     public class ObjectDestroySystem : ISystem
     {
+        private World world;
         private EntitySet destroyedEntities;
         
-        public ObjectDestroySystem()
+        public ObjectDestroySystem(World world)
         {
+            this.world = world;
+
             destroyedEntities = World.GetEntities()
                 .With<ObjectComponent>()
                 .WhenAdded<DestroyComponent>()

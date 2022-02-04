@@ -6,13 +6,21 @@ namespace CoopChaos.Simulation.Systems
 {
     public class PlayerSpaceshipMovementSystem : ISystem
     {
-        public World World { get; set; }
+        private World world;
+        private EntitySet playerSpaceship;
+        
+        public PlayerSpaceshipMovementSystem(World world)
+        {
+            this.world = world;
+            
+            playerSpaceship = world.GetEntities()
+                .With<PlayerSpaceshipComponent>()
+                .AsSet();
+        }
 
         public void Update(float deltaTime)
         {
-            foreach (var entity in World.GetEntities()
-                         .With<PlayerSpaceshipComponent>()
-                         .AsEnumerable())
+            foreach (var entity in playerSpaceship.GetEntities())
             {
                 ref var sc = ref entity.Get<PlayerSpaceshipComponent>();
                 ref var oc = ref entity.Get<ObjectComponent>();

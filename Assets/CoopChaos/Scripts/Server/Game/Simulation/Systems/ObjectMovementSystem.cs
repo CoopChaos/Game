@@ -5,12 +5,15 @@ namespace CoopChaos.Simulation.Systems
 {
     public class ObjectMovementSystem : ISystem
     {
+        private World world;
         private EntitySet objects;
         
         public World World { get; set; }
 
-        public ObjectMovementSystem()
+        public ObjectMovementSystem(World world)
         {
+            this.world = world;
+
             objects = World.GetEntities()
                 .With<ObjectComponent>()
                 .AsSet();

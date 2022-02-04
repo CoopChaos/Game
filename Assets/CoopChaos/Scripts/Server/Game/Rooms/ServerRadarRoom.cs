@@ -1,5 +1,6 @@
 using CoopChaos.Simulation;
 using CoopChaos.Simulation.Components;
+using CoopChaos.Simulation.Factories;
 using DefaultEcs;
 using UnityEngine;
 using Unity.Netcode;
@@ -29,7 +30,7 @@ namespace CoopChaos.Rooms
             }
         }
 
-        private void Awake()
+        private void Start()
         {
             radarState = GetComponent<RadarState>();
             Assert.IsNotNull(radarState);
@@ -53,25 +54,21 @@ namespace CoopChaos.Rooms
             {
                 lastTime = Time.time;
 
-                var spaceship = new Entity();
-                spaceship.Set(new PlayerSpaceshipComponent());
-                
-
-
-                // clear radar list
-                radarState.RadarEntities.Clear();
-
-
-                ref var spaceshipOc = ref spaceship.Get<ObjectComponent>();
-                
-                foreach (var entity in entities.GetEntities())
+                if (playerSpaceship.TryGetSingleEntity(out var spaceship))
                 {
-                    ref var entityOc = ref entity.Get<ObjectComponent>();
+                    // clear radar list
+                    radarState.RadarEntities.Clear();
+                    ref var spaceshipOc = ref spaceship.Get<ObjectComponent>();
+                
+                    foreach (var entity in entities.GetEntities())
+                    {
+                        ref var entityOc = ref entity.Get<ObjectComponent>();
+                        ref var entityDetectionType = ref entity.Get<DetectionTypeComponent>();
 
-                    var dx = spaceshipOc.X - entityOc.X;
-                    var dy = spaceshipOc.Y - entityOc.Y;
+                        var dx = spaceshipOc.X - entityOc.X;
+                        var dy = spaceshipOc.Y - entityOc.Y;
                     
-                    var distance = Mathf.Sqrt(dx * dx + dy * dy);
+                        var distance = Mathf.Sqrt(dx * dx + dy * dy);
                     
                     if (distance < 10f)
                     {
