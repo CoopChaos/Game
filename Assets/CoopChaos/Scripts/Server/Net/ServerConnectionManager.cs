@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using CoopChaos;
+using CoopChaos.Shared;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -125,7 +126,7 @@ namespace CoopChaos
             }
             
             // ensure we have room for another connection
-            if (UserConnectionMapper.Singleton.Count >= GameContext.Singleton.MaxUserCount)
+            if (UserConnectionMapper.Singleton.Count >= GameContextState.Singleton.GameContext.MaxUserCount)
             {
                 CustomMessagingHelper.StartSend()
                     .Write(ConnectResult.ServerFull)

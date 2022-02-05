@@ -6,14 +6,14 @@ namespace CoopChaos.Simulation.Systems
 {
     public class PlayerSpaceshipMovementSystem : ISystem
     {
-        private World world;
+        private CoopChaosWorld world;
         private EntitySet playerSpaceship;
         
-        public PlayerSpaceshipMovementSystem(World world)
+        public PlayerSpaceshipMovementSystem(CoopChaosWorld world)
         {
             this.world = world;
             
-            playerSpaceship = world.GetEntities()
+            playerSpaceship = world.Native.GetEntities()
                 .With<PlayerSpaceshipComponent>()
                 .AsSet();
         }

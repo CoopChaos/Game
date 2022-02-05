@@ -1,16 +1,21 @@
 using System;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace CoopChaos
 {
+    [Serializable]
     public struct GameContext : INetworkSerializable, IEquatable<GameContext>
     {
+        [SerializeField]
         private int maxUserCount;
+
+        [SerializeField]
         private int minUserCount;
+
+        [SerializeField]
         private float interactRange;
         
-        public static GameContext Singleton => new GameContext(8, 1, 3f);
-
         public GameContext(int maxUserCount, int minUserCount, float interactRange)
         {
             this.maxUserCount = maxUserCount;

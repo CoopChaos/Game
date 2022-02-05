@@ -1,28 +1,31 @@
 using System.Collections.Generic;
+using CoopChaos.Simulation;
 using UnityEngine;
 
 namespace CoopChaos
 {
+    [Occurance(OccuranceType.Fight)]
     public class FightOccurance : IOccurance
     {
-        private List<IOccuranceObject> objects;
-        private IOccuranceSpaceship spaceship;
+        private OccuranceDescription description;
         
-        public FightOccurance(IOccuranceSpaceship spaceship)
+        public FightOccurance(OccuranceDescription description)
         {
-            this.spaceship = spaceship;
-            objects = new List<IOccuranceObject>();
+            this.description = description;
         }
-
-        public IEnumerable<IOccuranceObject> Objects => objects;
-        public IOccuranceSpaceship Spaceship => spaceship;
-
-        public void Start()
+        
+        public void Start(SimulationBehaviour simulation)
         {
         }
 
-        public void Update(float deltaTime)
+        public void Update()
         {
+            throw new System.NotImplementedException();
+        }
+
+        public void Remove()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

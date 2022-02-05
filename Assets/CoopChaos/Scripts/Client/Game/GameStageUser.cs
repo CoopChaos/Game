@@ -1,6 +1,7 @@
 using System;
 using CoopChaos.CoopChaos.Scripts.Client.Game.Spaceship;
 using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
+using CoopChaos.Shared;
 using Unity.Netcode;
 using UnityEditor.PackageManager;
 using UnityEngine;
@@ -110,7 +111,7 @@ namespace CoopChaos
                 }
             }
 
-            if (closestDistance > GameContext.Singleton.InteractRange)
+            if (closestDistance > GameContextState.Singleton.GameContext.InteractRange)
             {
                 closestInteractableObject = null;
             }

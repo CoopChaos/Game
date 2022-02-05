@@ -32,7 +32,7 @@ namespace CoopChaos
                 !state.Users[clientIndex].Ready,
                 state.Users[clientIndex].RawUsername);
 
-            if (state.Users.All(u => u.Ready) && GameContext.Singleton.MinUserCount <= state.Users.Count)
+            if (state.Users.All(u => u.Ready) && GameContextState.Singleton.GameContext.MinUserCount <= state.Users.Count)
             {
                 NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
             }

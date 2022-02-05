@@ -38,11 +38,11 @@ namespace CoopChaos.Rooms
             
             simulation = FindObjectOfType<SimulationBehaviour>();
             
-            entities = simulation.World.GetEntities()
+            entities = simulation.World.Native.GetEntities()
                 .With<ObjectComponent>()
                 .AsSet();
             
-            playerSpaceship = simulation.World.GetEntities()
+            playerSpaceship = simulation.World.Native.GetEntities()
                 .With<PlayerSpaceshipComponent>()
                 .AsSet();
         }

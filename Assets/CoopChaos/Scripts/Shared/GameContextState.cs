@@ -1,11 +1,15 @@
 using System;
 using Unity.Netcode;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace CoopChaos.Shared
 {
     public class GameContextState : NetworkBehaviour
     {
+        [SerializeField]
+        private GameContext initialGameContext;
+
         private NetworkVariable<GameContext> gameContext = new NetworkVariable<GameContext>();
 
         public static GameContextState Singleton { get; private set; } 
@@ -33,7 +37,7 @@ namespace CoopChaos.Shared
         public override void OnNetworkSpawn()
         {
             if (IsServer)
-                gameContext.Value = GameContext.Singleton;
+                gameContext.Value = initialGameContext;
         }
     }
 }

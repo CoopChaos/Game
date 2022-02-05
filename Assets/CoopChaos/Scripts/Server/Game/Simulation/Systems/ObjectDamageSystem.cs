@@ -6,10 +6,10 @@ namespace CoopChaos.Simulation.Systems
 {
     public class ObjectDamageSystem : ISystem
     {
-        private World world;
+        private CoopChaosWorld world;
         private EntitySet damagedEntities;
         
-        public ObjectDamageSystem(World world)
+        public ObjectDamageSystem(CoopChaosWorld world)
         {
             this.world = world;
 

@@ -8,19 +8,19 @@ namespace CoopChaos.Simulation
 {
     public class SimulationBehaviour : MonoBehaviour
     {
-        private World world;
+        private CoopChaosWorld world;
         private List<ISystem> systems;
 
         private Entity SpawnEntity()
         {
-            return world.CreateEntity();
+            return world.Native.CreateEntity();
         }
 
-        public World World => world;
+        public CoopChaosWorld World => world;
 
         private void Awake()
         {
-            world = new World();
+            world = new CoopChaosWorld(new World());
 
             InstantiateSystems();
         }

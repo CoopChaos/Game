@@ -1,14 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using CoopChaos.Simulation;
 
 namespace CoopChaos
 {
     public interface IOccurance
     {
-        IEnumerable<IOccuranceObject> Objects { get; }
-        IOccuranceSpaceship Spaceship { get; }
-        
-        void Start();
-        void Update(float deltaTime);
+        void Start(SimulationBehaviour simulation);
+        void Update();
+        void Remove();
     }
 }

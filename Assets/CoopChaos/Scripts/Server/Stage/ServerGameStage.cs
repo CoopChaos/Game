@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CoopChaos.Shared;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -35,7 +36,7 @@ namespace CoopChaos
             var player = GetPlayerObjectByClientHash(UserConnectionMapper.Singleton[clientId]);
 
             if (Vector2.Distance(interactableObject.gameObject.transform.position, player.transform.position) 
-                > GameContext.Singleton.InteractRange)
+                > GameContextState.Singleton.GameContext.InteractRange)
             {
                 Debug.LogWarning("Player interacted with object but is too far away");
                 return;

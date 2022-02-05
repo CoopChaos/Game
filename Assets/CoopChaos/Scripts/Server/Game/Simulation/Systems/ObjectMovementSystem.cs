@@ -5,12 +5,12 @@ namespace CoopChaos.Simulation.Systems
 {
     public class ObjectMovementSystem : ISystem
     {
-        private World world;
+        private CoopChaosWorld world;
         private EntitySet objects;
         
         public World World { get; set; }
 
-        public ObjectMovementSystem(World world)
+        public ObjectMovementSystem(CoopChaosWorld world)
         {
             this.world = world;
 
