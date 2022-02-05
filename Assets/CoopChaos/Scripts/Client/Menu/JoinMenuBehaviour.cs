@@ -3,6 +3,7 @@ using TMPro;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UNET;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace CoopChaos.Menu
 {
@@ -10,6 +11,8 @@ namespace CoopChaos.Menu
     {
         [SerializeField] private GameObject joinMenu;
         [SerializeField] private GameObject loadingPage;
+
+        [SerializeField] private Button cancelButton;
         
         [SerializeField]
         private TMP_InputField ipAddress;
@@ -66,6 +69,13 @@ namespace CoopChaos.Menu
             clientConnectionManager = FindObjectOfType<ClientConnectionManager>();
             serverConnectionManager = FindObjectOfType<ServerConnectionManager>();
             connectionManager = FindObjectOfType<ConnectionManager>();
+            
+            cancelButton.onClick.AddListener(() =>
+            {
+                clientConnectionManager.StopClient();
+                joinMenu.SetActive(true);
+                loadingPage.SetActive(false);
+            });
             
             clientConnectionManager.OnDisconnected += HandleOnDisconnected;
             clientConnectionManager.OnConnectingFinished += HandleOnConnectingFinished;
