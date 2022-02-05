@@ -13,6 +13,8 @@ namespace CoopChaos
         [SerializeField] private float speed = 150f;
         [SerializeField] private GameObject characterCamera;
 
+        [SerializeField] private Canvas pauseMenu;
+
         private GameStageUserApi api;
         private ClientInteractableObjectBase currentInteractable;
         private SpaceshipState spaceshipState;
@@ -21,6 +23,8 @@ namespace CoopChaos
         private Vector2 movement;
         private InputAction moveInputAction;
         private InputAction interactInputAction;
+
+        private InputAction pauseInputAction;
 
         public void SetColor(Color color)
         {
@@ -54,6 +58,23 @@ namespace CoopChaos
             
             moveInputAction = playerInput.actions["move"];
             interactInputAction = playerInput.actions["interact"];
+            pauseInputAction = playerInput.actions["pause"];
+
+            pauseInputAction.performed += OnPause;
+        }
+
+        private void OnPause(InputAction.CallbackContext obj)
+        {
+            if(pauseMenu.enabled) {
+                moveInputAction.Enable();
+                interactInputAction.Enable();
+            } else {
+                moveInputAction.Disable();
+                interactInputAction.Disable();
+            }
+
+            pauseMenu.enabled = !pauseMenu.enabled;
+            var playerInput = GetComponent<PlayerInput>();
         }
 
         private void FixedUpdate()
@@ -123,6 +144,8 @@ namespace CoopChaos
             api = GetComponent<GameStageUserApi>();
             spaceshipState = FindObjectOfType<SpaceshipState>();
             rigidbody = GetComponent<Rigidbody2D>();
+            pauseMenu = GameObject.Find("PauseMenu").GetComponent<Canvas>();
+            pauseMenu.enabled = false;
             
             Assert.IsNotNull(api);
             Assert.IsNotNull(spaceshipState);
