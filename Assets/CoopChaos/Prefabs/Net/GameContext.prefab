@@ -46,9 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialGameContext:
-    maxUserCount: 2
-    minUserCount: 8
-    interactRange: 1.5
+    maxUserCount: 8
+    minUserCount: 1
+    interactRange: 2
 --- !u!114 &7611516889004846876
 MonoBehaviour:
   m_ObjectHideFlags: 0

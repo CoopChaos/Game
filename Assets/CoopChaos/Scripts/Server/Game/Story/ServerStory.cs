@@ -30,7 +30,7 @@ namespace CoopChaos
             flightSequenceEnumerator = (IEnumerator<FlightSequenceDescription>) story.FlightSequences.GetEnumerator();
             flightSequenceEnumerator.MoveNext();
             
-            flightSequenceEnumerator.Current.
+            // flightSequenceEnumerator.Current.
         }
         
         
