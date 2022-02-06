@@ -20,6 +20,7 @@ namespace CoopChaos
 
         private GameObject spaceshipControlMenu;
         private GameObject radarMenu;
+        private GameObject cannonControlMenu;
         private GameStageUserApi api;
         private ClientInteractableObjectBase currentInteractable;
         private SpaceshipState spaceshipState;
@@ -48,6 +49,10 @@ namespace CoopChaos
                 else if (currentInteractable is ClientRadarInteractable)
                 {
                     radarMenu.SetActive(!radarMenu.activeSelf);
+                }
+                else if (currentInteractable is ClientCannonInteractable)
+                {
+                    cannonControlMenu.SetActive(!cannonControlMenu.activeSelf);
                 }
                 
             }
@@ -139,17 +144,22 @@ namespace CoopChaos
             api = GetComponent<GameStageUserApi>();
             spaceshipState = FindObjectOfType<SpaceshipState>();
             rigidbody = GetComponent<Rigidbody2D>();
+            
             spaceshipControlMenu = GameObject.Find("SpaceshipControlMenu");
             spaceshipControlMenu.SetActive(false);
+            
             radarMenu = GameObject.Find("RadarMenu");
             radarMenu.SetActive(false);
 
+            cannonControlMenu = GameObject.Find("CannonControlMenu");
+            cannonControlMenu.SetActive(false);
 
             Assert.IsNotNull(api);
             Assert.IsNotNull(spaceshipState);
             Assert.IsNotNull(rigidbody);
             Assert.IsNotNull(spaceshipControlMenu);
             Assert.IsNotNull(radarMenu);
+            Assert.IsNotNull(cannonControlMenu);
         }
     }
 }
