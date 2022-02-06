@@ -1,13 +1,9 @@
 using System;
-using CoopChaos.CoopChaos.Scripts.Client.Game.Spaceship;
-using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
-using CoopChaos.Shared;
 using Unity.Netcode;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 namespace CoopChaos
 {
@@ -16,21 +12,19 @@ namespace CoopChaos
     {
         [SerializeField] private float speed = 150f;
         [SerializeField] private GameObject characterCamera;
-        [SerializeField] private GameObject circle;
 
-        private GameObject spaceshipControlMenu;
-        private GameObject radarMenu;
-        private GameObject cannonControlMenu;
+        [SerializeField] private Canvas pauseMenu;
+
         private GameStageUserApi api;
         private ClientInteractableObjectBase currentInteractable;
         private SpaceshipState spaceshipState;
-        
-        
 
         private Rigidbody2D rigidbody;
         private Vector2 movement;
         private InputAction moveInputAction;
         private InputAction interactInputAction;
+
+        private InputAction pauseInputAction;
 
         public void SetColor(Color color)
         {
@@ -42,19 +36,6 @@ namespace CoopChaos
             if (currentInteractable != null)
             {
                 api.InteractServerRpc(currentInteractable.NetworkObjectId);
-                if (currentInteractable is ClientSpaceshipControlInteractable)
-                {
-                    spaceshipControlMenu.SetActive(!spaceshipControlMenu.activeSelf);
-                } 
-                else if (currentInteractable is ClientRadarInteractable)
-                {
-                    radarMenu.SetActive(!radarMenu.activeSelf);
-                }
-                else if (currentInteractable is ClientCannonInteractable)
-                {
-                    cannonControlMenu.SetActive(!cannonControlMenu.activeSelf);
-                }
-                
             }
         }
 
@@ -77,6 +58,23 @@ namespace CoopChaos
             
             moveInputAction = playerInput.actions["move"];
             interactInputAction = playerInput.actions["interact"];
+            pauseInputAction = playerInput.actions["pause"];
+
+            pauseInputAction.performed += OnPause;
+        }
+
+        private void OnPause(InputAction.CallbackContext obj)
+        {
+            if(pauseMenu.enabled) {
+                moveInputAction.Enable();
+                interactInputAction.Enable();
+            } else {
+                moveInputAction.Disable();
+                interactInputAction.Disable();
+            }
+
+            pauseMenu.enabled = !pauseMenu.enabled;
+            var playerInput = GetComponent<PlayerInput>();
         }
 
         private void FixedUpdate()
@@ -90,6 +88,8 @@ namespace CoopChaos
             
         }
         
+        
+
         private void Update()
         {
             // Input
@@ -116,7 +116,7 @@ namespace CoopChaos
                 }
             }
 
-            if (closestDistance > GameContextState.Singleton.GameContext.InteractRange)
+            if (closestDistance > GameContext.Singleton.InteractRange)
             {
                 closestInteractableObject = null;
             }
@@ -145,21 +145,9 @@ namespace CoopChaos
             spaceshipState = FindObjectOfType<SpaceshipState>();
             rigidbody = GetComponent<Rigidbody2D>();
             
-            spaceshipControlMenu = GameObject.Find("SpaceshipControlMenu");
-            spaceshipControlMenu.SetActive(false);
-            
-            radarMenu = GameObject.Find("RadarMenu");
-            radarMenu.SetActive(false);
-
-            cannonControlMenu = GameObject.Find("CannonControlMenu");
-            cannonControlMenu.SetActive(false);
-
             Assert.IsNotNull(api);
             Assert.IsNotNull(spaceshipState);
             Assert.IsNotNull(rigidbody);
-            Assert.IsNotNull(spaceshipControlMenu);
-            Assert.IsNotNull(radarMenu);
-            Assert.IsNotNull(cannonControlMenu);
         }
     }
 }
