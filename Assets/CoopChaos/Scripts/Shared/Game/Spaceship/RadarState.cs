@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace CoopChaos
 {
-    [RequireComponent(typeof(ServerRadarRoom), typeof(ClientRadar))]
+    //[RequireComponent(typeof(ServerRadarRoom), typeof(ClientRadar))]
     public class RadarState : NetworkBehaviour
     {
         private NetworkList<RadarEntity> radarEntities;
