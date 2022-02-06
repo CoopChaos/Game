@@ -35,10 +35,13 @@ namespace CoopChaos
             
             spaceshipState = GetComponent<SpaceshipState>();
             Assert.IsNotNull(spaceshipState);
+        }
 
+        private void Start()
+        {
             simulation.World.Native.Subscribe<PlayerSpaceshipDamageEvent>(HandleDamageEvent);
         }
-        
+
         private void HandleDamageEvent(in PlayerSpaceshipDamageEvent e)
         {
             ref var oc = ref e.Entity.Get<ObjectComponent>();

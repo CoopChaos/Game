@@ -22,7 +22,7 @@ namespace CoopChaos
             
             currentOccurances.Clear();
         }
-        
+
         private void Update()
         {
             foreach (var occurance in currentOccurances)

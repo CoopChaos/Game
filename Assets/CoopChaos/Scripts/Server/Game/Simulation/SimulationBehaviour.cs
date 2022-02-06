@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CoopChaos.Simulation.Factories;
 using DefaultEcs;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ namespace CoopChaos.Simulation
         private void Awake()
         {
             world = new CoopChaosWorld(new World());
+            world.CreatePlayerSpaceship(0, 0);
 
             InstantiateSystems();
         }

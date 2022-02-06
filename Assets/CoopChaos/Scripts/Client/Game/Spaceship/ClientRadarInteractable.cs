@@ -37,6 +37,7 @@ namespace CoopChaos.CoopChaos.Scripts.Client.Game.Spaceship
         protected override void Awake()
         {
             base.Awake();
+            
             interactableState = GetComponent<RadarInteractableState>();
             radarMenu = GameObject.Find("RadarMenu");
             

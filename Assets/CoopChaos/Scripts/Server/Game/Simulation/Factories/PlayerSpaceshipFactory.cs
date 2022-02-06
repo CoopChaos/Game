@@ -8,16 +8,16 @@ namespace CoopChaos.Simulation.Factories
         private const float ShipMass = 100f;
         private const float ShipSize = 10f;
         
-        public static Entity CreatePlayerSpaceship(this World world, float x, float y)
+        public static Entity CreatePlayerSpaceship(this CoopChaosWorld world, float x, float y)
         {
-            var entity = world.CreateEntity();
+            var entity = world.Native.CreateEntity();
 
             entity.Set(new ObjectComponent()
             {
                 X = x,
                 Y = y,
                 VelocityX = 0,
-                VelocityY = 0,
+                VelocityY = 1,
                 Mass = ShipMass,
                 Size = ShipSize,
             });

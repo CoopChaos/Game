@@ -18,7 +18,7 @@ namespace CoopChaos
         {
         }
 
-        public void Update()
+        public bool Update()
         {
             throw new System.NotImplementedException();
         }

@@ -25,6 +25,11 @@ namespace CoopChaos
             }
             
             radarState.RadarEntities.OnListChanged += HandleListChanged;
+
+            foreach (var entity in radarState.RadarEntities)
+            {
+                HandleAdd(entity);
+            }
         }
 
         private void HandleListChanged(NetworkListEvent<RadarEntity> changeEvent)
@@ -32,7 +37,7 @@ namespace CoopChaos
             switch (changeEvent.Type)
             {
                 case NetworkListEvent<RadarEntity>.EventType.Add:
-                    HandleAdd(changeEvent.Index, changeEvent.Value);
+                    HandleAdd(changeEvent.Value);
                     break;
                 case NetworkListEvent<RadarEntity>.EventType.RemoveAt:
                     HandleRemove(changeEvent.Index);
@@ -56,7 +61,7 @@ namespace CoopChaos
             radarObjects.Clear();
         }
 
-        private void HandleAdd(int index, RadarEntity value)
+        private void HandleAdd(RadarEntity value)
         {
             var elem = Instantiate(radarPointPrefab, new Vector2(value.X, value.Y), Quaternion.identity);
             elem.transform.SetParent(radarMenu.transform, false);

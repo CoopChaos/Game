@@ -1,13 +1,21 @@
+using System;
 using System.Collections.Generic;
 using CoopChaos.Simulation;
+using CoopChaos.Simulation.Components;
+using CoopChaos.Simulation.Factories;
+using DefaultEcs;
 
 namespace CoopChaos
 {
     [Occurance(OccuranceType.Asteroid)]
     public class AsteroidOccurance : IOccurance
     {
+        private SimulationBehaviour simulation;
         private AsteroidOccuranceDescription description;
         private SimulationBehaviour simulationBehaviour;
+
+        private EntitySet asteroids;
+        private float lastLayerY;
 
         public AsteroidOccurance(OccuranceDescription description)
         {
@@ -16,16 +24,58 @@ namespace CoopChaos
         
         public void Start(SimulationBehaviour simulation)
         {
-            
+            this.simulation = simulation;
+
+            var spaceship = simulation.World.PlayerSpaceship;
+            ref var spaceshipObject = ref spaceship.Value.Get<ObjectComponent>();
+
+            var layers = description.Length / (description.MaxAsteroidSize + description.DistanceBetweenAsteroids);
+
+            var leftBound = spaceshipObject.X - 1000;
+            var rightBound = spaceshipObject.X + 1000;
+
+            var random = new Random();
+
+            for (int layer = 0; layer < layers; ++layer)
+            {
+                var y = layer * (description.MaxAsteroidSize + description.DistanceBetweenAsteroids);
+
+                for (float x = leftBound;
+                     x < rightBound;
+                     x += (description.MaxAsteroidSize + description.DistanceBetweenAsteroids))
+                {
+                    var asteroid = simulation.World.CreateAsteroid(x, y, spaceshipObject.Mass / 2.0f, 
+                        (float)(random.NextDouble() * (description.MaxAsteroidSize - description.MinAsteroidSize) + description.MinAsteroidSize));
+                    
+                    asteroid.Set<HiddenAsteroidComponent>();
+                }
+            }
+
+            asteroids = simulation.World.Native.GetEntities()
+                .With<HiddenAsteroidComponent>()
+                .AsSet();
+
+            lastLayerY = (layers + 1) * (description.MaxAsteroidSize + description.DistanceBetweenAsteroids);
         }
 
-        public void Update()
+        public bool Update()
         {
+            var spaceship = simulation.World.PlayerSpaceship;
+            ref var spaceshipObject = ref spaceship.Value.Get<ObjectComponent>();
+
+            return spaceshipObject.Y > lastLayerY;
         }
 
         public void Remove()
         {
-            
+            foreach (var asteroid in asteroids.GetEntities())
+            {
+                asteroid.Dispose();
+            }
+        }
+
+        private class HiddenAsteroidComponent
+        {
         }
     }
 }

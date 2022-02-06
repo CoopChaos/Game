@@ -18,7 +18,7 @@ namespace CoopChaos
         
         public static IOccurance Create(OccuranceDescription occuranceDescription)
         {
-            return (IOccurance)Activator.CreateInstance(occuranceTypes[occuranceDescription.OccuranceType], occuranceDescription);
+            return (IOccurance)Activator.CreateInstance(occuranceTypes[occuranceDescription.OccuranceType], (Object)occuranceDescription);
         }
     }
 }

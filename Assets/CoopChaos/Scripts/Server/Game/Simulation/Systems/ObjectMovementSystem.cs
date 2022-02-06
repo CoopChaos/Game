@@ -8,13 +8,11 @@ namespace CoopChaos.Simulation.Systems
         private CoopChaosWorld world;
         private EntitySet objects;
         
-        public World World { get; set; }
-
         public ObjectMovementSystem(CoopChaosWorld world)
         {
             this.world = world;
 
-            objects = World.GetEntities()
+            objects = world.Native.GetEntities()
                 .With<ObjectComponent>()
                 .AsSet();
         }

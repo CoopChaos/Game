@@ -9,7 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee11d346a04a44c8957b4f284554ac47, type: 3}
-  m_Name: DefaultFightOccuranceDescription
+  m_Script: {fileID: 11500000, guid: f250a3e3d6d9415f984f9036cb45f189, type: 3}
+  m_Name: DefaultAsteroidOccurance
   m_EditorClassIdentifier: 
   OccuranceType: 0
+  Length: 10000
+  MinAsteroidSize: 5
+  MaxAsteroidSize: 10
+  DistanceBetweenAsteroids: 10

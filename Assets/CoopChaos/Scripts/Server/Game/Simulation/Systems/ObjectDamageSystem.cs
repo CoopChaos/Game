@@ -13,14 +13,12 @@ namespace CoopChaos.Simulation.Systems
         {
             this.world = world;
 
-            damagedEntities = World.GetEntities()
+            damagedEntities = world.Native.GetEntities()
                 .With<ObjectComponent>()
                 .WhenAdded<DamageComponent>()
                 .AsSet();
         }
-        
-        public World World { get; set; }
-        
+
         public void Update(float deltaTime)
         {
             foreach (var entity in damagedEntities.GetEntities())
@@ -32,7 +30,7 @@ namespace CoopChaos.Simulation.Systems
 
                 if (entity.Has<PlayerSpaceshipComponent>())
                 {
-                    World.Publish(new PlayerSpaceshipDamageEvent()
+                    world.Native.Publish(new PlayerSpaceshipDamageEvent()
                     {
                         Damage = damage.Damage,
                         Entity = entity

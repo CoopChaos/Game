@@ -7,7 +7,7 @@ namespace CoopChaos
     public interface IOccurance
     {
         void Start(SimulationBehaviour simulation);
-        void Update();
+        bool Update();
         void Remove();
     }
 }

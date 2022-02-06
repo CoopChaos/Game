@@ -8,9 +8,9 @@ namespace CoopChaos.Simulation.Factories
 {
     public static class AsteroidFactory
     {
-        public static Entity CreateAsteroid(this World world, float x, float y, float mass, float size)
+        public static Entity CreateAsteroid(this CoopChaosWorld world, float x, float y, float mass, float size)
         {
-            var entity = world.CreateEntity();
+            var entity = world.Native.CreateEntity();
 
             entity.Set(new ObjectComponent()
             {

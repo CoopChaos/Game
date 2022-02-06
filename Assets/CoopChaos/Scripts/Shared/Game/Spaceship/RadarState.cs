@@ -8,9 +8,11 @@ namespace CoopChaos
     [RequireComponent(typeof(ServerRadarRoom), typeof(ClientRadar))]
     public class RadarState : NetworkBehaviour
     {
+        private float radarMaxRange = 40;
         private NetworkList<RadarEntity> radarEntities;
 
         public NetworkList<RadarEntity> RadarEntities => radarEntities;
+        public float RadarMaxRange => radarMaxRange;
         
         public override void OnNetworkSpawn()
         {
