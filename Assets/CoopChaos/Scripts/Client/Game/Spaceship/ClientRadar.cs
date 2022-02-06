@@ -7,10 +7,10 @@ using UnityEngine.Assertions;
 
 namespace CoopChaos
 {
-    [RequireComponent(typeof(RadarState))]
     public class ClientRadar : NetworkBehaviour
     {
         [SerializeField] private GameObject radarPointPrefab;
+        [SerializeField] private GameObject radarContainer;
 
         private RadarState radarState;
         private GameObject radarMenu;
@@ -63,7 +63,14 @@ namespace CoopChaos
 
         private void HandleAdd(RadarEntity value)
         {
-            var elem = Instantiate(radarPointPrefab, new Vector2(value.X, value.Y), Quaternion.identity);
+            var rt = radarContainer.GetComponent<RectTransform>();
+            var elem = Instantiate(
+                radarPointPrefab, 
+                new Vector2(
+                    value.X + rt.rect.width * 0.5f,
+                    value.Y + rt.rect.height * 0.5f),
+                Quaternion.identity,
+                radarContainer.transform);
             elem.transform.SetParent(radarMenu.transform, false);
             radarObjects.Add(elem);
         }

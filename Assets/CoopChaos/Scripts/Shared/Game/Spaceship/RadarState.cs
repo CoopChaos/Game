@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace CoopChaos
 {
-    [RequireComponent(typeof(ServerRadarRoom), typeof(ClientRadar))]
+    [RequireComponent(typeof(ServerRadar), typeof(ClientRadar))]
     public class RadarState : NetworkBehaviour
     {
-        private float radarMaxRange = 40;
+        private float radarMaxRange = 250;
         private NetworkList<RadarEntity> radarEntities;
 
         public NetworkList<RadarEntity> RadarEntities => radarEntities;

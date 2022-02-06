@@ -1,9 +1,10 @@
-using System;
 using System.Collections.Generic;
 using CoopChaos.Simulation;
 using CoopChaos.Simulation.Components;
 using CoopChaos.Simulation.Factories;
 using DefaultEcs;
+using UnityEngine;
+using Random = System.Random;
 
 namespace CoopChaos
 {
@@ -34,7 +35,11 @@ namespace CoopChaos
             var leftBound = spaceshipObject.X - 1000;
             var rightBound = spaceshipObject.X + 1000;
 
+            var yOffset = 50;
+
             var random = new Random();
+
+            int i = 0;
 
             for (int layer = 0; layer < layers; ++layer)
             {
@@ -44,12 +49,15 @@ namespace CoopChaos
                      x < rightBound;
                      x += (description.MaxAsteroidSize + description.DistanceBetweenAsteroids))
                 {
-                    var asteroid = simulation.World.CreateAsteroid(x, y, spaceshipObject.Mass / 2.0f, 
+                    ++i;
+                    var asteroid = simulation.World.CreateAsteroid(x, y + yOffset, spaceshipObject.Mass / 2.0f, 
                         (float)(random.NextDouble() * (description.MaxAsteroidSize - description.MinAsteroidSize) + description.MinAsteroidSize));
                     
                     asteroid.Set<HiddenAsteroidComponent>();
                 }
             }
+            
+            Debug.Log($"SPAWN {i}");
 
             asteroids = simulation.World.Native.GetEntities()
                 .With<HiddenAsteroidComponent>()

@@ -11,7 +11,6 @@ using UnityEngine.Assertions;
 
 namespace CoopChaos
 {
-    [RequireComponent(typeof(RadarState))]
     public class ServerRadar : NetworkBehaviour
     {
         private RadarState radarState;
@@ -39,10 +38,10 @@ namespace CoopChaos
 
         private void Awake()
         {
-            radarState = GetComponent<RadarState>();
+            radarState = FindObjectOfType<RadarState>();
             Assert.IsNotNull(radarState);
 
-            simulation = GetComponent<SimulationBehaviour>();
+            simulation = FindObjectOfType<SimulationBehaviour>();
             Assert.IsNotNull(simulation);
 
             entities = simulation.World.Native
@@ -54,8 +53,11 @@ namespace CoopChaos
 
         private IEnumerator RadarScanCoroutine()
         {
-            UpdateRadarEntities();
-            yield return new WaitForSeconds(0.5f);
+            while (true)
+            {
+                UpdateRadarEntities();
+                yield return new WaitForSeconds(0.5f);
+            }
         }
 
         private void UpdateRadarEntities()
@@ -65,6 +67,9 @@ namespace CoopChaos
             var spaceship = simulation.World.PlayerSpaceship;
             ref var spaceshipObject = ref spaceship.Value.Get<ObjectComponent>();
 
+            int i = 0;
+            int j = 0;
+            
             foreach (var entity in entities.GetEntities())
             {
                 ref var entityObject = ref entity.Get<ObjectComponent>();
@@ -76,10 +81,17 @@ namespace CoopChaos
 
                 if (radarState.RadarMaxRange > distance)
                 {
+                    ++i;
                     ref var entityDetectionType = ref entity.Get<DetectionTypeComponent>();
                     radarState.RadarEntities.Add(new RadarEntity(entityObject.X, entityObject.Y, entityDetectionType.Type));
                 }
+                else
+                {
+                    ++j;
+                }
             }
+            
+            Debug.Log($"++{i} sync --{j}");
         }
     }
 }

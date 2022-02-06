@@ -17,7 +17,7 @@ namespace CoopChaos.Simulation.Factories
                 X = x,
                 Y = y,
                 VelocityX = 0,
-                VelocityY = 1,
+                VelocityY = 0,
                 Mass = ShipMass,
                 Size = ShipSize,
             });
