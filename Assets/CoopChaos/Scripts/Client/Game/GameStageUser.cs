@@ -1,4 +1,5 @@
 using System;
+using CoopChaos.CoopChaos.Scripts.Client.Game.Spaceship;
 using CoopChaos.Shared;
 using Unity.Netcode;
 using UnityEditor.PackageManager;
@@ -13,8 +14,13 @@ namespace CoopChaos
     {
         [SerializeField] private float speed = 150f;
         [SerializeField] private GameObject characterCamera;
+        [SerializeField] private GameObject circle;
 
-        [SerializeField] private Canvas pauseMenu;
+        private GameObject spaceshipControlMenu;
+        private GameObject radarMenu;
+        private GameObject cannonControlMenu;
+        
+        private Canvas pauseMenu;
 
         private GameStageUserApi api;
         private ClientInteractableObjectBase currentInteractable;
@@ -37,6 +43,18 @@ namespace CoopChaos
             if (currentInteractable != null)
             {
                 api.InteractServerRpc(currentInteractable.NetworkObjectId);
+                if (currentInteractable is ClientSpaceshipControlInteractable)
+                {
+                    spaceshipControlMenu.SetActive(!spaceshipControlMenu.activeSelf);
+                } 
+                else if (currentInteractable is ClientRadarInteractable)
+                {
+                    radarMenu.SetActive(!radarMenu.activeSelf);
+                }
+                else if (currentInteractable is ClientCannonInteractable)
+                {
+                    cannonControlMenu.SetActive(!cannonControlMenu.activeSelf);
+                }
             }
         }
 
@@ -60,11 +78,9 @@ namespace CoopChaos
             moveInputAction = playerInput.actions["move"];
             interactInputAction = playerInput.actions["interact"];
             pauseInputAction = playerInput.actions["pause"];
-
-            pauseInputAction.performed += OnPause;
         }
 
-        private void OnPause(InputAction.CallbackContext obj)
+        public void OnPause()
         {
             if(pauseMenu.enabled) {
                 moveInputAction.Enable();
@@ -138,7 +154,7 @@ namespace CoopChaos
             }
         }
 
-        private void Start()
+        private void Awake()
         {
             Assert.IsNotNull(characterCamera);
             
@@ -146,9 +162,25 @@ namespace CoopChaos
             spaceshipState = FindObjectOfType<SpaceshipState>();
             rigidbody = GetComponent<Rigidbody2D>();
             
+            pauseMenu = GameObject.Find("PauseMenu").GetComponent<Canvas>();
+            pauseMenu.enabled = false;
+
+            spaceshipControlMenu = GameObject.Find("SpaceshipControlMenu");
+            spaceshipControlMenu.SetActive(false);
+            
+            radarMenu = GameObject.Find("RadarMenu");
+            radarMenu.SetActive(false);
+
+            cannonControlMenu = GameObject.Find("CannonControlMenu");
+            cannonControlMenu.SetActive(false);
+            
+            Assert.IsNotNull(pauseMenu);
             Assert.IsNotNull(api);
             Assert.IsNotNull(spaceshipState);
             Assert.IsNotNull(rigidbody);
+            Assert.IsNotNull(spaceshipControlMenu);
+            Assert.IsNotNull(radarMenu);
+            Assert.IsNotNull(cannonControlMenu);
         }
     }
 }

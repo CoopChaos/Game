@@ -2,12 +2,15 @@ using System;
 using CoopChaos;
 using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Yame
 {
     public class ServerDeviceInteractableBase : ServerInteractableObjectBase
     {
-        public DeviceInteractableBaseState deviceInteractableState;
+        private DeviceInteractableBaseState deviceInteractableState;
+
+        public DeviceInteractableBaseState DeviceInteractableState => deviceInteractableState;
 
         // TODO: check if role is suited to interact with the device
         
@@ -27,6 +30,8 @@ namespace Yame
         protected void Awake()
         {
             deviceInteractableState = GetComponent<DeviceInteractableBaseState>();
+            Assert.IsNotNull(deviceInteractableState);
+            
             deviceInteractableState.Fulfilled.OnValueChanged = ReactFulfilled;
         }
 

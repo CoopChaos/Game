@@ -19,8 +19,8 @@ namespace Yame.Threat
             // threadCompleted is true when every sub objective is finished
             foreach (var i in threatObject.threatObjectives)
             {
-                threatCompleted = i.Value.deviceInteractableState.Fulfilled.Value;
-                if (i.Value.deviceInteractableState.Fulfilled.Value) compCounter++;
+                threatCompleted = i.Value.DeviceInteractableState.Fulfilled.Value;
+                if (i.Value.DeviceInteractableState.Fulfilled.Value) compCounter++;
             }
 
             threatObject.numTasksFinished.Value = compCounter;
@@ -44,8 +44,8 @@ namespace Yame.Threat
 
             foreach (var serverDeviceInteractable in threatObject.threatObjectives)
             {
-                Debug.Log(serverDeviceInteractable.Value.deviceInteractableState.TaskDescription);
-                objectivesString[0] = serverDeviceInteractable.Value.deviceInteractableState.TaskDescription;
+                Debug.Log(serverDeviceInteractable.Value.DeviceInteractableState.TaskDescription);
+                objectivesString[0] = serverDeviceInteractable.Value.DeviceInteractableState.TaskDescription;
             }
             
             threatObject.threatName = "TestThreat";

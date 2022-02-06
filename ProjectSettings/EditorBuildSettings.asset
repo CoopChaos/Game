@@ -9,17 +9,14 @@ EditorBuildSettings:
     path: Assets/CoopChaos/Scenes/Startup.unity
     guid: 5a15eb8552b320a4db929e4762d6d74d
   - enabled: 1
-    path: Assets/CoopChaos/Scenes/Stage/Game3.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
     path: Assets/CoopChaos/Scenes/Stage/Lobby.unity
     guid: 1fd47b83694c3ba4cbbbce5da69c329a
   - enabled: 1
     path: Assets/CoopChaos/Scenes/MainMenu.unity
     guid: 10fd4c60e6036434591066f13758c10a
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/CoopChaos/Scenes/Stage/Game.unity
+    guid: e24c86e6950bea4499d607bb3cd439aa
   - enabled: 1
     path: Assets/CoopChaos/Scenes/Stage/StartScreen.unity
     guid: d06566ee3c65c3a899e230ddfae18edc

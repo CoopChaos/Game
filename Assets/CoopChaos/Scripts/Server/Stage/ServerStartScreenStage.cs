@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
@@ -7,26 +8,20 @@ namespace CoopChaos
 {
     public class ServerStartScreenStage : Stage
     {
-        private float timer = 5.0f;
+        private const float TimeToLoad = 5.0f;
         
         public override StageType Type => StageType.GameStart;
 
         protected override void Start()
         {
             base.Start();
-            
-            timer = 5.0f;
+
+            StartCoroutine(LoadSceneInTime(TimeToLoad));
         }
-
-        public void Update()
+        private IEnumerator LoadSceneInTime(float time)
         {
-            timer = timer - Time.deltaTime;
-            Debug.Log(timer);
-
-            if (timer <= 0.0f)
-            {
-                NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
-            }
+            yield return new WaitForSeconds(time);
+            NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
         }
     }
 }
