@@ -1,4 +1,5 @@
 using System;
+using CoopChaos.Shared;
 using Unity.Netcode;
 using UnityEditor.PackageManager;
 using UnityEngine;
@@ -116,7 +117,7 @@ namespace CoopChaos
                 }
             }
 
-            if (closestDistance > GameContext.Singleton.InteractRange)
+            if (closestDistance > GameContextState.Singleton.GameContext.InteractRange)
             {
                 closestInteractableObject = null;
             }
