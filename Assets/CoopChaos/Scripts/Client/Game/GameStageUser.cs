@@ -168,7 +168,7 @@ namespace CoopChaos
             pauseMenu = GameObject.Find("PauseMenu").GetComponent<Canvas>();
             pauseMenu.enabled = false;
 
-            spaceshipControlMenu = GameObject.Find("SpaceshipControlMenu");
+            spaceshipControlMenu = GameObject.Find("ControlMenu");
             spaceshipControlMenu.SetActive(false);
             
             radarMenu = GameObject.Find("RadarMenu");
