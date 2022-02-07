@@ -8,7 +8,7 @@ namespace CoopChaos
     [RequireComponent(typeof(SpaceshipControlRoomState))]
     public class ServerSpaceshipControlRoom : ServerInteractableObjectBase
     {
-        private const float VerticalMaxSpeed = 100.0f;
+        private const float VerticalMaxSpeed = 200.0f;
         private const float HorizontalMaxSpeed = 50.0f;
         
         private SpaceshipControlRoomState interactableState;
@@ -24,9 +24,9 @@ namespace CoopChaos
             value = Mathf.Clamp01(value);
             
             var spaceship = simulation.World.PlayerSpaceship;
-            ref var playerSpaceship = ref spaceship.Value.Get<PlayerSpaceshipComponent>();
+            ref var spaceshipObject = ref spaceship.Value.Get<ObjectComponent>();
 
-            playerSpaceship.VerticalAcceleration = VerticalMaxSpeed * value;
+            spaceshipObject.VelocityY = VerticalMaxSpeed * value;
         }
 
         public void SetHorizontal(float value)
