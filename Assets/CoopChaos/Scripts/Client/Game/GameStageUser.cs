@@ -1,5 +1,4 @@
 using System;
-using CoopChaos.CoopChaos.Scripts.Client.Game.Spaceship;
 using CoopChaos.Shared;
 using Unity.Netcode;
 using UnityEditor.PackageManager;
@@ -46,13 +45,13 @@ namespace CoopChaos
 
                 switch (currentInteractable)
                 {
-                    case ClientSpaceshipControlInteractable _:
+                    case ClientSpaceshipControlRoom _:
                         spaceshipControlMenu.SetActive(!spaceshipControlMenu.activeSelf);
                         break;
-                    case ClientRadarInteractable _:
+                    case ClientRadarRoom _:
                         radarMenu.SetActive(!radarMenu.activeSelf);
                         break;
-                    case ClientCannonInteractable _:
+                    case ClientCannonRoom _:
                         cannonControlMenu.SetActive(!cannonControlMenu.activeSelf);
                         break;
                 }
