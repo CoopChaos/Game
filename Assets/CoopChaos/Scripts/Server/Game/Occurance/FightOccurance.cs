@@ -8,7 +8,7 @@ namespace CoopChaos
     public class FightOccurance : IOccurance
     {
         private OccuranceDescription description;
-        
+
         public FightOccurance(OccuranceDescription description)
         {
             this.description = description;

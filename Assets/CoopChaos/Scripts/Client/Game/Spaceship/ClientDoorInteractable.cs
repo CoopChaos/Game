@@ -28,7 +28,7 @@ namespace CoopChaos
 
             doorInteractableState.Open.OnValueChanged += HandleOpenChanged;
         }
-
+        
         private void HandleOpenChanged(bool open, bool oldOpen)
         {
             doorSprite.SetActive(!open);

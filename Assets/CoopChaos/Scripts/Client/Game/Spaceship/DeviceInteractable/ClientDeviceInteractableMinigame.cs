@@ -2,6 +2,7 @@ using System;
 using CoopChaos;
 using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Yame
 {
@@ -15,6 +16,7 @@ namespace Yame
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
+
 
             deviceInteractableState.Claimed.OnValueChanged = HandleClaimChanged;
         }

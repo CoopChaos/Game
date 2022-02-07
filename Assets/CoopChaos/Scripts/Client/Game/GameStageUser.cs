@@ -43,17 +43,18 @@ namespace CoopChaos
             if (currentInteractable != null)
             {
                 api.InteractServerRpc(currentInteractable.NetworkObjectId);
-                if (currentInteractable is ClientSpaceshipControlInteractable)
+
+                switch (currentInteractable)
                 {
-                    spaceshipControlMenu.SetActive(!spaceshipControlMenu.activeSelf);
-                } 
-                else if (currentInteractable is ClientRadarInteractable)
-                {
-                    radarMenu.SetActive(!radarMenu.activeSelf);
-                }
-                else if (currentInteractable is ClientCannonInteractable)
-                {
-                    cannonControlMenu.SetActive(!cannonControlMenu.activeSelf);
+                    case ClientSpaceshipControlInteractable _:
+                        spaceshipControlMenu.SetActive(!spaceshipControlMenu.activeSelf);
+                        break;
+                    case ClientRadarInteractable _:
+                        radarMenu.SetActive(!radarMenu.activeSelf);
+                        break;
+                    case ClientCannonInteractable _:
+                        cannonControlMenu.SetActive(!cannonControlMenu.activeSelf);
+                        break;
                 }
             }
         }
@@ -82,10 +83,13 @@ namespace CoopChaos
 
         public void OnPause()
         {
-            if(pauseMenu.enabled) {
+            if (pauseMenu.enabled) 
+            {
                 moveInputAction.Enable();
                 interactInputAction.Enable();
-            } else {
+            } 
+            else
+            {
                 moveInputAction.Disable();
                 interactInputAction.Disable();
             }
