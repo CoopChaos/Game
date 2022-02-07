@@ -3,13 +3,13 @@ using UnityEngine.Assertions;
 
 namespace CoopChaos
 {
-    [RequireComponent(typeof(CannonInteractableState))]
-    public class ClientCannonInteractable : ClientInteractableObjectBase
+    [RequireComponent(typeof(CannonRoomState))]
+    public class ClientCannonRoom : ClientInteractableObjectBase
     {
         [SerializeField] private GameObject highlight;
         
         private GameObject cannonControlMenu;
-        private CannonInteractableState interactableState;
+        private CannonRoomState cannonRoomState;
         public override void Highlight()
         {
             highlight.SetActive(true);
@@ -25,7 +25,7 @@ namespace CoopChaos
         {
             base.OnNetworkSpawn();
 
-            interactableState.IsBlocked.OnValueChanged += HandleOpenChanged;
+            cannonRoomState.IsBlocked.OnValueChanged += HandleOpenChanged;
         }
         
         private void HandleOpenChanged(bool open, bool oldOpen)
@@ -36,10 +36,10 @@ namespace CoopChaos
         protected override void Awake()
         {
             base.Awake();
-            interactableState = GetComponent<CannonInteractableState>();
+            cannonRoomState = GetComponent<CannonRoomState>();
             cannonControlMenu = GameObject.Find("CannonControlMenu");
             
-            Assert.IsNotNull(interactableState);
+            Assert.IsNotNull(cannonRoomState);
             Assert.IsNotNull(cannonControlMenu);
             
         }

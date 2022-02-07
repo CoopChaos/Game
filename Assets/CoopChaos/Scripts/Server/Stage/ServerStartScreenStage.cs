@@ -20,7 +20,7 @@ namespace CoopChaos
         }
         private IEnumerator LoadSceneInTime(float time)
         {
-            yield return new WaitForSeconds(time);
+            yield return new WaitForSeconds(0);
             NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
         }
     }

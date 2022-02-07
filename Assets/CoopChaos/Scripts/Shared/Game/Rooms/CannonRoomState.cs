@@ -2,7 +2,7 @@ using Unity.Netcode;
 
 namespace CoopChaos
 {
-    public class SpaceshipControlInteractableState : InteractableObjectStateBase
+    public class CannonRoomState : InteractableObjectStateBase
     {
         private NetworkVariable<bool> isBlocked;
 
@@ -24,7 +24,7 @@ namespace CoopChaos
         
         private void HandleIsBlockedChanged(bool blocked, bool oldBlocked)
         {
-            // TODO: Show or don't show Spaceship Control
+            // TODO: Show or don't show Cannon Control
         }
     }
 }

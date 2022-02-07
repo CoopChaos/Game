@@ -1,17 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace CoopChaos
 {
-    [RequireComponent(typeof(SpaceshipControlInteractableState))]
-    public class ClientSpaceshipControlInteractable : ClientInteractableObjectBase
+    [RequireComponent(typeof(SpaceshipControlRoomState))]
+    public class ClientSpaceshipControlRoom : ClientInteractableObjectBase
     {
         [SerializeField] private GameObject highlight;
         
         private GameObject spaceshipControlMenu;
-        private SpaceshipControlInteractableState interactableState;
+        private SpaceshipControlRoomState spaceshipControlRoomState;
         public override void Highlight()
         {
             highlight.SetActive(true);
@@ -27,7 +25,7 @@ namespace CoopChaos
         {
             base.OnNetworkSpawn();
 
-            interactableState.IsBlocked.OnValueChanged += HandleOpenChanged;
+            spaceshipControlRoomState.IsBlocked.OnValueChanged += HandleOpenChanged;
         }
         
         private void HandleOpenChanged(bool open, bool oldOpen)
@@ -38,10 +36,10 @@ namespace CoopChaos
         protected override void Awake()
         {
             base.Awake();
-            interactableState = GetComponent<SpaceshipControlInteractableState>();
+            spaceshipControlRoomState = GetComponent<SpaceshipControlRoomState>();
             spaceshipControlMenu = GameObject.Find("SpaceshipControlMenu");
             
-            Assert.IsNotNull(interactableState);
+            Assert.IsNotNull(spaceshipControlRoomState);
             Assert.IsNotNull(spaceshipControlMenu);
             
         }
