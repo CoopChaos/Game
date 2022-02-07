@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CoopChaos.Simulation.Components;
 using CoopChaos.Simulation.Factories;
 using DefaultEcs;
 using UnityEngine;
@@ -34,6 +35,15 @@ namespace CoopChaos.Simulation
                 .Where(p => typeof(ISystem).IsAssignableFrom(p) && !p.IsInterface && !p.IsAbstract)
                 .Select(t => Activator.CreateInstance(t, world) as ISystem)
                 .ToList();
+        }
+
+        private void Update()
+        {
+            foreach (var system in systems)
+                system.Update(Time.deltaTime);
+
+            var spaceshipComponent = world.PlayerSpaceship.Value.Get<ObjectComponent>();
+            Debug.Log($"{spaceshipComponent.VelocityX} : {spaceshipComponent.X}");
         }
     }
 }

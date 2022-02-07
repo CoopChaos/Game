@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 namespace CoopChaos
 {
@@ -8,8 +10,12 @@ namespace CoopChaos
     {
         [SerializeField] private GameObject highlight;
         
+        [SerializeField] private ElasticSlider verticalSlider;
+        [SerializeField] private ElasticSlider horizontalSlider;
+
         private GameObject spaceshipControlMenu;
-        private SpaceshipControlRoomState spaceshipControlRoomState;
+        private SpaceshipControlRoomState state;
+        
         public override void Highlight()
         {
             highlight.SetActive(true);
@@ -25,7 +31,7 @@ namespace CoopChaos
         {
             base.OnNetworkSpawn();
 
-            spaceshipControlRoomState.IsBlocked.OnValueChanged += HandleOpenChanged;
+            state.IsBlocked.OnValueChanged += HandleOpenChanged;
         }
         
         private void HandleOpenChanged(bool open, bool oldOpen)
@@ -36,12 +42,25 @@ namespace CoopChaos
         protected override void Awake()
         {
             base.Awake();
-            spaceshipControlRoomState = GetComponent<SpaceshipControlRoomState>();
-            spaceshipControlMenu = GameObject.Find("SpaceshipControlMenu");
             
-            Assert.IsNotNull(spaceshipControlRoomState);
+            state = GetComponent<SpaceshipControlRoomState>();
+            spaceshipControlMenu = GameObject.Find("ControlMenu");
+            
+            Assert.IsNotNull(state);
             Assert.IsNotNull(spaceshipControlMenu);
+        }
+
+        private void Start()
+        {
             
+            state.InteractEvent += () =>
+            {
+                verticalSlider.value = state.VerticalSlider.Value;
+                horizontalSlider.value = state.HorizontalSlider.Value;
+            };
+            
+            verticalSlider.onValueChanged.AddListener(v => state.SetVerticalSliderServerRpc(v));
+            horizontalSlider.onValueChanged.AddListener(v => state.SetHorizontalSliderServerRpc(v));
         }
     }
 }

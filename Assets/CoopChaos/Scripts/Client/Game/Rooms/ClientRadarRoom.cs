@@ -85,13 +85,15 @@ namespace CoopChaos
         private void HandleAdd(RadarEntity value)
         {
             var rt = radarContainer.GetComponent<RectTransform>();
+            
             var elem = Instantiate(
                 radarPointPrefab, 
                 new Vector2(
-                    value.X + rt.rect.width * 0.5f,
-                    value.Y + rt.rect.height * 0.5f),
+                    value.X + rt.rect.width * 0.5f - radarRoomState.CenterX.Value,
+                    value.Y + rt.rect.height * 0.5f - radarRoomState.CenterY.Value),
                 Quaternion.identity,
                 radarContainer.transform);
+            
             elem.transform.SetParent(radarMenu.transform, false);
             elem.GetComponent<Image>().color = GetColor(value.Type);
             elem.transform.localScale = new Vector2(value.Size * 0.017f, value.Size * 0.017f);

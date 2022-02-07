@@ -43,6 +43,9 @@ namespace CoopChaos.Simulation.Systems
 
                 foreach (var entityB in entities.GetEntities())
                 {
+                    if (entitiyA.Equals(entityB))
+                        continue;
+                    
                     ref var ocB = ref entityB.Get<ObjectComponent>();
 
                     var dx = ocA.X - ocB.X;

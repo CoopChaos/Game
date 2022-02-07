@@ -6,10 +6,16 @@ namespace CoopChaos
 {
     public abstract class ServerInteractableObjectBase : NetworkBehaviour
     {
-        public abstract void Interact(ulong clientId);
+        private InteractableObjectStateBase state;
+        
+        public virtual void Interact(ulong clientId)
+        {
+            state.InteractClientRpc();
+        }
 
         protected virtual void Start()
         {
+            state = GetComponent<InteractableObjectStateBase>();
             FindObjectOfType<ServerGameStage>().RegisterInteractableObject(this);
         }
     }

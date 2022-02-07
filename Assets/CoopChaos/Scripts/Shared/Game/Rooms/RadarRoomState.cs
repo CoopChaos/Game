@@ -1,11 +1,18 @@
 using Unity.Netcode;
+using UnityEngine;
 
 namespace CoopChaos
 {
     public class RadarRoomState : InteractableObjectStateBase
     {
         private NetworkVariable<bool> isBlocked;
+        
+        private NetworkVariable<float> centerX;
+        private NetworkVariable<float> centerY;
+
         public NetworkVariable<bool> IsBlocked => isBlocked;
+        public NetworkVariable<float> CenterX => centerX;
+        public NetworkVariable<float> CenterY => centerY;
 
         private NetworkList<RadarEntity> radarEntities;
         public NetworkList<RadarEntity> RadarEntities => radarEntities;
@@ -25,6 +32,8 @@ namespace CoopChaos
             
             radarEntities = new NetworkList<RadarEntity>();
             isBlocked = new NetworkVariable<bool>(false);
+            centerX = new NetworkVariable<float>();
+            centerY = new NetworkVariable<float>();
         }
     }
 }

@@ -72,6 +72,9 @@ namespace CoopChaos
             var spaceship = simulation.World.PlayerSpaceship;
             ref var spaceshipObject = ref spaceship.Value.Get<ObjectComponent>();
 
+            radarState.CenterX.Value = spaceshipObject.X;
+            radarState.CenterY.Value = spaceshipObject.Y;
+
             int i = 0;
             int j = 0;
             
