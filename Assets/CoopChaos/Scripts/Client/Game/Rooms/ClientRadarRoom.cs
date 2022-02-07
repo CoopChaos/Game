@@ -1,8 +1,9 @@
 using System.Collections.Generic;
-using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
+using CoopChaos.Simulation.Components;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 namespace CoopChaos
 {
@@ -92,7 +93,24 @@ namespace CoopChaos
                 Quaternion.identity,
                 radarContainer.transform);
             elem.transform.SetParent(radarMenu.transform, false);
+            elem.GetComponent<Image>().color = GetColor(value.Type);
+            elem.transform.localScale = new Vector2(value.Size * 0.017f, value.Size * 0.017f);
             radarObjects.Add(elem);
+        }
+
+        private Color GetColor(DetectionType type)
+        {
+            switch (type)
+            {
+                case DetectionType.AliveShipObject:
+                    return Color.green;
+                case DetectionType.AliveProjectileObject:
+                    return Color.red;
+                case DetectionType.NaturalDeadObject:
+                    return Color.yellow;
+                default:
+                    return Color.white;
+            }
         }
         
         private void HandleRemove(int index)

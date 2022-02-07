@@ -88,7 +88,7 @@ namespace CoopChaos
                 {
                     ++i;
                     ref var entityDetectionType = ref entity.Get<DetectionTypeComponent>();
-                    radarState.RadarEntities.Add(new RadarEntity(entityObject.X, entityObject.Y, entityDetectionType.Type));
+                    radarState.RadarEntities.Add(new RadarEntity(entityObject.X, entityObject.Y, entityDetectionType.Type, entityObject.Size));
                 }
                 else
                 {
