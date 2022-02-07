@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
 using Unity.Netcode;
@@ -7,29 +6,50 @@ using UnityEngine.Assertions;
 
 namespace CoopChaos
 {
-    public class ClientRadar : NetworkBehaviour
+    [RequireComponent(typeof(RadarRoomState))]
+    public class ClientRadarRoom : ClientInteractableObjectBase
     {
-        [SerializeField] private GameObject radarPointPrefab;
+        [SerializeField] private GameObject highlight;
         [SerializeField] private GameObject radarContainer;
-
-        private RadarState radarState;
+        [SerializeField] private GameObject radarPointPrefab;
+        
         private GameObject radarMenu;
+        private RadarRoomState radarRoomState;
         private List<GameObject> radarObjects;
 
         public override void OnNetworkSpawn()
-        {
-            if (!IsClient)
-            {
-                enabled = false;
-                return;
-            }
-            
-            radarState.RadarEntities.OnListChanged += HandleListChanged;
+        {        
+            base.OnNetworkSpawn();
 
-            foreach (var entity in radarState.RadarEntities)
+            radarRoomState.IsBlocked.OnValueChanged += HandleOpenChanged;
+
+            radarRoomState.RadarEntities.OnListChanged += HandleListChanged;
+
+            foreach (var entity in radarRoomState.RadarEntities)
             {
                 HandleAdd(entity);
             }
+        }
+
+        protected override void Awake()
+        {
+            radarMenu = GameObject.Find("RadarMenu");
+            radarRoomState = GetComponent<RadarRoomState>();
+            radarObjects = new List<GameObject>();
+            
+            Assert.IsNotNull(radarMenu);
+            Assert.IsNotNull(radarRoomState);
+        }
+
+        public override void Highlight()
+        {
+            highlight.SetActive(true);
+        }
+        
+        public override void Unhighlight()
+        {
+            highlight.SetActive(false);
+            radarMenu.SetActive(false);
         }
 
         private void HandleListChanged(NetworkListEvent<RadarEntity> changeEvent)
@@ -86,14 +106,9 @@ namespace CoopChaos
             radarObjects[index].transform.localPosition = new Vector2(value.X, value.X);
         }
 
-        private void Awake()
+        private void HandleOpenChanged(bool open, bool oldOpen)
         {
-            radarMenu = GameObject.Find("RadarMenu");
-            radarState = GetComponent<RadarState>();
-            radarObjects = new List<GameObject>();
             
-            Assert.IsNotNull(radarMenu);
-            Assert.IsNotNull(radarState);
         }
     }
 }

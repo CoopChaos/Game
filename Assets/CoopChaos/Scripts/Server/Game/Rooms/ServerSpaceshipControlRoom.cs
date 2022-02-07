@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace CoopChaos
 {
-    [RequireComponent(typeof(CannonInteractableState))]
-    public class ServerCannonInteractable : ServerInteractableObjectBase
+    [RequireComponent(typeof(SpaceshipControlRoomState))]
+    public class ServerSpaceshipControlRoom : ServerInteractableObjectBase
     {
-        private CannonInteractableState interactableState;
+        private SpaceshipControlRoomState interactableState;
         public override void Interact(ulong clientId)
         {
             
@@ -16,7 +14,7 @@ namespace CoopChaos
         
         private void Awake()
         {
-            interactableState = GetComponent<CannonInteractableState>();
+            interactableState = GetComponent<SpaceshipControlRoomState>();
             Assert.IsNotNull(interactableState);
         }
 

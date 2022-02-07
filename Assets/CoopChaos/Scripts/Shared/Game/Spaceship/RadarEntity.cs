@@ -2,7 +2,7 @@ using System;
 using CoopChaos.Simulation.Components;
 using Unity.Netcode;
 
-namespace CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship
+namespace CoopChaos
 {
     public struct 
     RadarEntity : INetworkSerializable, IEquatable<RadarEntity>

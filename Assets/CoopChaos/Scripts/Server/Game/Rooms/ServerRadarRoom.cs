@@ -1,86 +1,109 @@
+using System.Collections;
 using CoopChaos.Simulation;
 using CoopChaos.Simulation.Components;
-using CoopChaos.Simulation.Factories;
 using DefaultEcs;
 using UnityEngine;
-using Unity.Netcode;
 using UnityEngine.Assertions;
-using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
 
-namespace CoopChaos.Rooms
+namespace CoopChaos
 {
-    [RequireComponent(typeof(RadarState))]
-    public class ServerRadarRoom : NetworkBehaviour
+    [RequireComponent(typeof(RadarRoomState))]
+    public class ServerRadarRoom : ServerInteractableObjectBase
     {
-        private RadarState radarState;
-
+        private RadarRoomState radarState;
         private SimulationBehaviour simulation;
-        private float lastTime = 0f;
-
         private EntitySet entities;
-        private EntitySet playerSpaceship;
 
+        private Coroutine radarScanCoroutine;
 
         public override void OnNetworkSpawn()
         {
-            if(!IsServer)
+            if (!IsServer)
             {
                 enabled = false;
                 return;
             }
+
+            entities = simulation.World.Native
+                .GetEntities()
+                .With<ObjectComponent>()
+                .With<DetectionTypeComponent>()
+                .AsSet();
+
+            radarScanCoroutine = StartCoroutine(RadarScanCoroutine());
         }
 
-        private void Start()
+        public override void OnNetworkDespawn()
         {
-            radarState = GetComponent<RadarState>();
+            if (radarScanCoroutine != null)
+                StopCoroutine(radarScanCoroutine);
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+            Debug.Log("ServerRadarRoom.Start");
+        }
+
+        private void Awake()
+        {
+            Debug.Log("ServerRadarRoom.Awake");
+            radarState = GetComponent<RadarRoomState>();
             Assert.IsNotNull(radarState);
 
-            
             simulation = FindObjectOfType<SimulationBehaviour>();
-            
-            entities = simulation.World.Native.GetEntities()
-                .With<ObjectComponent>()
-                .AsSet();
-            
-            playerSpaceship = simulation.World.Native.GetEntities()
-                .With<PlayerSpaceshipComponent>()
-                .AsSet();
+            Assert.IsNotNull(simulation);
+
         }
 
-        private void Update()
-        {   
-            // run 10 times per second depending on lastTime
-            if (Time.time - lastTime > 0.1f)
+        private IEnumerator RadarScanCoroutine()
+        {
+            while (true)
             {
-                lastTime = Time.time;
-
-                if (playerSpaceship.TryGetSingleEntity(out var spaceship))
-                {
-                    // clear radar list
-                    radarState.RadarEntities.Clear();
-                    ref var spaceshipOc = ref spaceship.Get<ObjectComponent>();
-                
-                    foreach (var entity in entities.GetEntities())
-                    {
-                        ref var entityOc = ref entity.Get<ObjectComponent>();
-                        ref var entityDetectionType = ref entity.Get<DetectionTypeComponent>();
-
-                        var dx = spaceshipOc.X - entityOc.X;
-                        var dy = spaceshipOc.Y - entityOc.Y;
-                    
-                        var distance = Mathf.Sqrt(dx * dx + dy * dy);
-                    
-                        if (distance < 10f)
-                        {
-                            // add to radar list
-                            radarState.RadarEntities.Add(new RadarEntity(dx, dy, entityDetectionType.Type));
-                            
-                            // offset position by spaceship position
-
-                        }
-                    }
-                }
+                UpdateRadarEntities();
+                yield return new WaitForSeconds(0.5f);
             }
         }
+
+        private void UpdateRadarEntities()
+        {
+            radarState.RadarEntities.Clear();
+
+            var spaceship = simulation.World.PlayerSpaceship;
+            ref var spaceshipObject = ref spaceship.Value.Get<ObjectComponent>();
+
+            int i = 0;
+            int j = 0;
+            
+            foreach (var entity in entities.GetEntities())
+            {
+                ref var entityObject = ref entity.Get<ObjectComponent>();
+
+                var dx = spaceshipObject.X - entityObject.X;
+                var dy = spaceshipObject.Y - entityObject.Y;
+
+                var distance = Mathf.Sqrt(dx * dx + dy * dy);
+
+                if (radarState.RadarMaxRange > distance)
+                {
+                    ++i;
+                    ref var entityDetectionType = ref entity.Get<DetectionTypeComponent>();
+                    radarState.RadarEntities.Add(new RadarEntity(entityObject.X, entityObject.Y, entityDetectionType.Type));
+                }
+                else
+                {
+                    ++j;
+                }
+            }
+            
+            Debug.Log($"++{i} sync --{j}");
+        }
+        
+        public override void Interact(ulong clientId)
+        {
+            
+        }
+
+
     }
 }

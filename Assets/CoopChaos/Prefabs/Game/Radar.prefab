@@ -91,11 +91,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2217107214532863667}
-  - component: {fileID: 2217107214532863670}
-  - component: {fileID: 2217107214532863669}
-  - component: {fileID: 2217107214532863668}
   - component: {fileID: 7148043043345255311}
   - component: {fileID: -7456170683805473788}
+  - component: {fileID: 6242133142728503484}
+  - component: {fileID: 4635120697235154933}
+  - component: {fileID: 2800810543660720402}
   m_Layer: 0
   m_Name: Radar
   m_TagString: Untagged
@@ -119,43 +119,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2217107214532863670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2217107214532863666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da5567dda7b04a8b8ef13e5f0ad9c751, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2217107214532863669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2217107214532863666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e70211841c3143c4bdc77c73def97493, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlight: {fileID: 2217107213524844966}
---- !u!114 &2217107214532863668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2217107214532863666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5356e58e25ce4edc816f40a8c79d6b27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &7148043043345255311
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -188,6 +151,45 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &6242133142728503484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2217107214532863666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eb86ec7403440a782414998be6dacf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4635120697235154933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2217107214532863666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e43c44981fd80f243800547325f315b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlight: {fileID: 2217107213524844966}
+  radarContainer: {fileID: 0}
+  radarPointPrefab: {fileID: 0}
+--- !u!114 &2800810543660720402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2217107214532863666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e7bd56dea684807bfbf05dc9feaaefd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2217107215032959787
 GameObject:
   m_ObjectHideFlags: 0

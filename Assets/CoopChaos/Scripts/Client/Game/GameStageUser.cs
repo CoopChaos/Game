@@ -1,5 +1,4 @@
 using System;
-using CoopChaos.CoopChaos.Scripts.Client.Game.Spaceship;
 using CoopChaos.Shared;
 using Unity.Netcode;
 using UnityEditor.PackageManager;
@@ -43,15 +42,15 @@ namespace CoopChaos
             if (currentInteractable != null)
             {
                 api.InteractServerRpc(currentInteractable.NetworkObjectId);
-                if (currentInteractable is ClientSpaceshipControlInteractable)
+                if (currentInteractable is ClientSpaceshipControlRoom)
                 {
                     spaceshipControlMenu.SetActive(!spaceshipControlMenu.activeSelf);
                 } 
-                else if (currentInteractable is ClientRadarInteractable)
+                else if (currentInteractable is ClientRadarRoom)
                 {
                     radarMenu.SetActive(!radarMenu.activeSelf);
                 }
-                else if (currentInteractable is ClientCannonInteractable)
+                else if (currentInteractable is ClientCannonRoom)
                 {
                     cannonControlMenu.SetActive(!cannonControlMenu.activeSelf);
                 }
