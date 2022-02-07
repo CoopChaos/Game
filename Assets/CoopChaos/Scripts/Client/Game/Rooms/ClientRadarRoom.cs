@@ -96,7 +96,7 @@ namespace CoopChaos
             
             elem.transform.SetParent(radarMenu.transform, false);
             elem.GetComponent<Image>().color = GetColor(value.Type);
-            elem.transform.localScale = new Vector2(value.Size * 0.017f, value.Size * 0.017f);
+            elem.transform.localScale = new Vector2(value.Size * 0.034f, value.Size * 0.034f);
             radarObjects.Add(elem);
         }
 

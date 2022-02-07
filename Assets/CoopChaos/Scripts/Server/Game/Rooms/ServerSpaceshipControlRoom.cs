@@ -8,8 +8,8 @@ namespace CoopChaos
     [RequireComponent(typeof(SpaceshipControlRoomState))]
     public class ServerSpaceshipControlRoom : ServerInteractableObjectBase
     {
-        private const float VerticalMaxSpeed = 200.0f;
-        private const float HorizontalMaxSpeed = 50.0f;
+        private const float VerticalMaxSpeed = 50.0f;
+        private const float HorizontalMaxSpeed = 30.0f;
         
         private SpaceshipControlRoomState interactableState;
         private SimulationBehaviour simulation;
