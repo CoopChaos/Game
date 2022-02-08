@@ -6,7 +6,7 @@ namespace CoopChaos.Simulation.Factories
     public static class ProjectileFactory
     {
         private const float DefaultSize = 0.1f;
-        private const float DefaultMass = 1f;
+        private const float DefaultMass = 1000f;
         public static Entity CreateProjectile(this CoopChaosWorld world, ref ObjectComponent source, float velocity, float angle, float damage, float range)
         {
             var entity = world.Native.CreateEntity();
