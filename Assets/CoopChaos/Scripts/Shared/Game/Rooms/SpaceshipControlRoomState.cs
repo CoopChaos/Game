@@ -22,14 +22,14 @@ namespace CoopChaos
             isBlocked.OnValueChanged += HandleIsBlockedChanged;
         }
 
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         public void SetVerticalSliderServerRpc(float value)
         {
             verticalSlider.Value = value;
             server.SetVertical(value);
         }
         
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         public void SetHorizontalSliderServerRpc(float value)
         {
             horizontalSlider.Value = value;
