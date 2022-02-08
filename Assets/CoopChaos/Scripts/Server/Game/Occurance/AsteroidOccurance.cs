@@ -11,17 +11,22 @@ namespace CoopChaos
     [Occurance(OccuranceType.Asteroid)]
     public class AsteroidOccurance : IOccurance
     {
+        private const float offset = 300;
+        
         private SimulationBehaviour simulation;
         private AsteroidOccuranceDescription description;
         private SimulationBehaviour simulationBehaviour;
 
         private EntitySet asteroids;
-        private float lastLayerY;
+        private float yEnd;
 
         public AsteroidOccurance(OccuranceDescription description)
         {
             this.description = (AsteroidOccuranceDescription)description;
         }
+        
+        public string Title => description.Title;
+        public string Description => description.Description;
         
         public void Start(SimulationBehaviour simulation)
         {
@@ -32,10 +37,10 @@ namespace CoopChaos
 
             var layers = description.Length / (description.MaxAsteroidSize + description.DistanceBetweenAsteroids);
 
-            var leftBound = spaceshipObject.X - 1000;
-            var rightBound = spaceshipObject.X + 1000;
+            var leftBound = spaceshipObject.X - 5000;
+            var rightBound = spaceshipObject.X + 5000;
 
-            var yOffset = 50;
+            var yStart = offset + spaceshipObject.Y;
 
             var random = new Random();
 
@@ -50,20 +55,18 @@ namespace CoopChaos
                      x += (description.MaxAsteroidSize + description.DistanceBetweenAsteroids))
                 {
                     ++i;
-                    var asteroid = simulation.World.CreateAsteroid(x, y + yOffset, spaceshipObject.Mass / 2.0f, 
+                    var asteroid = simulation.World.CreateAsteroid(x, y + yStart, spaceshipObject.Mass / 2.0f, 
                         (float)(random.NextDouble() * (description.MaxAsteroidSize - description.MinAsteroidSize) + description.MinAsteroidSize));
                     
                     asteroid.Set<HiddenAsteroidComponent>();
                 }
             }
             
-            Debug.Log($"SPAWN {i}");
-
             asteroids = simulation.World.Native.GetEntities()
                 .With<HiddenAsteroidComponent>()
                 .AsSet();
 
-            lastLayerY = (layers + 1) * (description.MaxAsteroidSize + description.DistanceBetweenAsteroids);
+            yEnd = offset + yStart + (layers + 1) * (description.MaxAsteroidSize + description.DistanceBetweenAsteroids);
         }
 
         public bool Update()
@@ -71,7 +74,7 @@ namespace CoopChaos
             var spaceship = simulation.World.PlayerSpaceship;
             ref var spaceshipObject = ref spaceship.Value.Get<ObjectComponent>();
 
-            return spaceshipObject.Y > lastLayerY;
+            return spaceshipObject.Y < yEnd;
         }
 
         public void Remove()

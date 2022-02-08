@@ -11,13 +11,17 @@ namespace CoopChaos
         [SerializeField] private GameObject cannonControlMenu;
 
         private CannonRoomState cannonRoomState;
+        private bool highlighted = false;
+
         public override void Highlight()
         {
+            highlighted = true;
             highlight.SetActive(true);
         }
-        
+
         public override void Unhighlight()
         {
+            highlighted = false;
             highlight.SetActive(false);
             cannonControlMenu.SetActive(false);
         }
@@ -30,7 +34,7 @@ namespace CoopChaos
 
             cannonRoomState.InteractEvent += user =>
             {
-                if(user == NetworkManager.Singleton.LocalClientId)
+                if (user == NetworkManager.Singleton.LocalClientId && highlighted)
                     cannonControlMenu.SetActive(!cannonControlMenu.activeSelf);
             };
         }

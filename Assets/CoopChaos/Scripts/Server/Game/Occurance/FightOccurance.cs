@@ -8,11 +8,14 @@ namespace CoopChaos
     public class FightOccurance : IOccurance
     {
         private OccuranceDescription description;
-
+        
         public FightOccurance(OccuranceDescription description)
         {
             this.description = description;
         }
+        
+        public string Title => description.Title;
+        public string Description => description.Description;
         
         public void Start(SimulationBehaviour simulation)
         {
@@ -20,12 +23,11 @@ namespace CoopChaos
 
         public bool Update()
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         public void Remove()
         {
-            throw new System.NotImplementedException();
         }
     }
 }

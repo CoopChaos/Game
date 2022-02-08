@@ -26,4 +26,4 @@ MonoBehaviour:
   - Depth: 1
     UseCases:
     - ProportionalChance: 0
-      OccuranceDescription: {fileID: 11400000, guid: 71914f5c64a97e4428a2179d41999340, type: 2}
+      OccuranceDescription: {fileID: 11400000, guid: 35a31db9f5a032f4a996a61b234b5b4a, type: 2}

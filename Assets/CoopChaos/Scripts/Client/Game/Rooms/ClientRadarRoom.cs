@@ -19,7 +19,21 @@ namespace CoopChaos
 
         private RadarRoomState radarRoomState;
         private List<GameObject> radarObjects;
+        
+        private bool highlighted = false;
 
+        public override void Highlight()
+        {
+            highlighted = true;
+            highlight.SetActive(true);
+        }
+
+        public override void Unhighlight()
+        {
+            highlighted = false;
+            highlight.SetActive(false);
+            radarMenu.SetActive(false);
+        }
         public override void OnNetworkSpawn()
         {        
             base.OnNetworkSpawn();
@@ -41,22 +55,11 @@ namespace CoopChaos
             
             radarRoomState.InteractEvent += user =>
             {
-                if(user == NetworkManager.Singleton.LocalClientId)
+                if(user == NetworkManager.Singleton.LocalClientId && highlighted)
                     radarMenu.SetActive(!radarMenu.activeSelf);
             };
 
             Assert.IsNotNull(radarRoomState);
-        }
-
-        public override void Highlight()
-        {
-            highlight.SetActive(true);
-        }
-        
-        public override void Unhighlight()
-        {
-            highlight.SetActive(false);
-            radarMenu.SetActive(false);
         }
 
         private void HandleListChanged(NetworkListEvent<RadarEntity> changeEvent)
@@ -102,7 +105,7 @@ namespace CoopChaos
                 radarContainer.transform);
             
             elem.GetComponent<Image>().color = GetColor(value.Type);
-            elem.transform.localScale = new Vector2(value.Size * 0.034f, value.Size * 0.034f);
+            elem.GetComponent<RectTransform>().sizeDelta = new Vector2(value.Size * r * 12, value.Size * r * 12);
 
             elem.GetComponent<RectTransform>().position = new Vector3(
                 (value.X - radarRoomState.CenterX.Value) * r + parent.rect.width * 0.5f, 

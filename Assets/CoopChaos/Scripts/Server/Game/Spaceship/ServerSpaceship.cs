@@ -7,6 +7,7 @@ using CoopChaos.Simulation.Events;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 
 namespace CoopChaos
 {
@@ -46,6 +47,11 @@ namespace CoopChaos
         {
             ref var oc = ref e.Entity.Get<ObjectComponent>();
             spaceshipState.Health.Value = oc.Health;
+
+            if (spaceshipState.Health.Value < 0)
+            {
+                NetworkManager.Singleton.SceneManager.LoadScene("GameOverDie", LoadSceneMode.Single);
+            }
         }
     }
 }

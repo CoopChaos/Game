@@ -20,4 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/CoopChaos/Scenes/Stage/StartScreen.unity
     guid: d06566ee3c65c3a899e230ddfae18edc
+  - enabled: 1
+    path: Assets/CoopChaos/Scenes/Stage/GameOver.unity
+    guid: aa794c7df52d98b479a94282b5fd62e3
+  - enabled: 1
+    path: Assets/CoopChaos/Scenes/Stage/GameOverDie.unity
+    guid: e310fb85d28cf8e45bea5439fed14aad
   m_configObjects: {}

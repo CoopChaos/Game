@@ -21,4 +21,22 @@ namespace CoopChaos
         public static implicit operator string(NetworkString s) => s.ToString();
         public static implicit operator NetworkString(string s) => new NetworkString() { value = new FixedString32Bytes(s) };
     }
+    
+    public struct NetworkStringLarge : INetworkSerializable
+    {
+        private FixedString4096Bytes value;
+        
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            serializer.SerializeValue(ref value);
+        }
+
+        public override string ToString()
+        {
+            return value.ToString();
+        }
+
+        public static implicit operator string(NetworkStringLarge s) => s.ToString();
+        public static implicit operator NetworkStringLarge(string s) => new NetworkStringLarge() { value = new FixedString4096Bytes(s) };
+    }
 }

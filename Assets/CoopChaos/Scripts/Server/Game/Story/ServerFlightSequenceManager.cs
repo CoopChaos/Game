@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CoopChaos.Simulation;
 using DefaultNamespace;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Random = System.Random;
@@ -17,6 +18,9 @@ namespace CoopChaos
         private SimulationBehaviour simulation;
 
         private StoryState state;
+
+        public event Action<IOccurance> NewOccuranceEvent; 
+        public event Action FlightSequenceFinishedEvent;
 
         public void LoadFlightSequence(FlightSequenceDescription flightSequence)
         {
@@ -40,6 +44,8 @@ namespace CoopChaos
 
             runningOccurance = OccuranceFactory.Create(DetermineOccurance(flightSequence.UseCases));
             runningOccurance.Start(simulation);
+            
+            NewOccuranceEvent?.Invoke(runningOccurance);
         }
         
         private OccuranceDescription DetermineOccurance(OccuranceUseCase[] useCase)
@@ -77,11 +83,13 @@ namespace CoopChaos
                 var finished = runningOccurance.Update();
                 if (finished == false)
                 {
+                    Debug.Log("TESTTEST");
                     ++depthProgress;
-                    
+                    state.FlighsequenceProgress.Value = (float) flightSequence.Depth / depthProgress;
+
                     if (IsFlightSequenceFinished())
                     {
-                        state.FlighsequenceProgress.Value = (float) flightSequence.Depth / depthProgress;
+                        FlightSequenceFinishedEvent?.Invoke();
                     }
                     else
                     {

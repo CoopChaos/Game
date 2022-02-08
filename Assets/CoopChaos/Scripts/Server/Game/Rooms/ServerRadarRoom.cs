@@ -7,7 +7,6 @@ using UnityEngine.Assertions;
 
 namespace CoopChaos
 {
-    [RequireComponent(typeof(RadarRoomState))]
     public class ServerRadarRoom : ServerInteractableObjectBase
     {
         private RadarRoomState radarState;
@@ -75,9 +74,6 @@ namespace CoopChaos
             radarState.CenterX.Value = spaceshipObject.X;
             radarState.CenterY.Value = spaceshipObject.Y;
 
-            int i = 0;
-            int j = 0;
-            
             foreach (var entity in entities.GetEntities())
             {
                 ref var entityObject = ref entity.Get<ObjectComponent>();
@@ -89,24 +85,15 @@ namespace CoopChaos
 
                 if (radarState.RadarMaxRange > (distance + entityObject.Size))
                 {
-                    ++i;
                     ref var entityDetectionType = ref entity.Get<DetectionTypeComponent>();
                     radarState.RadarEntities.Add(new RadarEntity(entityObject.X, entityObject.Y, entityDetectionType.Type, entityObject.Size));
                 }
-                else
-                {
-                    ++j;
-                }
             }
-            
-            Debug.Log($"++{i} sync --{j}");
         }
         
         public override void Interact(ulong clientId)
         {
             base.Interact(clientId);
         }
-
-
     }
 }

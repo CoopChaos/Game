@@ -6,5 +6,8 @@ namespace CoopChaos
     public class OccuranceDescription : ScriptableObject
     {
         public OccuranceType OccuranceType;
+
+        public string Title;
+        public string Description;
     }
 }

@@ -9,5 +9,8 @@ namespace CoopChaos
         void Start(SimulationBehaviour simulation);
         bool Update();
         void Remove();
+        
+        public string Title { get; }
+        public string Description { get; }
     }
 }

@@ -16,14 +16,17 @@ namespace CoopChaos
 
         [SerializeField] private GameObject spaceshipControlMenu;
         private SpaceshipControlRoomState state;
-        
+        private bool highlighted = false;
+
         public override void Highlight()
         {
+            highlighted = true;
             highlight.SetActive(true);
         }
-        
+
         public override void Unhighlight()
         {
+            highlighted = false;
             highlight.SetActive(false);
             spaceshipControlMenu.SetActive(false);
         }
@@ -36,7 +39,7 @@ namespace CoopChaos
 
             state.InteractEvent += user =>
             {
-                if(user == NetworkManager.Singleton.LocalClientId)
+                if(user == NetworkManager.Singleton.LocalClientId && highlighted)
                     spaceshipControlMenu.SetActive(!spaceshipControlMenu.activeSelf);
             };
         }

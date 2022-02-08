@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f250a3e3d6d9415f984f9036cb45f189, type: 3}
-  m_Name: DefaultAsteroidOccurance
+  m_Name: DefaultAsteroidOccuranceLarge
   m_EditorClassIdentifier: 
   OccuranceType: 0
   Title: Asteroidenhagel
   Description: "Es ist ein Asteroidenhagel aufgetaucht. Es handelt sich um einige
-    Mittelgro\xDFe Asteroiden"
+    sehr gro\xDFe Asteroiden"
   Length: 400
-  MinAsteroidSize: 10
-  MaxAsteroidSize: 30
+  MinAsteroidSize: 20
+  MaxAsteroidSize: 50
   DistanceBetweenAsteroids: 60
