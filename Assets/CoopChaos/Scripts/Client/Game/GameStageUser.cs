@@ -19,8 +19,7 @@ namespace CoopChaos
 
         private GameStageUserApi api;
         private ClientInteractableObjectBase currentInteractable;
-        private SpaceshipState spaceshipState;
-
+        
         private Rigidbody2D rigidbody;
         private Vector2 movement;
         private InputAction moveInputAction;
@@ -58,10 +57,7 @@ namespace CoopChaos
                 
                 return;
             }
-            
-            spaceshipState = FindObjectOfType<SpaceshipState>();
-            Assert.IsNotNull(spaceshipState);
-            
+
             moveInputAction = playerInput.actions["move"];
             interactInputAction = playerInput.actions["interact"];
             pauseInputAction = playerInput.actions["pause"];
