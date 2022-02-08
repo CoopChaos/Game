@@ -24,7 +24,7 @@ namespace CoopChaos
     
     public struct NetworkStringLarge : INetworkSerializable
     {
-        private FixedString4096Bytes value;
+        private FixedString512Bytes value;
         
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
@@ -37,6 +37,6 @@ namespace CoopChaos
         }
 
         public static implicit operator string(NetworkStringLarge s) => s.ToString();
-        public static implicit operator NetworkStringLarge(string s) => new NetworkStringLarge() { value = new FixedString4096Bytes(s) };
+        public static implicit operator NetworkStringLarge(string s) => new NetworkStringLarge() { value = new FixedString512Bytes(s) };
     }
 }
