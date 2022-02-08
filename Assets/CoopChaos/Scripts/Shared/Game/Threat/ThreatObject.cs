@@ -27,14 +27,20 @@ namespace Yame.Threat
         private String[] threatObjectivesString;
         
         [ClientRpc]
-        public void CommunicateTaskInfosToClientClientRpc(
-            String title,
-            String description)
+        public void CommunicateTaskInfosToClientClientRpc(String title, String description)
         {
             this.threatName = title;
             this.threatDescription = description;
             // this.threatObjectivesString = objectives;
         }
 
+        protected override void Awake()
+        {
+            base.Awake();
+
+            timeConstrained = new NetworkVariable<bool>();
+            timeToSolve = new NetworkVariable<float>();
+            finished = new NetworkVariable<bool>();
+        }
     }
 }

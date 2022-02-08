@@ -27,8 +27,9 @@ namespace Yame
             }
         }
 
-        protected void Awake()
+        protected override void Start()
         {
+            base.Start();
             deviceInteractableState = GetComponent<DeviceInteractableBaseState>();
             Assert.IsNotNull(deviceInteractableState);
             
