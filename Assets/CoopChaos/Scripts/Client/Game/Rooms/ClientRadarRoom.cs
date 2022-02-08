@@ -15,8 +15,8 @@ namespace CoopChaos
         [SerializeField] private GameObject highlight;
         [SerializeField] private GameObject radarContainer;
         [SerializeField] private GameObject radarPointPrefab;
+        [SerializeField] private GameObject radarMenu;
 
-        private GameObject radarMenu;
         private RadarRoomState radarRoomState;
         private List<GameObject> radarObjects;
 
@@ -36,11 +36,14 @@ namespace CoopChaos
 
         protected override void Awake()
         {
-            radarMenu = GameObject.Find("RadarMenu");
             radarRoomState = GetComponent<RadarRoomState>();
             radarObjects = new List<GameObject>();
             
-            Assert.IsNotNull(radarMenu);
+            radarRoomState.InteractEvent += user =>
+            {
+                radarMenu.SetActive(!radarMenu.activeSelf);
+            };
+
             Assert.IsNotNull(radarRoomState);
         }
 

@@ -104,7 +104,7 @@ namespace CoopChaos
         
         public override void Interact(ulong clientId)
         {
-            
+            base.Interact(clientId);
         }
 
 

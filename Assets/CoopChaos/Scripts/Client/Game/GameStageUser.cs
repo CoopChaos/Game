@@ -149,7 +149,6 @@ namespace CoopChaos
             spaceshipState = FindObjectOfType<SpaceshipState>();
             rigidbody = GetComponent<Rigidbody2D>();
             
-            Assert.IsNotNull(pauseMenu);
             Assert.IsNotNull(api);
             Assert.IsNotNull(spaceshipState);
             Assert.IsNotNull(rigidbody);

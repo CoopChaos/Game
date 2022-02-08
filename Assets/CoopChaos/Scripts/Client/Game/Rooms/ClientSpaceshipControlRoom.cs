@@ -13,7 +13,7 @@ namespace CoopChaos
         [SerializeField] private ElasticSlider verticalSlider;
         [SerializeField] private ElasticSlider horizontalSlider;
 
-        private GameObject spaceshipControlMenu;
+        [SerializeField] private GameObject spaceshipControlMenu;
         private SpaceshipControlRoomState state;
         
         public override void Highlight()
@@ -32,6 +32,11 @@ namespace CoopChaos
             base.OnNetworkSpawn();
 
             state.IsBlocked.OnValueChanged += HandleOpenChanged;
+
+            state.InteractEvent += user =>
+            {
+                spaceshipControlMenu.SetActive(!spaceshipControlMenu.activeSelf);
+            };
         }
         
         private void HandleOpenChanged(bool open, bool oldOpen)
@@ -44,10 +49,8 @@ namespace CoopChaos
             base.Awake();
             
             state = GetComponent<SpaceshipControlRoomState>();
-            spaceshipControlMenu = GameObject.Find("ControlMenu");
             
             Assert.IsNotNull(state);
-            Assert.IsNotNull(spaceshipControlMenu);
         }
 
         private void Start()

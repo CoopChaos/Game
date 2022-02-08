@@ -6,10 +6,9 @@ namespace CoopChaos
     [RequireComponent(typeof(CannonRoomState))]
     public class ClientCannonRoom : ClientInteractableObjectBase
     {
-        [SerializeField] private GameObject menu;
         [SerializeField] private GameObject highlight;
-        
-        private GameObject cannonControlMenu;
+        [SerializeField] private GameObject cannonControlMenu;
+
         private CannonRoomState cannonRoomState;
         public override void Highlight()
         {
@@ -31,7 +30,7 @@ namespace CoopChaos
             cannonRoomState.InteractEvent += user =>
             {
                 
-                menu.SetActive(true);
+                cannonControlMenu.SetActive(!cannonControlMenu.activeSelf);
             };
         }
         
@@ -44,10 +43,8 @@ namespace CoopChaos
             base.Awake();
             
             cannonRoomState = GetComponent<CannonRoomState>();
-            cannonControlMenu = GameObject.Find("CannonControlMenu");
             
             Assert.IsNotNull(cannonRoomState);
-            Assert.IsNotNull(cannonControlMenu);
             
         }
     }
