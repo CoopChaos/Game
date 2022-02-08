@@ -8,11 +8,11 @@ namespace CoopChaos
     public class PullUpSpecificSlider : BaseThreatMinigame
     {
         Slider chosen;
+        [SerializeField] Slider[] sliders;
     
         public override void StartMinigame()
         {
             base.StartMinigame();
-            Slider[] sliders = GetComponentsInChildren<Slider>();
             int rnd = Random.Range(0, sliders.Length);
             chosen = sliders[rnd];
             chosen.onValueChanged.AddListener((c) => SliderChanged(c));
