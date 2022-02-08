@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -29,8 +30,8 @@ namespace CoopChaos
 
             cannonRoomState.InteractEvent += user =>
             {
-                
-                cannonControlMenu.SetActive(!cannonControlMenu.activeSelf);
+                if(user == NetworkManager.Singleton.LocalClientId)
+                    cannonControlMenu.SetActive(!cannonControlMenu.activeSelf);
             };
         }
         

@@ -1,4 +1,5 @@
 using System;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
@@ -35,7 +36,8 @@ namespace CoopChaos
 
             state.InteractEvent += user =>
             {
-                spaceshipControlMenu.SetActive(!spaceshipControlMenu.activeSelf);
+                if(user == NetworkManager.Singleton.LocalClientId)
+                    spaceshipControlMenu.SetActive(!spaceshipControlMenu.activeSelf);
             };
         }
         

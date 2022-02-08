@@ -41,7 +41,8 @@ namespace CoopChaos
             
             radarRoomState.InteractEvent += user =>
             {
-                radarMenu.SetActive(!radarMenu.activeSelf);
+                if(user == NetworkManager.Singleton.LocalClientId)
+                    radarMenu.SetActive(!radarMenu.activeSelf);
             };
 
             Assert.IsNotNull(radarRoomState);
