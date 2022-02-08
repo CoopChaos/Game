@@ -1,7 +1,7 @@
 using System;
 using CoopChaos.Shared;
 using Unity.Netcode;
-using UnityEditor.PackageManager;
+// using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;

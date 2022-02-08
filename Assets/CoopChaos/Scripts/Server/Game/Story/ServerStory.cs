@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using CoopChaos.Server;
 using DefaultNamespace;
 using Unity.Netcode;
-using UnityEditor.SearchService;
+// using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
@@ -30,7 +30,7 @@ namespace CoopChaos
                 }
                 else
                 {
-                    NetworkManager.SceneManager.LoadScene("Gameover", LoadSceneMode.Single);
+                    NetworkManager.SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
                 }
             }
         }
