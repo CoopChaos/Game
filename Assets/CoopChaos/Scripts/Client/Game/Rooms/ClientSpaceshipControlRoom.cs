@@ -52,8 +52,7 @@ namespace CoopChaos
 
         private void Start()
         {
-            
-            state.InteractEvent += () =>
+            state.InteractEvent += user =>
             {
                 verticalSlider.value = state.VerticalSlider.Value;
                 horizontalSlider.value = state.HorizontalSlider.Value;

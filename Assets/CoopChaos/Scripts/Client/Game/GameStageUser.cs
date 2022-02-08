@@ -15,10 +15,6 @@ namespace CoopChaos
         [SerializeField] private GameObject characterCamera;
         [SerializeField] private GameObject circle;
 
-        private GameObject spaceshipControlMenu;
-        private GameObject radarMenu;
-        private GameObject cannonControlMenu;
-        
         private Canvas pauseMenu;
 
         private GameStageUserApi api;
@@ -42,19 +38,6 @@ namespace CoopChaos
             if (currentInteractable != null)
             {
                 api.InteractServerRpc(currentInteractable.NetworkObjectId);
-
-                switch (currentInteractable)
-                {
-                    case ClientSpaceshipControlRoom _:
-                        spaceshipControlMenu.SetActive(!spaceshipControlMenu.activeSelf);
-                        break;
-                    case ClientRadarRoom _:
-                        radarMenu.SetActive(!radarMenu.activeSelf);
-                        break;
-                    case ClientCannonRoom _:
-                        cannonControlMenu.SetActive(!cannonControlMenu.activeSelf);
-                        break;
-                }
             }
         }
 
@@ -69,6 +52,7 @@ namespace CoopChaos
             {
                 playerInput.enabled = false;
 
+                Debug.Log($"DISABLE {this.NetworkObjectId}");
                 enabled = false;
                 characterCamera.SetActive(false);
                 
@@ -165,25 +149,10 @@ namespace CoopChaos
             spaceshipState = FindObjectOfType<SpaceshipState>();
             rigidbody = GetComponent<Rigidbody2D>();
             
-            pauseMenu = GameObject.Find("PauseMenu").GetComponent<Canvas>();
-            pauseMenu.enabled = false;
-
-            spaceshipControlMenu = GameObject.Find("ControlMenu");
-            spaceshipControlMenu.SetActive(false);
-            
-            radarMenu = GameObject.Find("RadarMenu");
-            radarMenu.SetActive(false);
-
-            cannonControlMenu = GameObject.Find("CannonControlMenu");
-            cannonControlMenu.SetActive(false);
-            
             Assert.IsNotNull(pauseMenu);
             Assert.IsNotNull(api);
             Assert.IsNotNull(spaceshipState);
             Assert.IsNotNull(rigidbody);
-            Assert.IsNotNull(spaceshipControlMenu);
-            Assert.IsNotNull(radarMenu);
-            Assert.IsNotNull(cannonControlMenu);
         }
     }
 }

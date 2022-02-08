@@ -9,12 +9,12 @@ namespace CoopChaos
         private static int interactableObjectIdCounter = 1;
         private int InteractableObjectId { get; set; }
 
-        public event Action InteractEvent;
+        public event Action<ulong> InteractEvent;
 
         [ClientRpc]
-        public void InteractClientRpc()
+        public void InteractClientRpc(ulong clientId)
         {
-            InteractEvent?.Invoke();
+            InteractEvent?.Invoke(clientId);
         }
 
         public override void OnNetworkSpawn()

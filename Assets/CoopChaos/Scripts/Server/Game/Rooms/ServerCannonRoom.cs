@@ -10,9 +10,10 @@ namespace CoopChaos
     {
         private SimulationBehaviour simulationBehaviour;
         private CannonRoomState interactableState;
+
         public override void Interact(ulong clientId)
         {
-            
+            base.Interact(clientId);
         }
         
         public void Shoot()

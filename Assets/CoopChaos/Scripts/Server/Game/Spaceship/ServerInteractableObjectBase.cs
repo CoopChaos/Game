@@ -10,7 +10,7 @@ namespace CoopChaos
         
         public virtual void Interact(ulong clientId)
         {
-            state.InteractClientRpc();
+            state.InteractClientRpc(clientId);
         }
 
         protected virtual void Start()

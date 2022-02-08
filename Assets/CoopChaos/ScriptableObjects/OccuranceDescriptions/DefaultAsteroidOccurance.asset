@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OccuranceType: 0
   Length: 10000
-  MinAsteroidSize: 20
+  MinAsteroidSize: 10
   MaxAsteroidSize: 30
-  DistanceBetweenAsteroids: 100
+  DistanceBetweenAsteroids: 60
