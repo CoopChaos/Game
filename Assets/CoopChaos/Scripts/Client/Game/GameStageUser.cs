@@ -59,6 +59,9 @@ namespace CoopChaos
                 return;
             }
             
+            spaceshipState = FindObjectOfType<SpaceshipState>();
+            Assert.IsNotNull(spaceshipState);
+            
             moveInputAction = playerInput.actions["move"];
             interactInputAction = playerInput.actions["interact"];
             pauseInputAction = playerInput.actions["pause"];
@@ -146,11 +149,9 @@ namespace CoopChaos
             Assert.IsNotNull(characterCamera);
             
             api = GetComponent<GameStageUserApi>();
-            spaceshipState = FindObjectOfType<SpaceshipState>();
             rigidbody = GetComponent<Rigidbody2D>();
             
             Assert.IsNotNull(api);
-            Assert.IsNotNull(spaceshipState);
             Assert.IsNotNull(rigidbody);
         }
     }
