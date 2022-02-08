@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CoopChaos.Simulation.Components;
 using Unity.Netcode;
@@ -10,10 +11,11 @@ namespace CoopChaos
     [RequireComponent(typeof(RadarRoomState))]
     public class ClientRadarRoom : ClientInteractableObjectBase
     {
+        [SerializeField] private RectTransform background;
         [SerializeField] private GameObject highlight;
         [SerializeField] private GameObject radarContainer;
         [SerializeField] private GameObject radarPointPrefab;
-        
+
         private GameObject radarMenu;
         private RadarRoomState radarRoomState;
         private List<GameObject> radarObjects;
@@ -84,19 +86,24 @@ namespace CoopChaos
 
         private void HandleAdd(RadarEntity value)
         {
-            var rt = radarContainer.GetComponent<RectTransform>();
+            var parent = radarContainer.GetComponent<RectTransform>();
             
+            var d = radarRoomState.RadarMaxRange * 2;
+            var r = Math.Min(background.rect.width - 50, background.rect.height - 50) / d;
+
             var elem = Instantiate(
                 radarPointPrefab, 
-                new Vector2(
-                    value.X + rt.rect.width * 0.5f - radarRoomState.CenterX.Value,
-                    value.Y + rt.rect.height * 0.5f - radarRoomState.CenterY.Value),
+                new Vector2(0, 0),
                 Quaternion.identity,
                 radarContainer.transform);
             
-            elem.transform.SetParent(radarMenu.transform, false);
             elem.GetComponent<Image>().color = GetColor(value.Type);
             elem.transform.localScale = new Vector2(value.Size * 0.034f, value.Size * 0.034f);
+
+            elem.GetComponent<RectTransform>().position = new Vector3(
+                (value.X - radarRoomState.CenterX.Value) * r + parent.rect.width * 0.5f, 
+                (value.Y - radarRoomState.CenterY.Value) * r + parent.rect.height * 0.5f, 0);
+            
             radarObjects.Add(elem);
         }
 

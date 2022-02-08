@@ -87,7 +87,7 @@ namespace CoopChaos
 
                 var distance = Mathf.Sqrt(dx * dx + dy * dy);
 
-                if (radarState.RadarMaxRange > distance)
+                if (radarState.RadarMaxRange > (distance + entityObject.Size))
                 {
                     ++i;
                     ref var entityDetectionType = ref entity.Get<DetectionTypeComponent>();
