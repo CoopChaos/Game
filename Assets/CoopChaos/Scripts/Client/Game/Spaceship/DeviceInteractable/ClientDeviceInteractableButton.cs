@@ -26,8 +26,11 @@ namespace Yame
         protected override void Awake()
         {
             base.Awake();
-            
-            deviceInteractableState = GetComponent<DeviceInteractableBaseState>();
+
+            deviceInteractableState.InteractEvent += user =>
+            {
+                deviceInteractableState.Claimed.Value = true;
+            };
         }
     }
 }

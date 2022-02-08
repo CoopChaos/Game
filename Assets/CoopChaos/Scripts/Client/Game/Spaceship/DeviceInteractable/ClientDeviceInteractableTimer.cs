@@ -25,6 +25,11 @@ namespace Yame
             base.Awake();
             clockContainer.enabled = false;
             deviceInteractableState = GetComponent<DeviceInteractableTimerState>();
+
+            deviceInteractableState.InteractEvent += user =>
+            {
+                deviceInteractableState.Claimed.Value = true;
+            };
         }
 
         public void Update()

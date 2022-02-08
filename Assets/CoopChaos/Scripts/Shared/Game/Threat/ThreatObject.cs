@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 
 namespace Yame.Threat
 {
-    public class ThreatObject : NetworkBehaviour
+    public class ThreatObject : InteractableObjectStateBase
     {
         // TODO: make this a network varaible
         public String threatName;

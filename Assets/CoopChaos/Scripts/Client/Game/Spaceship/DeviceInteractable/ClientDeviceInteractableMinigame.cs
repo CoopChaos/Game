@@ -32,6 +32,12 @@ namespace Yame
             base.Awake();
             
             deviceInteractableState = GetComponent<DeviceInteractableBaseState>();
+
+            deviceInteractableState.InteractEvent += user =>
+            {
+                baseThreatMinigame.StartMinigame();
+            };
+
             baseThreatMinigame = minigame.GetComponent<BaseThreatMinigame>();
         }
 
