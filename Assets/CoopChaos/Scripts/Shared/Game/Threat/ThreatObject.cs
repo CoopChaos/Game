@@ -25,6 +25,15 @@ namespace Yame.Threat
         
         public Dictionary<string, ServerDeviceInteractableBase> threatObjectives = new Dictionary<string, ServerDeviceInteractableBase>();
         private String[] threatObjectivesString;
+
+        public event Action<ulong> ActivateEvent;
+
+        [ClientRpc]
+        public void ActivateClientRpc()
+        {
+            ActivateEvent?.Invoke(0);
+        }
+
         
         [ClientRpc]
         public void CommunicateTaskInfosToClientClientRpc(String title, String description)

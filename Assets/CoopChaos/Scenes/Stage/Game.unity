@@ -2862,6 +2862,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ThreatUI
       objectReference: {fileID: 0}
+    - target: {fileID: 7939745418738291965, guid: afff9e77968e0983a8891ea566c262a0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: afff9e77968e0983a8891ea566c262a0, type: 3}
 --- !u!114 &1066234454 stripped
@@ -4509,31 +4513,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 182414440511797831, guid: a259ed4bf342dfcd4a9928c1b28c0106, type: 3}
       propertyPath: m_Name
-      value: BrokenThermals
+      value: SampleThreat
+      objectReference: {fileID: 0}
+    - target: {fileID: 182414440511797831, guid: a259ed4bf342dfcd4a9928c1b28c0106, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1873173297694019214, guid: a259ed4bf342dfcd4a9928c1b28c0106, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1873173297747053528, guid: a259ed4bf342dfcd4a9928c1b28c0106, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1873173297970141283, guid: a259ed4bf342dfcd4a9928c1b28c0106, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1873173298457707844, guid: a259ed4bf342dfcd4a9928c1b28c0106, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1873173299387300157, guid: a259ed4bf342dfcd4a9928c1b28c0106, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1873173299453335705, guid: a259ed4bf342dfcd4a9928c1b28c0106, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1873173299457217483, guid: a259ed4bf342dfcd4a9928c1b28c0106, type: 3}
       propertyPath: m_LocalScale.x
