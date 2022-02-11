@@ -567,6 +567,8 @@ GameObject:
   - component: {fileID: 195470932}
   - component: {fileID: 195470931}
   - component: {fileID: 195470930}
+  - component: {fileID: 195470927}
+  - component: {fileID: 195470928}
   m_Layer: 0
   m_Name: TestSpaceship
   m_TagString: Untagged
@@ -574,6 +576,30 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &195470927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195470926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07cf86300ffb4e83b0383038d0592c58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &195470928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195470926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c433c356a91592488d4807e1a562180, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &195470929
 Transform:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ namespace CoopChaos.Simulation.Factories
 
             entity.Set(new ObjectComponent()
             {
-                Health = 25f,
+                Health = 2500f,
                 X = x,
                 Y = y,
                 VelocityX = 0,

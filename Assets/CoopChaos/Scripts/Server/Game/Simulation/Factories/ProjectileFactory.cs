@@ -30,7 +30,6 @@ namespace CoopChaos.Simulation.Factories
             {
                 Damage = damage,
                 Range = range,
-                
             });
 
             return entity;

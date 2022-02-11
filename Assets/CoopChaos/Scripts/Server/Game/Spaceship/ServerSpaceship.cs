@@ -49,9 +49,9 @@ namespace CoopChaos
             spaceshipState.Health.Value = oc.Health;
 
             // enable sample threat
-            // TODO find out why this is not working
-            GameObject.Find("SampleThreat").SetActive(true);
-            GameObject.Find("ThreatUI").SetActive(true);
+            // TODO: find out why this is not working
+            // GameObject.Find("SampleThreat").SetActive(true);
+            // GameObject.Find("ThreatUI").SetActive(true);
 
             if (spaceshipState.Health.Value < 0)
             {
