@@ -12,20 +12,18 @@ namespace CoopChaos
             float duration = 0.5f;
             
             Vector3 originalPos = transform.position;
-            
+
             while (elapsed < duration)
             {
                 float x = Random.Range(-0.5f, 0.5f) * 0.5f;
                 float y = Random.Range(-0.5f, 0.5f) * 0.5f;
-                
-                transform.position = new Vector3(originalPos.x + x, originalPos.y + y, originalPos.z);
-                
+
+                transform.position = new Vector3(transform.position.x + x, transform.position.y + y, transform.position.z);
+
                 elapsed += Time.deltaTime;
-                
+
                 yield return null;
             }
-            
-            transform.position = originalPos;
         }
     }
 }
