@@ -49,14 +49,16 @@ namespace CoopChaos
             spaceshipState.Health.Value = oc.Health;
 
             // enable sample threat
-            // TODO: find out why this is not working
-            // GameObject.Find("SampleThreat").SetActive(true);
-            // GameObject.Find("ThreatUI").SetActive(true);
-
+            FindObjectOfType<ThreatManager>().SpawnThreat();
+            
             if (spaceshipState.Health.Value < 0)
             {
                 NetworkManager.Singleton.SceneManager.LoadScene("GameOverDie", LoadSceneMode.Single);
             }
+        }
+
+        private void SpawnThreatFromList() {
+
         }
     }
 }
