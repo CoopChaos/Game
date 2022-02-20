@@ -1,5 +1,7 @@
+using System;
 using CoopChaos.Simulation;
 using CoopChaos.Simulation.Components;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -10,7 +12,6 @@ namespace CoopChaos
     {
         private const float VerticalMaxSpeed = 50.0f;
         private const float HorizontalMaxSpeed = 30.0f;
-        
         private SpaceshipControlRoomState interactableState;
         private SimulationBehaviour simulation;
         
@@ -24,9 +25,10 @@ namespace CoopChaos
             value = Mathf.Clamp01(value);
             
             var spaceship = simulation.World.PlayerSpaceship;
-            ref var spaceshipObject = ref spaceship.Value.Get<ObjectComponent>();
+            ref var spaceshipComponent = ref spaceship.Value.Get<ObjectComponent>();
 
-            spaceshipObject.VelocityY = VerticalMaxSpeed * value;
+            spaceshipComponent.VelocityY = VerticalMaxSpeed * value;
+            interactableState.SetVerticalVelocityServerRpc(spaceshipComponent.VelocityY);
         }
 
         public void SetHorizontal(float value)
@@ -36,7 +38,8 @@ namespace CoopChaos
             var spaceship = simulation.World.PlayerSpaceship;
             ref var spaceshipComponent = ref spaceship.Value.Get<ObjectComponent>();
 
-            spaceshipComponent.VelocityX = HorizontalMaxSpeed * (value - 0.5f);
+            spaceshipComponent.VelocityX = (float)Math.Round(HorizontalMaxSpeed * (value - 0.5f), 2);
+            interactableState.SetHorizontalVelocityServerRpc(spaceshipComponent.VelocityX);
         }
 
         private void Awake()
