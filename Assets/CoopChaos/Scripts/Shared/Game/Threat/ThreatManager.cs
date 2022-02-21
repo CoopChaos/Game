@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 namespace CoopChaos
 {
-    public class ThreatManager : MonoBehaviour
+    public class ThreatManager : NetworkBehaviour
     {
         public static ThreatManager Instance;
 
@@ -24,8 +25,12 @@ namespace CoopChaos
         }
 
         public void SpawnThreat() {
-            Instantiate(ThreatUI, new Vector3(0, 0, 0), Quaternion.identity);
-            Instantiate(SampleThreat, new Vector3(0, 0, 0), Quaternion.identity);
+            GameObject o = Instantiate(SampleThreat, new Vector3(8.664088f, 16.46855f, -3.953443f), Quaternion.identity);
+
+            NetworkObject[] networkObjects = o.GetComponentsInChildren<NetworkObject>();
+
+            foreach (NetworkObject no in networkObjects)
+                no.Spawn();
         }
     }
 }

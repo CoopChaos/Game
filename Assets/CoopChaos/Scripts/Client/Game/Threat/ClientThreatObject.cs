@@ -18,11 +18,13 @@ namespace Yame.Threat
 
         private void Update()
         {
+            /*
             threatPanel.enabled = !threatObject.Finished.Value;
             threatTitle.text = threatObject.threatName
                                + "( " + threatObject.numTasksFinished
                                + " / " + threatObject.numTasksTotal + " )";
             threatObjectives.text = threatObject.threatDescription;
+            */
         }
         
         protected void Awake()

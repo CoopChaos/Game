@@ -48,8 +48,10 @@ namespace CoopChaos
             ref var oc = ref e.Entity.Get<ObjectComponent>();
             spaceshipState.Health.Value = oc.Health;
 
-            // enable sample threat
-            FindObjectOfType<ThreatManager>().SpawnThreat();
+            if(spaceshipState.NumThreatsActive.Value == 0) {
+                spaceshipState.NumThreatsActive.Value = 1;
+                FindObjectOfType<ThreatManager>().SpawnThreat();
+            }
             
             if (spaceshipState.Health.Value < 0)
             {
