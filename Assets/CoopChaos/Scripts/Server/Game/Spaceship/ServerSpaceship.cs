@@ -58,9 +58,5 @@ namespace CoopChaos
                 NetworkManager.Singleton.SceneManager.LoadScene("GameOverDie", LoadSceneMode.Single);
             }
         }
-
-        private void SpawnThreatFromList() {
-
-        }
     }
 }
