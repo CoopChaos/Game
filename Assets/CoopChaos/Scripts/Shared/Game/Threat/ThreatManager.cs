@@ -6,13 +6,29 @@ using Yame.Threat;
 
 namespace CoopChaos
 {
+    public delegate string ThreatMStateChange(ThreatManagerState state);
+
+    public enum ThreatManagerState
+    {
+        ThreatIdle,
+        ThreatInProgress,
+        ThreatComplete,
+        ThreatFailed
+    }
+
     public class ThreatManager : NetworkBehaviour
     {
         public static ThreatManager Instance;
 
-        public GameObject SampleThreat;
-        public GameObject currentThreat;
-        public GameObject ThreatUI;
+        [SerializeField]
+        private GameObject[] threatPool;
+
+        private GameObject currentThreat;
+
+        [SerializeField]
+        private GameObject ThreatUI;
+
+        public event ThreatMStateChange ThreatMStateChangeEvent;
 
         private void Awake()
         {
@@ -23,13 +39,22 @@ namespace CoopChaos
             }
         }
 
+        public GameObject SelectThreat()
+        {
+            int randomIndex = Random.Range(0, threatPool.Length);
+            currentThreat = threatPool[randomIndex];
+            return currentThreat;
+        }
+
         public void SpawnThreat() {
-            currentThreat = Instantiate(SampleThreat, new Vector3(8.664088f, 16.46855f, -3.953443f), Quaternion.identity);
+            currentThreat = Instantiate(SelectThreat(), new Vector3(8.664088f, 16.46855f, -3.953443f), Quaternion.identity);
 
             NetworkObject[] networkObjects = currentThreat.GetComponentsInChildren<NetworkObject>();
 
             foreach (NetworkObject no in networkObjects)
                 no.Spawn();
+
+            ThreatMStateChangeEvent(ThreatManagerState.ThreatInProgress);
         }
 
         public bool ThreatResolved() {
