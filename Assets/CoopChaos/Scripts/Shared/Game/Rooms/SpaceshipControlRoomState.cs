@@ -6,43 +6,46 @@ namespace CoopChaos
     {
         private ServerSpaceshipControlRoom server;
         
-        private NetworkVariable<bool> isBlocked;
-
-        private NetworkVariable<float> verticalSlider;
-        private NetworkVariable<float> horizontalSlider;
-        
-        public NetworkVariable<bool> IsBlocked => isBlocked;
-        public NetworkVariable<float> VerticalSlider => verticalSlider;
-        public NetworkVariable<float> HorizontalSlider => horizontalSlider;
+        public NetworkVariable<bool> IsBlocked { get; private set; }
+        public NetworkVariable<float> VerticalSlider { get; private set; }
+        public NetworkVariable<float> HorizontalSlider { get; private set; }
+        public NetworkVariable<float> VerticalVelocity { get; private set; }
+        public NetworkVariable<float> HorizontalVelocity { get; private set; }
 
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
 
-            isBlocked.OnValueChanged += HandleIsBlockedChanged;
+            IsBlocked.OnValueChanged += HandleIsBlockedChanged;
         }
 
         [ServerRpc(RequireOwnership = false)]
         public void SetVerticalSliderServerRpc(float value)
         {
-            verticalSlider.Value = value;
+            VerticalSlider.Value = value;
             server.SetVertical(value);
         }
         
         [ServerRpc(RequireOwnership = false)]
         public void SetHorizontalSliderServerRpc(float value)
         {
-            horizontalSlider.Value = value;
+            HorizontalSlider.Value = value;
             server.SetHorizontal(value);
         }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void SetVerticalVelocityServerRpc(float value) => VerticalVelocity.Value = value;
+
+        [ServerRpc(RequireOwnership = false)]
+        public void SetHorizontalVelocityServerRpc(float value) => HorizontalVelocity.Value = value;
 
         protected override void Awake()
         {
             base.Awake();
             
-            isBlocked = new NetworkVariable<bool>(false);
-            verticalSlider = new NetworkVariable<float>(0f);
-            horizontalSlider = new NetworkVariable<float>(0.5f);
+            IsBlocked = new NetworkVariable<bool>(false);
+            VerticalSlider = new NetworkVariable<float>(0f);
+            HorizontalSlider = new NetworkVariable<float>(0.5f);
 
             server = GetComponent<ServerSpaceshipControlRoom>();
         }

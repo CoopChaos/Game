@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -13,9 +14,12 @@ namespace CoopChaos
         
         [SerializeField] private ElasticSlider verticalSlider;
         [SerializeField] private ElasticSlider horizontalSlider;
+        
 
+        [SerializeField] private TextMeshProUGUI SpeedometerVertical;
+        [SerializeField] private TextMeshProUGUI SpeedometerHorizontal;
         [SerializeField] private GameObject spaceshipControlMenu;
-        private SpaceshipControlRoomState state;
+        private SpaceshipControlRoomState spaceshipControlRoomState;
         private bool highlighted = false;
 
         public override void Highlight()
@@ -29,45 +33,51 @@ namespace CoopChaos
             highlighted = false;
             highlight.SetActive(false);
             spaceshipControlMenu.SetActive(false);
+            
         }
         
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
 
-            state.IsBlocked.OnValueChanged += HandleOpenChanged;
+            spaceshipControlRoomState.IsBlocked.OnValueChanged += HandleOpenChanged;
 
-            state.InteractEvent += user =>
+            spaceshipControlRoomState.InteractEvent += user =>
             {
                 if(user == NetworkManager.Singleton.LocalClientId && highlighted)
                     spaceshipControlMenu.SetActive(!spaceshipControlMenu.activeSelf);
             };
+
+            spaceshipControlRoomState.VerticalVelocity.OnValueChanged += HandleVerticalVelocityChanged;
+            spaceshipControlRoomState.HorizontalVelocity.OnValueChanged += HandleHorizontalVelocityChanged;
         }
         
         private void HandleOpenChanged(bool open, bool oldOpen)
         {
             
         }
-        
+
+        private void HandleVerticalVelocityChanged(float verticalVelocity, float oldVerticalVelocity) => SpeedometerVertical.text = verticalVelocity.ToString();
+        private void HandleHorizontalVelocityChanged(float horizontalVelocity, float oldHorizontalVelocity) => SpeedometerHorizontal.text = horizontalVelocity.ToString();        
         protected override void Awake()
         {
             base.Awake();
             
-            state = GetComponent<SpaceshipControlRoomState>();
+            spaceshipControlRoomState = GetComponent<SpaceshipControlRoomState>();
             
-            Assert.IsNotNull(state);
+            Assert.IsNotNull(spaceshipControlRoomState);
         }
 
         private void Start()
         {
-            state.InteractEvent += user =>
+            spaceshipControlRoomState.InteractEvent += user =>
             {
-                verticalSlider.value = state.VerticalSlider.Value;
-                horizontalSlider.value = state.HorizontalSlider.Value;
+                verticalSlider.value = spaceshipControlRoomState.VerticalSlider.Value;
+                horizontalSlider.value = spaceshipControlRoomState.HorizontalSlider.Value;
             };
             
-            verticalSlider.onValueChanged.AddListener(v => state.SetVerticalSliderServerRpc(v));
-            horizontalSlider.onValueChanged.AddListener(v => state.SetHorizontalSliderServerRpc(v));
+            verticalSlider.onValueChanged.AddListener(v => spaceshipControlRoomState.SetVerticalSliderServerRpc(v));
+            horizontalSlider.onValueChanged.AddListener(v => spaceshipControlRoomState.SetHorizontalSliderServerRpc(v));
         }
     }
 }
