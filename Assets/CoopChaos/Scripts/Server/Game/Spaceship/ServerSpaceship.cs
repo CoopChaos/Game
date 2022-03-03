@@ -69,12 +69,17 @@ namespace CoopChaos
         private void OnThreatMStateChange(ThreatManagerState state)
         {
             if(state == ThreatManagerState.ThreatFailed) {
+                // decrement health by placeholder value
                 spaceshipState.Health.Value -= 1;
             } else if (state == ThreatManagerState.ThreatInProgress) {
                 Debug.Log("Spaceship noticed Threat in progress");
             } else if (state == ThreatManagerState.ThreatComplete) {
                 // Maybe we can restore health here
                 Debug.Log("Spaceship noticed Threat complete");
+            } else if (state == ThreatManagerState.ThreatMalicious) {
+                // destroy spaceship
+                SimulationBehaviour s = FindObjectOfType<SimulationBehaviour>();
+                s.World.PlayerSpaceship.Value.Set<DestroyComponent>();
             }
         }
     }

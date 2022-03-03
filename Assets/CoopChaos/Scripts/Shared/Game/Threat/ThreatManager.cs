@@ -4,6 +4,8 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
 using Yame.Threat;
+using CoopChaos.Simulation;
+using CoopChaos.Simulation.Components;
 
 namespace CoopChaos
 {
@@ -14,7 +16,8 @@ namespace CoopChaos
         ThreatIdle,
         ThreatInProgress,
         ThreatComplete,
-        ThreatFailed
+        ThreatFailed,
+        ThreatMalicious,
     }
 
     public class ThreatManager : NetworkBehaviour
@@ -63,9 +66,15 @@ namespace CoopChaos
         }
 
         public IEnumerator StartThreatTimer() {
+            // yield time until damage
             yield return new WaitForSeconds(threatTime);
             if(GetThreatStatus() == ThreatManagerState.ThreatInProgress) {
                 SetThreatStatus(ThreatManagerState.ThreatFailed);
+            }
+            // yield time until game over
+            yield return new WaitForSeconds(threatTime);
+            if(GetThreatStatus() == ThreatManagerState.ThreatFailed) {
+                SetThreatStatus(ThreatManagerState.ThreatMalicious);
             }
         }
 
