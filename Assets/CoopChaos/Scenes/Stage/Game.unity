@@ -3637,8 +3637,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db081168cdd84ab7b872b6055a0c56c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SampleThreat: {fileID: 8643398725194550424, guid: 73d131ee0f2ab01dca043aef110d0c81, type: 3}
   ThreatUI: {fileID: 8106141879765501158, guid: cdab3f52bc51febb0bfd5ad33cf78a9c, type: 3}
+  threatTime: 30
+  threatPool:
+  - {fileID: 8643398725194550424, guid: 73d131ee0f2ab01dca043aef110d0c81, type: 3}
 --- !u!4 &1412352631
 Transform:
   m_ObjectHideFlags: 0
