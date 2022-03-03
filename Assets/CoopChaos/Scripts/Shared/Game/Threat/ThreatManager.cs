@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.UI;
 using Yame.Threat;
 
 namespace CoopChaos
@@ -25,7 +26,7 @@ namespace CoopChaos
 
 
         [SerializeField]
-        private GameObject ThreatUI;
+        private Text ThreatUI;
 
         [SerializeField]
         private int threatTime = 30;
@@ -69,6 +70,7 @@ namespace CoopChaos
         }
 
         private void SetThreatStatus(ThreatManagerState state) {
+            ThreatUI.text = state.ToString();
             ThreatMStateChangeEvent(state);
             threatManagerState = state;
         }
