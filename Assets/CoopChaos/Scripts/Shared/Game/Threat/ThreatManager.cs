@@ -6,7 +6,7 @@ using Yame.Threat;
 
 namespace CoopChaos
 {
-    public delegate string ThreatMStateChange(ThreatManagerState state);
+    public delegate void ThreatMStateChange(ThreatManagerState state);
 
     public enum ThreatManagerState
     {
@@ -20,7 +20,7 @@ namespace CoopChaos
     {
         public static ThreatManager Instance;
         private GameObject currentThreat;
-        private event ThreatMStateChange ThreatMStateChangeEvent;
+        public event ThreatMStateChange ThreatMStateChangeEvent;
         private ThreatManagerState threatManagerState;
 
 
