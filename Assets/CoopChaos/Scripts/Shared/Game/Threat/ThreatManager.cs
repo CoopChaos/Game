@@ -81,5 +81,13 @@ namespace CoopChaos
             if (currentThreat == null) return true;
             return currentThreat.GetComponent<ThreatObject>().Finished.Value;
         }
+
+        public void Update() {
+            if(currentThreat.GetComponent<ThreatObject>().Finished.Value) {
+                Debug.Log("Threat Complete");
+                SetThreatStatus(ThreatManagerState.ThreatComplete);
+                currentThreat = null;
+            }
+        }
     }
 }
