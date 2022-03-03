@@ -19,16 +19,20 @@ namespace CoopChaos
     public class ThreatManager : NetworkBehaviour
     {
         public static ThreatManager Instance;
-
-        [SerializeField]
-        private GameObject[] threatPool;
-
         private GameObject currentThreat;
+        private event ThreatMStateChange ThreatMStateChangeEvent;
+        private ThreatManagerState threatManagerState;
+
 
         [SerializeField]
         private GameObject ThreatUI;
 
-        public event ThreatMStateChange ThreatMStateChangeEvent;
+        [SerializeField]
+        private int threatTime = 30;
+
+        [SerializeField]
+        private GameObject[] threatPool;
+
 
         private void Awake()
         {
@@ -54,7 +58,23 @@ namespace CoopChaos
             foreach (NetworkObject no in networkObjects)
                 no.Spawn();
 
-            ThreatMStateChangeEvent(ThreatManagerState.ThreatInProgress);
+            SetThreatStatus(ThreatManagerState.ThreatInProgress);
+        }
+
+        public IEnumerator StartThreatTimer() {
+            yield return new WaitForSeconds(threatTime);
+            if(GetThreatStatus() == ThreatManagerState.ThreatInProgress) {
+                SetThreatStatus(ThreatManagerState.ThreatFailed);
+            }
+        }
+
+        private void SetThreatStatus(ThreatManagerState state) {
+            ThreatMStateChangeEvent(state);
+            threatManagerState = state;
+        }
+
+        public ThreatManagerState GetThreatStatus() {
+            return threatManagerState;
         }
 
         public bool ThreatResolved() {
