@@ -26,10 +26,11 @@ namespace CoopChaos
         private InputAction interactInputAction;
 
         private InputAction pauseInputAction;
+        private Animator anim;
 
         public void SetColor(Color color)
         {
-            GetComponentInChildren<SpriteRenderer>().color = color;
+            //GetComponentInChildren<SpriteRenderer>().color = color;
         }
 
         public void OnInteract()
@@ -88,6 +89,20 @@ namespace CoopChaos
             
             // Movement
             //rigidbody.AddForce(movement * speed);
+            anim.SetFloat("Horizontal", movement.x);
+            anim.SetFloat("Vertical", movement.y);
+            anim.SetFloat("Speed", movement.sqrMagnitude);
+
+            if(movement.x != 0 ) 
+            {
+                anim.SetFloat("LastMoveHorizontal", movement.x);
+                anim.SetFloat("LastMoveVertical", 0);
+            }
+            if(movement.y != 0 ) 
+            {
+                anim.SetFloat("LastMoveHorizontal", 0);
+                anim.SetFloat("LastMoveVertical", movement.y);
+            }
             
         }
         
@@ -97,6 +112,7 @@ namespace CoopChaos
         {
             // Input
             movement = moveInputAction.ReadValue<Vector2>();
+
             
             HighlightCloseInteractableObjects();
         }
@@ -146,6 +162,7 @@ namespace CoopChaos
             
             api = GetComponent<GameStageUserApi>();
             rigidbody = GetComponent<Rigidbody2D>();
+            anim = GetComponentInChildren<Animator>();
             
             Assert.IsNotNull(api);
             Assert.IsNotNull(rigidbody);
