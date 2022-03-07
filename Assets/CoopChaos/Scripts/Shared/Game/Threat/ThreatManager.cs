@@ -32,7 +32,7 @@ namespace CoopChaos
         private Text ThreatUI;
 
         [SerializeField]
-        private int threatTime = 30;
+        private Text ThreatDescriptionUI;
 
         [SerializeField]
         private GameObject[] threatPool;
@@ -41,6 +41,7 @@ namespace CoopChaos
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
+            ThreatDescriptionUI.enabled = false;
             if (Instance == null) Instance = this;
             else if(Instance != this) {
                 Destroy(gameObject);
@@ -57,6 +58,9 @@ namespace CoopChaos
         public void SpawnThreat() {
             currentThreat = Instantiate(SelectThreat(), new Vector3(8.664088f, 16.46855f, -3.953443f), Quaternion.identity);
 
+            ThreatDescriptionUI.enabled = true;
+            ThreatDescriptionUI.text = currentThreat.GetComponent<ThreatObject>().threatName + " " + currentThreat.GetComponent<ThreatObject>().threatDescription ;
+
             NetworkObject[] networkObjects = currentThreat.GetComponentsInChildren<NetworkObject>();
 
             foreach (NetworkObject no in networkObjects)
@@ -67,12 +71,12 @@ namespace CoopChaos
 
         public IEnumerator StartThreatTimer() {
             // yield time until damage
-            yield return new WaitForSeconds(threatTime);
+            yield return new WaitForSeconds(currentThreat.GetComponent<ThreatObject>().threatTime);
             if(GetThreatStatus() == ThreatManagerState.ThreatInProgress) {
                 SetThreatStatus(ThreatManagerState.ThreatFailed);
             }
             // yield time until game over
-            yield return new WaitForSeconds(threatTime);
+            yield return new WaitForSeconds(currentThreat.GetComponent<ThreatObject>().threatTime);
             if(GetThreatStatus() == ThreatManagerState.ThreatFailed) {
                 SetThreatStatus(ThreatManagerState.ThreatMalicious);
             }
@@ -95,9 +99,12 @@ namespace CoopChaos
 
         public void Update() {
             if(currentThreat.GetComponent<ThreatObject>().Finished.Value) {
+                ThreatDescriptionUI.enabled = false;
                 Debug.Log("Threat Complete");
                 SetThreatStatus(ThreatManagerState.ThreatComplete);
                 currentThreat = null;
+                // Return to idle
+                SetThreatStatus(ThreatManagerState.ThreatIdle);
             }
         }
     }

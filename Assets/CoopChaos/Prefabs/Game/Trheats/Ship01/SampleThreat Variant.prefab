@@ -21,11 +21,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 182414440511797827, guid: a259ed4bf342dfcd4a9928c1b28c0106, type: 3}
       propertyPath: threatName
-      value: TestThreat
+      value: Thermal Systems have shut down
+      objectReference: {fileID: 0}
+    - target: {fileID: 182414440511797827, guid: a259ed4bf342dfcd4a9928c1b28c0106, type: 3}
+      propertyPath: threatTime
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 182414440511797827, guid: a259ed4bf342dfcd4a9928c1b28c0106, type: 3}
       propertyPath: threatDescription
-      value: TestDescription
+      value: Fix the lecks in the thermal pipeline and push the right valve to prevent
+        the ship from freezing
       objectReference: {fileID: 0}
     - target: {fileID: 182414440511797828, guid: a259ed4bf342dfcd4a9928c1b28c0106, type: 3}
       propertyPath: m_RootOrder
@@ -73,7 +78,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 182414440511797831, guid: a259ed4bf342dfcd4a9928c1b28c0106, type: 3}
       propertyPath: m_Name
-      value: SampleThreat
+      value: SampleThreat Variant
       objectReference: {fileID: 0}
     - target: {fileID: 182414440511797831, guid: a259ed4bf342dfcd4a9928c1b28c0106, type: 3}
       propertyPath: m_IsActive
