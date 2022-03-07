@@ -49,14 +49,14 @@ namespace CoopChaos
         }
 
         public GameObject SelectThreat()
-        {
+        {   
             int randomIndex = Random.Range(0, threatPool.Length);
             currentThreat = threatPool[randomIndex];
             return currentThreat;
         }
 
         public void SpawnThreat() {
-            currentThreat = Instantiate(SelectThreat(), new Vector3(8.664088f, 16.46855f, -3.953443f), Quaternion.identity);
+            currentThreat = Instantiate(SelectThreat(), new Vector3(0f, 0f, 0f), Quaternion.identity);
 
             ThreatDescriptionUI.enabled = true;
             ThreatDescriptionUI.text = currentThreat.GetComponent<ThreatObject>().threatName + " " + currentThreat.GetComponent<ThreatObject>().threatDescription ;

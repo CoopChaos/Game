@@ -3974,9 +3974,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ThreatUI: {fileID: 1262438091}
   ThreatDescriptionUI: {fileID: 889005847}
-  threatTime: 30
   threatPool:
-  - {fileID: 8643398725194550424, guid: 73d131ee0f2ab01dca043aef110d0c81, type: 3}
+  - {fileID: 8595400400077188996, guid: 7268eb7c4bca27bd68da30f4bfe4cc49, type: 3}
 --- !u!4 &1412352631
 Transform:
   m_ObjectHideFlags: 0
