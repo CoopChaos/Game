@@ -18,6 +18,7 @@ namespace CoopChaos
         ThreatComplete,
         ThreatFailed,
         ThreatMalicious,
+        ThreatGracePeriod
     }
 
     public class ThreatManager : NetworkBehaviour
@@ -56,6 +57,7 @@ namespace CoopChaos
         }
 
         public void SpawnThreat() {
+            if(threatManagerState == ThreatManagerState.ThreatInProgress) return;
             currentThreat = Instantiate(SelectThreat(), new Vector3(0f, 0f, 0f), Quaternion.identity);
 
             ThreatDescriptionUI.enabled = true;
@@ -82,6 +84,11 @@ namespace CoopChaos
             }
         }
 
+        public IEnumerator StartGracePeriod() {
+            yield return new WaitForSeconds(10);
+            SetThreatStatus(ThreatManagerState.ThreatIdle);
+        }
+
         private void SetThreatStatus(ThreatManagerState state) {
             ThreatUI.text = state.ToString();
             ThreatMStateChangeEvent(state);
@@ -98,13 +105,15 @@ namespace CoopChaos
         }
 
         public void Update() {
-            if(currentThreat.GetComponent<ThreatObject>().Finished.Value) {
-                ThreatDescriptionUI.enabled = false;
-                Debug.Log("Threat Complete");
-                SetThreatStatus(ThreatManagerState.ThreatComplete);
-                currentThreat = null;
-                // Return to idle
-                SetThreatStatus(ThreatManagerState.ThreatIdle);
+            if (currentThreat != null) {
+                if(currentThreat.GetComponent<ThreatObject>().Finished.Value) {
+                    ThreatDescriptionUI.enabled = false;
+                    Debug.Log("Threat Complete");
+                    SetThreatStatus(ThreatManagerState.ThreatComplete);
+                    currentThreat = null;
+                    SetThreatStatus(ThreatManagerState.ThreatGracePeriod);
+                    StartGracePeriod(); // Return to idle
+                }
             }
         }
     }

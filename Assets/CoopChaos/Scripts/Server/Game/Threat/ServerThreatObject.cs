@@ -19,11 +19,15 @@ namespace Yame.Threat
             // threadCompleted is true when every sub objective is finished
             foreach (var i in threatObject.threatObjectives)
             {
-                threatCompleted = i.Value.DeviceInteractableState.Fulfilled.Value;
                 if (i.Value.DeviceInteractableState.Fulfilled.Value) compCounter++;
             }
 
             threatObject.numTasksFinished.Value = compCounter;
+
+            if (compCounter == threatObject.threatObjectives.Count)
+            {
+                threatCompleted = true;
+            }
 
             if (threatCompleted)
             {
@@ -44,17 +48,12 @@ namespace Yame.Threat
 
             foreach (var serverDeviceInteractable in threatObject.threatObjectives)
             {
-                Debug.Log(serverDeviceInteractable.Value.DeviceInteractableState.TaskDescription);
-                objectivesString[0] = serverDeviceInteractable.Value.DeviceInteractableState.TaskDescription;
+                // PLACEHOLDER
             }
             
-            threatObject.threatName = "TestThreat";
-            threatObject.threatDescription = "TestObjectives";
             threatObject.Finished.Value = false;
             threatObject.Finished.OnValueChanged = OnFinishChanged;
             threatObject.numTasksTotal.Value = threatObject.threatObjectives.Count;
-            
-            threatObject.CommunicateTaskInfosToClientClientRpc(threatObject.threatName, threatObject.threatDescription);
         }
 
         private void OnFinishChanged(bool previousvalue, bool newvalue)
