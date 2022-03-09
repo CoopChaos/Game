@@ -63,6 +63,8 @@ namespace CoopChaos
             ThreatDescriptionUI.enabled = true;
             ThreatDescriptionUI.text = currentThreat.GetComponent<ThreatObject>().threatName + " " + currentThreat.GetComponent<ThreatObject>().threatDescription ;
 
+            StartCoroutine(StartThreatTimer());
+
             NetworkObject[] networkObjects = currentThreat.GetComponentsInChildren<NetworkObject>();
 
             foreach (NetworkObject no in networkObjects)
@@ -77,6 +79,7 @@ namespace CoopChaos
             if(GetThreatStatus() == ThreatManagerState.ThreatInProgress) {
                 SetThreatStatus(ThreatManagerState.ThreatFailed);
             }
+            if(currentThreat == null) yield return null;
             // yield time until game over
             yield return new WaitForSeconds(currentThreat.GetComponent<ThreatObject>().threatTime);
             if(GetThreatStatus() == ThreatManagerState.ThreatFailed) {
@@ -112,7 +115,7 @@ namespace CoopChaos
                     SetThreatStatus(ThreatManagerState.ThreatComplete);
                     currentThreat = null;
                     SetThreatStatus(ThreatManagerState.ThreatGracePeriod);
-                    StartGracePeriod(); // Return to idle
+                    StartCoroutine(StartGracePeriod()); // Return to idle
                 }
             }
         }
