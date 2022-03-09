@@ -24,7 +24,7 @@ namespace CoopChaos
     public class ThreatManager : NetworkBehaviour
     {
         public static ThreatManager Instance;
-        private GameObject currentThreat;
+        private LinkedList<GameObject> currentThreats;
         public event ThreatMStateChange ThreatMStateChangeEvent;
         private ThreatManagerState threatManagerState;
 
@@ -47,25 +47,28 @@ namespace CoopChaos
             else if(Instance != this) {
                 Destroy(gameObject);
             }
+            currentThreats = new LinkedList<GameObject>();
         }
 
         public GameObject SelectThreat()
         {   
             int randomIndex = Random.Range(0, threatPool.Length);
-            currentThreat = threatPool[randomIndex];
-            return currentThreat;
+            return threatPool[randomIndex];
         }
 
         public void SpawnThreat() {
             if(threatManagerState == ThreatManagerState.ThreatInProgress) return;
-            currentThreat = Instantiate(SelectThreat(), new Vector3(0f, 0f, 0f), Quaternion.identity);
+
+            GameObject threat = SelectThreat();
+
+            LinkedListNode<GameObject> tnode = currentThreats.AddLast(Instantiate(threat, new Vector3(0f, 0f, 0f), Quaternion.identity));
 
             ThreatDescriptionUI.enabled = true;
-            ThreatDescriptionUI.text = currentThreat.GetComponent<ThreatObject>().threatName + " " + currentThreat.GetComponent<ThreatObject>().threatDescription ;
+            ThreatDescriptionUI.text = tnode.Value.GetComponent<ThreatObject>().threatName + " " + tnode.Value.GetComponent<ThreatObject>().threatDescription ;
 
-            StartCoroutine(StartThreatTimer());
+            StartCoroutine(StartThreatTimer(tnode.Value));
 
-            NetworkObject[] networkObjects = currentThreat.GetComponentsInChildren<NetworkObject>();
+            NetworkObject[] networkObjects = tnode.Value.GetComponentsInChildren<NetworkObject>();
 
             foreach (NetworkObject no in networkObjects)
                 no.Spawn();
@@ -73,15 +76,15 @@ namespace CoopChaos
             SetThreatStatus(ThreatManagerState.ThreatInProgress);
         }
 
-        public IEnumerator StartThreatTimer() {
+        public IEnumerator StartThreatTimer(GameObject threat) {
             // yield time until damage
-            yield return new WaitForSeconds(currentThreat.GetComponent<ThreatObject>().threatTime);
+            yield return new WaitForSeconds(threat.GetComponent<ThreatObject>().threatTime);
             if(GetThreatStatus() == ThreatManagerState.ThreatInProgress) {
                 SetThreatStatus(ThreatManagerState.ThreatFailed);
             }
-            if(currentThreat == null) yield return null;
+            if(threat == null) yield return null;
             // yield time until game over
-            yield return new WaitForSeconds(currentThreat.GetComponent<ThreatObject>().threatTime);
+            yield return new WaitForSeconds(threat.GetComponent<ThreatObject>().threatTime);
             if(GetThreatStatus() == ThreatManagerState.ThreatFailed) {
                 SetThreatStatus(ThreatManagerState.ThreatMalicious);
             }
@@ -103,19 +106,21 @@ namespace CoopChaos
         }
 
         public bool ThreatResolved() {
-            if (currentThreat == null) return true;
-            return currentThreat.GetComponent<ThreatObject>().Finished.Value;
+            if (currentThreats.Count == 0) return true;
+            else return false;
         }
 
         public void Update() {
-            if (currentThreat != null) {
-                if(currentThreat.GetComponent<ThreatObject>().Finished.Value) {
-                    ThreatDescriptionUI.enabled = false;
-                    Debug.Log("Threat Complete");
-                    SetThreatStatus(ThreatManagerState.ThreatComplete);
-                    currentThreat = null;
-                    SetThreatStatus(ThreatManagerState.ThreatGracePeriod);
-                    StartCoroutine(StartGracePeriod()); // Return to idle
+            if (currentThreats.Count > 0) {
+                foreach (GameObject threat in currentThreats) {
+                    if(threat.GetComponent<ThreatObject>().Finished.Value) {
+                        ThreatDescriptionUI.enabled = false;
+                        Debug.Log("Threat Complete");
+                        SetThreatStatus(ThreatManagerState.ThreatComplete);
+                        currentThreats.Remove(threat);
+                        SetThreatStatus(ThreatManagerState.ThreatGracePeriod);
+                        StartCoroutine(StartGracePeriod()); // Return to idle
+                    }
                 }
             }
         }
