@@ -25,7 +25,8 @@ namespace CoopChaos.Simulation.Factories
             
             entity.Set(new PlayerSpaceshipComponent()
             {
-                VerticalAcceleration = 0f
+                TargetHorizontalVelocity = 0f,
+                TargetVerticalVelocity = 0f,
             });
             
             entity.Set(new DetectionTypeComponent()

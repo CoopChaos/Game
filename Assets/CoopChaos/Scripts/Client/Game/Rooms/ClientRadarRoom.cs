@@ -96,20 +96,25 @@ namespace CoopChaos
             var parent = radarContainer.GetComponent<RectTransform>();
             
             var d = radarRoomState.RadarMaxRange * 2;
-            var r = Math.Min(background.rect.width - 50, background.rect.height - 50) / d;
+            var r = Math.Min(background.rect.width * 0.95f, background.rect.height * 0.95f) / d;
 
             var elem = Instantiate(
                 radarPointPrefab, 
                 new Vector2(0, 0),
                 Quaternion.identity,
                 radarContainer.transform);
+
+            if (value.Type == DetectionType.AliveProjectileObject)
+            {
+                Debug.Log($"Found projectile: {value.X}, {value.Y}");
+            }
             
             elem.GetComponent<Image>().color = GetColor(value.Type);
             elem.GetComponent<RectTransform>().sizeDelta = new Vector2(value.Size * r * 12, value.Size * r * 12);
 
-            elem.GetComponent<RectTransform>().position = new Vector3(
-                (value.X - radarRoomState.CenterX.Value) * r + parent.rect.width * 0.5f, 
-                (value.Y - radarRoomState.CenterY.Value) * r + parent.rect.height * 0.5f, 0);
+            elem.GetComponent<RectTransform>().localPosition = new Vector3(
+                (value.X - radarRoomState.CenterX.Value) * r, 
+                (value.Y - radarRoomState.CenterY.Value) * r, 0);
             
             radarObjects.Add(elem);
         }

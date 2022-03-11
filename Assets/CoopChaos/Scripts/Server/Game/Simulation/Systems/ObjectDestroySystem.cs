@@ -31,6 +31,8 @@ namespace CoopChaos.Simulation.Systems
                         Entity = entity
                     });
                 }
+                
+                Debug.Log("Destroyed entity: " + entity.Get<DetectionTypeComponent>().Type);
 
                 entity.Dispose();
             }

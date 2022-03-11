@@ -1,6 +1,7 @@
 using System;
 using CoopChaos.Simulation;
 using CoopChaos.Simulation.Components;
+using DefaultEcs;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -12,8 +13,9 @@ namespace CoopChaos
     {
         private const float VerticalMaxSpeed = 50.0f;
         private const float HorizontalMaxSpeed = 30.0f;
-        private SpaceshipControlRoomState interactableState;
+        private SpaceshipControlRoomState state;
         private SimulationBehaviour simulation;
+        private EntitySet spaceshipVelocityChanged;
         
         public override void Interact(ulong clientId)
         {
@@ -25,10 +27,9 @@ namespace CoopChaos
             value = Mathf.Clamp01(value);
             
             var spaceship = simulation.World.PlayerSpaceship;
-            ref var spaceshipComponent = ref spaceship.Value.Get<ObjectComponent>();
+            ref var spaceshipComponent = ref spaceship.Value.Get<PlayerSpaceshipComponent>();
 
-            spaceshipComponent.VelocityY = VerticalMaxSpeed * value;
-            interactableState.SetVerticalVelocityServerRpc(spaceshipComponent.VelocityY);
+            spaceshipComponent.TargetVerticalVelocity = VerticalMaxSpeed * value;
         }
 
         public void SetHorizontal(float value)
@@ -36,19 +37,23 @@ namespace CoopChaos
             value = Mathf.Clamp01(value);
             
             var spaceship = simulation.World.PlayerSpaceship;
-            ref var spaceshipComponent = ref spaceship.Value.Get<ObjectComponent>();
+            ref var spaceshipComponent = ref spaceship.Value.Get<PlayerSpaceshipComponent>();
 
-            spaceshipComponent.VelocityX = (float)Math.Round(HorizontalMaxSpeed * (value - 0.5f), 2);
-            interactableState.SetHorizontalVelocityServerRpc(spaceshipComponent.VelocityX);
+            spaceshipComponent.TargetHorizontalVelocity = (float) Math.Round(HorizontalMaxSpeed * (value - 0.5f), 2);
         }
 
         private void Awake()
         {
-            interactableState = GetComponent<SpaceshipControlRoomState>();
-            Assert.IsNotNull(interactableState);
+            state = GetComponent<SpaceshipControlRoomState>();
+            Assert.IsNotNull(state);
 
             simulation = FindObjectOfType<SimulationBehaviour>();
             Assert.IsNotNull(simulation);
+
+            spaceshipVelocityChanged = simulation.World.Native.GetEntities()
+                .With<PlayerSpaceshipComponent>()
+                .WhenChanged<ObjectComponent>()
+                .AsSet();
         }
 
         protected override void Start()
@@ -56,5 +61,15 @@ namespace CoopChaos
             base.Start();
         }
 
+        private void Update()
+        {
+            foreach (var entity in spaceshipVelocityChanged.GetEntities())
+            {
+                var oc = entity.Get<ObjectComponent>();
+                
+                state.HorizontalVelocity.Value = oc.VelocityX;
+                state.VerticalVelocity.Value = oc.VelocityY;
+            }
+        }
     }
 }

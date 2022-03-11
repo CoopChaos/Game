@@ -7,8 +7,10 @@ namespace CoopChaos
         private ServerSpaceshipControlRoom server;
         
         public NetworkVariable<bool> IsBlocked { get; private set; }
+        
         public NetworkVariable<float> VerticalSlider { get; private set; }
         public NetworkVariable<float> HorizontalSlider { get; private set; }
+        
         public NetworkVariable<float> VerticalVelocity { get; private set; }
         public NetworkVariable<float> HorizontalVelocity { get; private set; }
 
@@ -32,12 +34,6 @@ namespace CoopChaos
             HorizontalSlider.Value = value;
             server.SetHorizontal(value);
         }
-
-        [ServerRpc(RequireOwnership = false)]
-        public void SetVerticalVelocityServerRpc(float value) => VerticalVelocity.Value = value;
-
-        [ServerRpc(RequireOwnership = false)]
-        public void SetHorizontalVelocityServerRpc(float value) => HorizontalVelocity.Value = value;
 
         protected override void Awake()
         {

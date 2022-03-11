@@ -21,6 +21,7 @@ namespace CoopChaos
 
         public void TriggerNextFlightSequence()
         {
+            Debug.Log("Triggering next flightsequence");
             state.CanTriggerNext.Value = false;
             story.LoadNextFlightSequence();
         }

@@ -1,6 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 namespace CoopChaos
 {
@@ -10,7 +11,15 @@ namespace CoopChaos
         [SerializeField] private GameObject highlight;
         [SerializeField] private GameObject cannonControlMenu;
 
-        private CannonRoomState cannonRoomState;
+        [SerializeField] private Button shootButton;
+
+        [SerializeField] private Color normalColor;
+        [SerializeField] private Color loadedColor;
+        [SerializeField] private RectTransform bulletLoadingBar;
+
+        [SerializeField] private ElasticSlider slider;
+
+        private CannonRoomState state;
         private bool highlighted = false;
 
         public override void Highlight()
@@ -25,18 +34,48 @@ namespace CoopChaos
             highlight.SetActive(false);
             cannonControlMenu.SetActive(false);
         }
-        
+
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
 
-            cannonRoomState.IsBlocked.OnValueChanged += HandleOpenChanged;
+            state.IsBlocked.OnValueChanged += HandleOpenChanged;
 
-            cannonRoomState.InteractEvent += user =>
+            state.InteractEvent += user =>
             {
                 if (user == NetworkManager.Singleton.LocalClientId && highlighted)
                     cannonControlMenu.SetActive(!cannonControlMenu.activeSelf);
             };
+
+            state.BulletLoad.OnValueChanged += (ov, v) =>
+            {
+                var ls = bulletLoadingBar.localScale;
+                ls.y = v;
+                bulletLoadingBar.localScale = ls;
+
+                if (v == 1f)
+                {
+                    shootButton.interactable = true;
+                    bulletLoadingBar.GetComponent<Image>().color = loadedColor;   
+                }
+                else
+                {
+                    shootButton.interactable = false;
+                    bulletLoadingBar.GetComponent<Image>().color = normalColor;
+                }
+            };
+            
+            shootButton.onClick.AddListener(() =>
+            {
+                Debug.Log("Shootc");
+                state.ShootServerRpc();
+            });
+            
+            
+            slider.onValueChanged.AddListener(v =>
+            {
+                state.SetAngleServerRpc(v);
+            });
         }
         
         private void HandleOpenChanged(bool open, bool oldOpen)
@@ -47,10 +86,10 @@ namespace CoopChaos
         {
             base.Awake();
             
-            cannonRoomState = GetComponent<CannonRoomState>();
-            
-            Assert.IsNotNull(cannonRoomState);
-            
+            state = GetComponent<CannonRoomState>();
+            bulletLoadingBar.GetComponent<Image>().color = loadedColor;
+
+            Assert.IsNotNull(state);
         }
     }
 }

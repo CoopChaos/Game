@@ -41,22 +41,18 @@ namespace CoopChaos
         private void Start()
         {
             simulation.World.Native.Subscribe<PlayerSpaceshipDamageEvent>(HandleDamageEvent);
+            simulation.World.Native.Subscribe<PlayerSpaceshipDestroyedEvent>(HandleDestroyedEvent);
         }
 
         private void HandleDamageEvent(in PlayerSpaceshipDamageEvent e)
         {
             ref var oc = ref e.Entity.Get<ObjectComponent>();
             spaceshipState.Health.Value = oc.Health;
+        }
 
-            // enable sample threat
-            // TODO: find out why this is not working
-            // GameObject.Find("SampleThreat").SetActive(true);
-            // GameObject.Find("ThreatUI").SetActive(true);
-
-            if (spaceshipState.Health.Value < 0)
-            {
-                NetworkManager.Singleton.SceneManager.LoadScene("GameOverDie", LoadSceneMode.Single);
-            }
+        private void HandleDestroyedEvent(in PlayerSpaceshipDestroyedEvent e)
+        {
+            NetworkManager.Singleton.SceneManager.LoadScene("GameOverDie", LoadSceneMode.Single);
         }
     }
 }

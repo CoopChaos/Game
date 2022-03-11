@@ -1,29 +1,39 @@
+using System;
 using CoopChaos.Simulation.Components;
 using DefaultEcs;
+using UnityEngine;
 
 namespace CoopChaos.Simulation.Factories
 {
     public static class ProjectileFactory
     {
-        private const float DefaultSize = 0.1f;
+        private const float DefaultSize = 2f;
         private const float DefaultMass = 1000f;
+        
         public static Entity CreateProjectile(this CoopChaosWorld world, ref ObjectComponent source, float velocity, float angle, float damage, float range)
         {
             var entity = world.Native.CreateEntity();
+            
+            // convert angle to radians
+            var radians = angle * Mathf.Deg2Rad;
+            
+            // convert angle to a normalized vector
+            var direction = new Vector2(Mathf.Sin(radians), Mathf.Cos(radians));
+            var length = source.Size + DefaultSize + 0.01f;
 
             entity.Set(new ObjectComponent()
             {
-                X = 0,
-                Y = 0,
-                VelocityX = 0,
-                VelocityY = 0,
+                X = source.X + direction.x * length,
+                Y = source.Y + direction.y * length,
+                VelocityX = direction.x * velocity,
+                VelocityY = direction.y * velocity,
                 Mass = DefaultMass,
                 Size = DefaultSize,
             });
 
             entity.Set(new DetectionTypeComponent()
             {
-                Type = DetectionType.NaturalDeadObject
+                Type = DetectionType.AliveProjectileObject
             });
 
             entity.Set(new ProjectileComponent()
