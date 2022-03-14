@@ -13,7 +13,7 @@ namespace Yame.Threat
 
         private bool threatCompleted = false;
 
-        private void Update()
+        public virtual void Update()
         {
             int compCounter = 0;
             // threadCompleted is true when every sub objective is finished
@@ -35,7 +35,7 @@ namespace Yame.Threat
             }
         }
 
-        private void Start()
+        public virtual void Start()
         {
             threatObject.threatObjectives = GetComponentsInChildren<ServerDeviceInteractableBase>().ToDictionary(
                 i => i.name,
