@@ -11,6 +11,14 @@ namespace CoopChaos
         LinkedList<int> nums = new LinkedList<int>();
         int ctr;
         int size = 6;
+
+        // This is for the cooperative color code input game
+        [SerializeField] bool colorCoopMode;
+        [SerializeField] bool isColorCoopModeViewer;
+
+        [SerializeField] Queue<int> correctCode;
+
+        Color[] colors = new Color[] { Color.red, Color.blue, Color.green, Color.yellow, Color.cyan, Color.magenta, Color.cyan, Color.gray, Color.white, Color.black };
     
         public override void StartMinigame()
         {
@@ -29,6 +37,11 @@ namespace CoopChaos
                     rnd = Random.Range(1, buttons.Length+1);
                 }
                 nums.AddLast(rnd);
+
+                if(colorCoopMode) {
+                    b.GetComponent<Image>().color = colors[rnd-1];
+                    b.GetComponentInChildren<Text>().color = colors[rnd-1];
+                }
                 b.GetComponentInChildren<Text>().text = rnd.ToString();
             }
             Debug.Log("Init Finished");
@@ -36,12 +49,28 @@ namespace CoopChaos
 
         void ButtonClicked(Button b)
         {
-            int num = int.Parse(b.GetComponentInChildren<Text>().text);
-            Debug.Log("Button clicked: " + num);
-            if(ctr == size) {
-                FinishMinigame();
-            } else if (num == ctr) {
-                ctr++;
+            if (colorCoopMode)
+            {
+                if(correctCode.Peek().ToString() == b.GetComponentInChildren<Text>().text)
+                {
+                correctCode.Dequeue();
+                b.GetComponent<Image>().color = Color.green;
+                if (correctCode.Count == 0)
+                {
+                    Debug.Log("Finished");
+                }
+                } else
+                {
+                    Debug.Log("Wrong");
+                }
+            } else {
+                int num = int.Parse(b.GetComponentInChildren<Text>().text);
+                Debug.Log("Button clicked: " + num);
+                if(ctr == size) {
+                    FinishMinigame();
+                } else if (num == ctr) {
+                    ctr++;
+                }
             }
         }
     }
