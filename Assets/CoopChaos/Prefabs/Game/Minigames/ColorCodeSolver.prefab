@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 512601288807016912}
   - component: {fileID: 512601288807016913}
   m_Layer: 0
-  m_Name: EnterCode
+  m_Name: ColorCodeSolver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -869,8 +869,9 @@ MonoBehaviour:
   - {fileID: 512601289829746025}
   - {fileID: 512601290366297773}
   - {fileID: 512601289648523168}
-  colorCoopMode: 0
+  colorCoopMode: 1
   isColorCoopModeViewer: 0
+  correctCodeInput: 010000000400000003000000050000000200000000000000
 --- !u!1 &512601289795362861
 GameObject:
   m_ObjectHideFlags: 0
@@ -1308,7 +1309,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -17.273499, y: 1.381897}
+  m_AnchoredPosition: {x: -17.273438, y: 1.3818359}
   m_SizeDelta: {x: -1194.3558, y: -592.2427}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &512601290131706744

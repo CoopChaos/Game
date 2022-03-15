@@ -16,13 +16,16 @@ namespace CoopChaos
         [SerializeField] bool colorCoopMode;
         [SerializeField] bool isColorCoopModeViewer;
 
-        [SerializeField] Queue<int> correctCode;
+        [SerializeField] int[] correctCodeInput;
+
+        Queue<int> correctCode;
 
         Color[] colors = new Color[] { Color.red, Color.blue, Color.green, Color.yellow, Color.cyan, Color.magenta, Color.cyan, Color.gray, Color.white, Color.black };
     
         public override void StartMinigame()
         {
             base.StartMinigame();
+            correctCode = new Queue<int>(correctCodeInput);
             ctr = 1;
             size = buttons.Length;
             Debug.Log(buttons.Length);
@@ -53,12 +56,12 @@ namespace CoopChaos
             {
                 if(correctCode.Peek().ToString() == b.GetComponentInChildren<Text>().text)
                 {
-                correctCode.Dequeue();
-                b.GetComponent<Image>().color = Color.green;
-                if (correctCode.Count == 0)
-                {
-                    Debug.Log("Finished");
-                }
+                    correctCode.Dequeue();
+                    b.GetComponent<Image>().color = Color.green;
+                    if (correctCode.Count == 0)
+                    {
+                        Debug.Log("Finished");
+                    }
                 } else
                 {
                     Debug.Log("Wrong");
