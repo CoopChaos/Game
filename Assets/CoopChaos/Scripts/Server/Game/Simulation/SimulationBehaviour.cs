@@ -43,7 +43,6 @@ namespace CoopChaos.Simulation
                 system.Update(Time.deltaTime);
 
             var spaceshipComponent = world.PlayerSpaceship.Value.Get<ObjectComponent>();
-            Debug.Log($"{spaceshipComponent.VelocityX} : {spaceshipComponent.X}");
         }
     }
 }
