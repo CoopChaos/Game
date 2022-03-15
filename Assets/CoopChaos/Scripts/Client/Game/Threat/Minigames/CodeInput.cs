@@ -34,18 +34,22 @@ namespace CoopChaos
                 Button b = buttons[i];
                 // TODO: fix loop
                 b.onClick.AddListener(() => ButtonClicked(b));
-                int rnd = Random.Range(1, buttons.Length+1);
-                while(nums.Contains(rnd))
-                {
-                    rnd = Random.Range(1, buttons.Length+1);
-                }
-                nums.AddLast(rnd);
+                if(isColorCoopModeViewer) {
+                    b.GetComponent<Image>().color = colors[correctCodeInput[i]];
+                } else {
+                    int rnd = Random.Range(1, buttons.Length+1);
+                    while(nums.Contains(rnd))
+                    {
+                        rnd = Random.Range(1, buttons.Length+1);
+                    }
+                    nums.AddLast(rnd);
 
-                if(colorCoopMode) {
-                    b.GetComponent<Image>().color = colors[rnd-1];
-                    b.GetComponentInChildren<Text>().color = colors[rnd-1];
+                    if(colorCoopMode) {
+                        b.GetComponent<Image>().color = colors[rnd-1];
+                        b.GetComponentInChildren<Text>().color = colors[rnd-1];
+                    }
+                    b.GetComponentInChildren<Text>().text = rnd.ToString();
                 }
-                b.GetComponentInChildren<Text>().text = rnd.ToString();
             }
             Debug.Log("Init Finished");
         }
@@ -57,10 +61,10 @@ namespace CoopChaos
                 if(correctCode.Peek().ToString() == b.GetComponentInChildren<Text>().text)
                 {
                     correctCode.Dequeue();
-                    b.GetComponent<Image>().color = Color.green;
                     if (correctCode.Count == 0)
                     {
                         Debug.Log("Finished");
+                        FinishMinigame();
                     }
                 } else
                 {
