@@ -1,6 +1,7 @@
 using System;
 using CoopChaos.Shared;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 // using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -28,6 +29,15 @@ namespace CoopChaos
         private InputAction pauseInputAction;
         private Animator anim;
 
+        enum AnimationState 
+        {
+            Down,
+            Up,
+            Left,
+            Right,
+            Idle
+        }
+
         public void SetColor(Color color)
         {
             //GetComponentInChildren<SpriteRenderer>().color = color;
@@ -48,8 +58,11 @@ namespace CoopChaos
             var playerInput = GetComponent<PlayerInput>();
             Assert.IsNotNull(playerInput);
             
+
+
             if (!IsClient || !IsOwner)
             {
+                
                 playerInput.enabled = false;
 
                 Debug.Log($"DISABLE {this.NetworkObjectId}");
@@ -62,6 +75,8 @@ namespace CoopChaos
             moveInputAction = playerInput.actions["move"];
             interactInputAction = playerInput.actions["interact"];
             pauseInputAction = playerInput.actions["pause"];
+
+        
         }
 
         public void OnPause()
@@ -83,27 +98,85 @@ namespace CoopChaos
 
         private void FixedUpdate()
         {
-            //rigidbody.MovePosition(rigidbody.position + movement * speed * Time.fixedDeltaTime);
-            //Vector2 moveInput = moveInputAction.ReadValue<Vector2>();
             rigidbody.velocity += movement * speed * Time.fixedDeltaTime ; 
             
-            // Movement
-            //rigidbody.AddForce(movement * speed);
-            anim.SetFloat("Horizontal", movement.x);
-            anim.SetFloat("Vertical", movement.y);
-            anim.SetFloat("Speed", movement.sqrMagnitude);
 
-            if(movement.x != 0 ) 
+           
+            if(movement.x > 0.1f)
+                AnimationTrigger(AnimationState.Right);
+            else if(movement.x < -0.1f)
+                AnimationTrigger(AnimationState.Left);
+            else if(movement.y > 0.1f)
+                AnimationTrigger(AnimationState.Up);
+            else if(movement.y < -0.1f)
+                AnimationTrigger(AnimationState.Down);
+            else
+                AnimationTrigger(AnimationState.Idle);
+
+        }
+
+        private void AnimationTrigger(AnimationState state)
+        {
+            SetAnimationTriggers(state);
+            AnimationTriggerServerRpc(state);
+        }
+
+        [ServerRpc]
+        private void AnimationTriggerServerRpc(AnimationState state)
+        {
+            AnimationTriggerClientRpc(state);
+        }
+
+        [ClientRpc]
+        private void AnimationTriggerClientRpc(AnimationState state)
+        {
+            if(IsOwner)
+                return;
+
+            SetAnimationTriggers(state);
+        }
+        
+
+        private void SetAnimationTriggers(AnimationState trigger)
+        {
+            switch(trigger)
             {
-                anim.SetFloat("LastMoveHorizontal", movement.x);
-                anim.SetFloat("LastMoveVertical", 0);
+                case AnimationState.Right:
+                    anim.SetTrigger("Right");
+                    anim.ResetTrigger("Left");
+                    anim.ResetTrigger("Up");
+                    anim.ResetTrigger("Down");
+                    anim.ResetTrigger("Idle");
+                    break;
+                case AnimationState.Left:
+                    anim.SetTrigger("Left");
+                    anim.ResetTrigger("Right");
+                    anim.ResetTrigger("Up");
+                    anim.ResetTrigger("Down");
+                    anim.ResetTrigger("Idle");
+                    break;
+                case AnimationState.Up:
+                    anim.SetTrigger("Up");
+                    anim.ResetTrigger("Right");
+                    anim.ResetTrigger("Left");
+                    anim.ResetTrigger("Down");
+                    anim.ResetTrigger("Idle");
+                    break;
+                case AnimationState.Down:
+                    anim.SetTrigger("Down");
+                    anim.ResetTrigger("Right");
+                    anim.ResetTrigger("Left");
+                    anim.ResetTrigger("Up");
+                    anim.ResetTrigger("Idle");
+                    break;
+                case AnimationState.Idle:
+                    anim.SetTrigger("Idle");
+                    anim.ResetTrigger("Right");
+                    anim.ResetTrigger("Left");
+                    anim.ResetTrigger("Up");
+                    anim.ResetTrigger("Down");
+                    break;
             }
-            if(movement.y != 0 ) 
-            {
-                anim.SetFloat("LastMoveHorizontal", 0);
-                anim.SetFloat("LastMoveVertical", movement.y);
-            }
-            
         }
         
         
