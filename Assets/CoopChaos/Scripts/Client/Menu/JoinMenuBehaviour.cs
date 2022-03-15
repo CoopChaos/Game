@@ -1,8 +1,10 @@
 using System;
+using System.Net;
 using TMPro;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UNET;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 namespace CoopChaos.Menu
@@ -69,7 +71,19 @@ namespace CoopChaos.Menu
             clientConnectionManager = FindObjectOfType<ClientConnectionManager>();
             serverConnectionManager = FindObjectOfType<ServerConnectionManager>();
             connectionManager = FindObjectOfType<ConnectionManager>();
-            
+            ipAddress.text = GetLocalIPAddress();
+
+            IPAddress[] ipv4Addresses = Array.FindAll(
+                Dns.GetHostEntry(string.Empty).AddressList,
+                a => true);
+                
+            Debug.Log($"Found {ipv4Addresses.Length} IPv4 addresses");
+            foreach (var ipAddress in ipv4Addresses)
+            {
+                Debug.Log($"IPv4 address: {ipAddress}");
+            }
+
+
             cancelButton.onClick.AddListener(() =>
             {
                 clientConnectionManager.StopClient();
@@ -79,6 +93,34 @@ namespace CoopChaos.Menu
             
             clientConnectionManager.OnDisconnected += HandleOnDisconnected;
             clientConnectionManager.OnConnectingFinished += HandleOnConnectingFinished;
+        }
+
+        private string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+
+            return "";
+        }
+
+        private string GetGlobalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
+                {
+                    return ip.ToString();
+                }
+            }
+
+            return "";
         }
 
         private void OnDestroy()
