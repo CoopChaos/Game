@@ -13,6 +13,8 @@ namespace Yame.Threat
         // TODO: make this a network varaible
         public String threatName;
         public String threatDescription;
+
+        public int threatTime;
         public NetworkVariable<int> numTasksTotal;
         public NetworkVariable<int> numTasksFinished;
 

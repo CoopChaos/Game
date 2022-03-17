@@ -20,8 +20,6 @@ namespace Yame
             }
 
             claimedByMe = true;
-            
-            deviceSprite.SetActive(!claim);
         }
 
         public override void Highlight()
