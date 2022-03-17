@@ -48,9 +48,6 @@ namespace CoopChaos
                 Destroy(gameObject);
             }
             currentThreats = new LinkedList<GameObject>();
-
-            // TEMP
-            SpawnThreat();
         }
 
         public GameObject SelectThreat()
@@ -59,12 +56,12 @@ namespace CoopChaos
             return threatPool[randomIndex];
         }
 
-        public void SpawnThreat() {
+        public async void SpawnThreat() {
             if(threatManagerState == ThreatManagerState.ThreatInProgress) return;
 
             GameObject threat = SelectThreat();
 
-            LinkedListNode<GameObject> tnode = currentThreats.AddLast(Instantiate(threat, new Vector3(0f, 0f, 0f), Quaternion.identity));
+            LinkedListNode<GameObject> tnode = currentThreats.AddLast(Instantiate(threat, new Vector3(0f, 0f, 0f), Quaternion.identity, this.transform));
 
             ThreatDescriptionUI.enabled = true;
             ThreatDescriptionUI.text = tnode.Value.GetComponent<ThreatObject>().threatName + " " + tnode.Value.GetComponent<ThreatObject>().threatDescription ;
