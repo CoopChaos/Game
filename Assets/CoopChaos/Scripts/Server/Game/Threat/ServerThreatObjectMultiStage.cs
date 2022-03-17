@@ -3,8 +3,8 @@ using UnityEngine;
 namespace Yame.Threat
 {
     public class ServerThreatObjectMultiStage : ServerThreatObject {
-        private GameObject[] stage1Threats;
-        private GameObject[] stage2Threats;
+        [SerializeField] private GameObject[] stage1Threats;
+        [SerializeField] private GameObject[] stage2Threats;
 
 
         private bool threatCompleted = false;
@@ -22,31 +22,26 @@ namespace Yame.Threat
             }
 
             if(stage1Completed) {
-                foreach (var threat in stage1Threats)
-                {
-                    threat.SetActive(false);
-                }
-
-                foreach (var threat in stage2Threats)
-                {
-                    threat.SetActive(true);
-                }
+                SetStageActiveState(stage1Threats, false);
+                SetStageActiveState(stage2Threats, true);
             }
+        }
+
+        private void SetThreatActiveState(GameObject threat, bool active) {
+            threat.GetComponentInChildren<SpriteRenderer>().enabled = active;
+            threat.GetComponentInChildren<BoxCollider2D>().enabled = active;
+        }
+
+        private void SetStageActiveState(GameObject[] threats, bool active) {
+            foreach (var threat in threats) SetThreatActiveState(threat, active);
         }
 
         public override void Start()
         {
             base.Start();
 
-            foreach (var threat in stage1Threats)
-            {
-                threat.SetActive(true);
-            }
-
-            foreach (var threat in stage2Threats)
-            {
-                threat.SetActive(false);
-            }
+            SetStageActiveState(stage1Threats, true);
+            SetStageActiveState(stage2Threats, false);
         }
     }
 }
