@@ -43,6 +43,24 @@ namespace CoopChaos
             //GetComponentInChildren<SpriteRenderer>().color = color;
         }
 
+        [ClientRpc]
+        public void SetRoleClientRpc(ServerGameStage.Roles role)
+        {
+            Debug.Log(role.ToString());
+            switch(role)
+            {
+                case ServerGameStage.Roles.Pilot:
+                    anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animation/Pilot/Player_Triggers");
+                    break;
+                case ServerGameStage.Roles.Technician:
+                    anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animation/Technician/Technician_Triggers");
+                    break;
+                case ServerGameStage.Roles.Gunner:
+                    anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animation/Technician/Technician_Triggers");
+                    break;
+            }
+        }
+
         public void OnInteract()
         {
             if (currentInteractable != null)
