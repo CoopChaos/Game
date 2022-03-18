@@ -38,6 +38,12 @@ namespace Yame
                 baseThreatMinigame.StartMinigame();
             };
 
+            // Hide Minigame from Player if role is not suitable
+            if(deviceInteractableState.IsRoleBound && GetComponent<GameStageUserState>().Role.Value != deviceInteractableState.Role) {
+                deviceSprite.SetActive(false);
+                highlight.SetActive(false);
+            }
+
             baseThreatMinigame = minigame.GetComponent<BaseThreatMinigame>();
         }
 

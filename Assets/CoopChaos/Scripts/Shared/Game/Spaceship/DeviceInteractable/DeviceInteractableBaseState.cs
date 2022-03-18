@@ -16,6 +16,10 @@ namespace CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship
         private NetworkVariable<bool> fulfilled;
 
         private NetworkVariable<ulong> clientId;
+
+        public bool IsRoleBound;
+
+        public PlayerRoles Role;
         
         private string taskDescription;
 
