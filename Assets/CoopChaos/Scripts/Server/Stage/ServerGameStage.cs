@@ -16,12 +16,7 @@ namespace CoopChaos
         [SerializeField] private NetworkObject playerPrefab;
         [SerializeField] private Transform playerSpawn;
 
-        public enum Roles
-        {
-            Pilot,
-            Technician,
-            Gunner,
-        }
+        
 
         private Dictionary<Guid, NetworkObject> players = new Dictionary<Guid, NetworkObject>();
         private Dictionary<ulong, ServerInteractableObjectBase> interactableObjects = new Dictionary<ulong, ServerInteractableObjectBase>();
@@ -66,10 +61,7 @@ namespace CoopChaos
             NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
             NetworkManager.Singleton.OnClientConnectedCallback += HandleClientDisconnected;
 
-            List<Roles> roles = new List<Roles>();
-
-            foreach(Roles key in Enum.GetValues(typeof(Roles)))
-                roles.Add(key);
+            List<PlayerRoles> roles = Enum.GetValues(typeof(PlayerRoles)).Cast<PlayerRoles>().ToList();
 
             // Shuffle List
             System.Random rng = new System.Random();
@@ -78,7 +70,7 @@ namespace CoopChaos
             while (n > 1) {  
                 n--;  
                 int k = rng.Next(n + 1);  
-                Roles value = roles[k];  
+                PlayerRoles value = roles[k];  
                 roles[k] = roles[n];  
                 roles[n] = value;  
             }  
@@ -90,14 +82,12 @@ namespace CoopChaos
                 var player = Instantiate(playerPrefab, playerSpawn.position, playerSpawn.rotation);
                 player.SpawnWithOwnership(client.ClientId);
 
-                // random unity color
-                var color = new Color(UnityEngine.Random.Range(0.4f, 1f), UnityEngine.Random.Range(0.4f, 1f), UnityEngine.Random.Range(0.4f, 1f));
-                player.GetComponent<GameStageUser>().SetColor(color);
                 
                 players.Add(UserConnectionMapper.Singleton[client.ClientId], player);
 
                 if(i < roles.Count)
                 {
+                    player.GetComponent<GameStageUserState>().Role.Value = roles[i];
                     player.GetComponent<GameStageUser>().SetRoleClientRpc(roles[i]);
                     i++;
                 }

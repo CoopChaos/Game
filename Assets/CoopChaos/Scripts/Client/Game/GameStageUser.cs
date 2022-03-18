@@ -29,6 +29,7 @@ namespace CoopChaos
         private InputAction pauseInputAction;
         private Animator anim;
 
+
         enum AnimationState 
         {
             Down,
@@ -44,18 +45,18 @@ namespace CoopChaos
         }
 
         [ClientRpc]
-        public void SetRoleClientRpc(ServerGameStage.Roles role)
+        public void SetRoleClientRpc(PlayerRoles role)
         {
             Debug.Log(role.ToString());
             switch(role)
             {
-                case ServerGameStage.Roles.Pilot:
+                case PlayerRoles.Pilot:
                     anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animation/Pilot/Player_Triggers");
                     break;
-                case ServerGameStage.Roles.Technician:
+                case PlayerRoles.Technician:
                     anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animation/Technician/Technician_Triggers");
                     break;
-                case ServerGameStage.Roles.Gunner:
+                case PlayerRoles.Gunner:
                     anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animation/Technician/Technician_Triggers");
                     break;
             }
