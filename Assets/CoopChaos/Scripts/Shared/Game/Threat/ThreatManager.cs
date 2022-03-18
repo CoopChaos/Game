@@ -74,8 +74,17 @@ namespace CoopChaos
             
             // POSITION START
 
+            LinkedList<int> positions = new LinkedList<int>();
+
             for(int i = 0; i < tnode.Value.transform.childCount; i++) {
-                tnode.Value.transform.GetChild(i).transform.position = GameObject.Find("SpawnPoints").transform.GetChild(i).transform.position;
+                int rnd = 0;
+
+                do {
+                    rnd = Random.Range(0, GameObject.Find("SpawnPoints").transform.childCount);
+                } while(positions.Contains(rnd));
+
+                tnode.Value.transform.GetChild(i).transform.position = GameObject.Find("SpawnPoints").transform.GetChild(rnd).transform.position;
+                positions.AddLast(rnd);
             }
 
             // POSITION END
