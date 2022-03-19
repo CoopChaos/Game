@@ -1,6 +1,7 @@
 using System;
 using CoopChaos;
 using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,8 +39,9 @@ namespace Yame
                 baseThreatMinigame.StartMinigame();
             };
 
+            
             // Hide Minigame from Player if role is not suitable
-            if(deviceInteractableState.IsRoleBound && GetComponent<GameStageUserState>().Role.Value != deviceInteractableState.Role) {
+            if(deviceInteractableState.IsRoleBound && NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<GameStageUserState>().Role.Value != deviceInteractableState.Role) {
                 deviceSprite.SetActive(false);
                 highlight.SetActive(false);
             }
