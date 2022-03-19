@@ -28,8 +28,6 @@ namespace CoopChaos
         public event ThreatMStateChange ThreatMStateChangeEvent;
         private ThreatManagerState threatManagerState;
 
-        private ThreatMStateChange threatStateChangeLocal;
-
 
         [SerializeField]
         private Text ThreatUI;
@@ -40,11 +38,18 @@ namespace CoopChaos
         [SerializeField]
         private NetworkObject[] threatPool;
 
+        private void OnNetworkSpawn() {
+            base.OnNetworkSpawn();
+
+            if (!IsServer) {
+                enabled = false;
+                return;
+            }
+        }
+
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
-
-            threatStateChangeLocal = ThreatMStateChangeEvent;
 
             ThreatDescriptionUI.enabled = false;
             if (Instance == null) Instance = this;
@@ -53,10 +58,7 @@ namespace CoopChaos
             }
             currentThreats = new LinkedList<NetworkObject>();
 
-            if(IsServer)
-            {
-                SpawnThreat();
-            }
+            SpawnThreat();
         }
 
         public NetworkObject SelectThreat()
@@ -98,11 +100,9 @@ namespace CoopChaos
                 positions.AddLast(rnd);
             }
 
-            /*
-            // POSITION END
             foreach (NetworkObject no in networkObjects)
                 no.Spawn();
-            */
+            
             SetThreatStatus(ThreatManagerState.ThreatInProgress);
         }
 

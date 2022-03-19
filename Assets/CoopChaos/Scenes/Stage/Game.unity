@@ -1051,7 +1051,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6671634073117894868, guid: 010ffc8eaa6a8d24c8adbc52326e744c, type: 3}
       propertyPath: threatPool.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6671634073117894868, guid: 010ffc8eaa6a8d24c8adbc52326e744c, type: 3}
       propertyPath: threatPool.Array.data[0]
@@ -1060,11 +1060,11 @@ PrefabInstance:
     - target: {fileID: 6671634073117894868, guid: 010ffc8eaa6a8d24c8adbc52326e744c, type: 3}
       propertyPath: threatPool.Array.data[1]
       value: 
-      objectReference: {fileID: 4168308116438515774, guid: 96c0975eb45e3c8218c271c32a236891, type: 3}
+      objectReference: {fileID: 4168308116438515774, guid: 19de8fe38d985793db8f495adc8b9d0a, type: 3}
     - target: {fileID: 6671634073117894868, guid: 010ffc8eaa6a8d24c8adbc52326e744c, type: 3}
       propertyPath: threatPool.Array.data[2]
       value: 
-      objectReference: {fileID: 4168308116438515774, guid: 96c0975eb45e3c8218c271c32a236891, type: 3}
+      objectReference: {fileID: 4168308116438515774, guid: e9d1240d6cee1bca4944240fb82afd8a, type: 3}
     - target: {fileID: 6671634073117894868, guid: 010ffc8eaa6a8d24c8adbc52326e744c, type: 3}
       propertyPath: threatPool.Array.data[3]
       value: 

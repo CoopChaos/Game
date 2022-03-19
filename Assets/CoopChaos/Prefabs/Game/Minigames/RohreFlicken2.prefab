@@ -606,7 +606,6 @@ GameObject:
   - component: {fileID: 7601126266783220791}
   - component: {fileID: 7601126266783220785}
   - component: {fileID: 7601126266783220784}
-  - component: {fileID: 1593599422082079623}
   m_Layer: 0
   m_Name: RohreFlicken2
   m_TagString: Untagged
@@ -748,22 +747,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d29371aebe640b0a8788d49568001e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1593599422082079623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7601126266783220799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 951099334
-  AlwaysReplicateAsRoot: 0
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!1 &8296777834679566182
 GameObject:
   m_ObjectHideFlags: 0
