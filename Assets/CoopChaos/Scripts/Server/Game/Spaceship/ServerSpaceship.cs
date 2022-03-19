@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CoopChaos.Simulation;
@@ -60,12 +61,22 @@ namespace CoopChaos
             
             if (spaceshipState.Health.Value < 0)
             {
-                NetworkManager.Singleton.SceneManager.LoadScene("GameOverDie", LoadSceneMode.Single);
+                StartCoroutine(DeathRoutine());
             }
         }
 
         private void HandleDestroyedEvent(in PlayerSpaceshipDestroyedEvent e)
         {
+            Debug.Log("DEATH");
+            StartCoroutine(DeathRoutine());
+        }
+        
+        private IEnumerator DeathRoutine()
+        {
+            spaceshipState.DeathAnimationClientRpc();
+            Debug.Log("DEATHB");
+            yield return new WaitForSeconds(2);
+            Debug.Log("DEATHDONE");
             NetworkManager.Singleton.SceneManager.LoadScene("GameOverDie", LoadSceneMode.Single);
         }
 
