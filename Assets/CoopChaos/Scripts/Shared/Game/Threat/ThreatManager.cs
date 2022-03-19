@@ -24,7 +24,7 @@ namespace CoopChaos
     public class ThreatManager : NetworkBehaviour
     {
         public static ThreatManager Instance;
-        private LinkedList<GameObject> currentThreats;
+        private LinkedList<NetworkObject> currentThreats;
         public event ThreatMStateChange ThreatMStateChangeEvent;
         private ThreatManagerState threatManagerState;
 
@@ -36,8 +36,7 @@ namespace CoopChaos
         private Text ThreatDescriptionUI;
 
         [SerializeField]
-        private GameObject[] threatPool;
-
+        private NetworkObject[] threatPool;
 
         private void Awake()
         {
@@ -47,10 +46,15 @@ namespace CoopChaos
             else if(Instance != this) {
                 Destroy(gameObject);
             }
-            currentThreats = new LinkedList<GameObject>();
+            currentThreats = new LinkedList<NetworkObject>();
+
+            if(IsServer)
+            {
+                SpawnThreat();
+            }
         }
 
-        public GameObject SelectThreat()
+        public NetworkObject SelectThreat()
         {   
             int randomIndex = Random.Range(0, threatPool.Length);
             return threatPool[randomIndex];
@@ -59,9 +63,13 @@ namespace CoopChaos
         public async void SpawnThreat() {
             if(threatManagerState == ThreatManagerState.ThreatInProgress) return;
 
-            GameObject threat = SelectThreat();
+            NetworkObject threat = SelectThreat();
 
-            LinkedListNode<GameObject> tnode = currentThreats.AddLast(Instantiate(threat, new Vector3(0f, 0f, 0f), Quaternion.identity, this.transform));
+            NetworkObject go = Instantiate(threat, new Vector3(0f, 0f, 0f), Quaternion.identity, this.transform);
+
+            LinkedListNode<NetworkObject> tnode = currentThreats.AddLast(go);
+
+            go.Spawn();
 
             ThreatDescriptionUI.enabled = true;
             ThreatDescriptionUI.text = tnode.Value.GetComponent<ThreatObject>().threatName + " " + tnode.Value.GetComponent<ThreatObject>().threatDescription ;
@@ -93,7 +101,7 @@ namespace CoopChaos
             SetThreatStatus(ThreatManagerState.ThreatInProgress);
         }
 
-        public IEnumerator StartThreatTimer(GameObject threat) {
+        public IEnumerator StartThreatTimer(NetworkObject threat) {
             // yield time until damage
             yield return new WaitForSeconds(threat.GetComponent<ThreatObject>().threatTime);
             if(GetThreatStatus() == ThreatManagerState.ThreatInProgress) {
@@ -129,7 +137,7 @@ namespace CoopChaos
 
         public void Update() {
             if (currentThreats.Count > 0) {
-                foreach (GameObject threat in currentThreats) {
+                foreach (NetworkObject threat in currentThreats) {
                     if(threat.GetComponent<ThreatObject>().Finished.Value) {
                         ThreatDescriptionUI.enabled = false;
                         Debug.Log("Threat Complete");
