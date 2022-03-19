@@ -48,6 +48,8 @@ namespace CoopChaos
                 Destroy(gameObject);
             }
             currentThreats = new LinkedList<GameObject>();
+
+            SpawnThreat();
         }
 
         public GameObject SelectThreat()
@@ -69,6 +71,23 @@ namespace CoopChaos
             StartCoroutine(StartThreatTimer(tnode.Value));
 
             NetworkObject[] networkObjects = tnode.Value.GetComponentsInChildren<NetworkObject>();
+            
+            // POSITION START
+
+            LinkedList<int> positions = new LinkedList<int>();
+
+            for(int i = 0; i < tnode.Value.transform.childCount; i++) {
+                int rnd = 0;
+
+                do {
+                    rnd = Random.Range(0, GameObject.Find("SpawnPoints").transform.childCount);
+                } while(positions.Contains(rnd));
+
+                tnode.Value.transform.GetChild(i).transform.position = GameObject.Find("SpawnPoints").transform.GetChild(rnd).transform.position;
+                positions.AddLast(rnd);
+            }
+
+            // POSITION END
 
             foreach (NetworkObject no in networkObjects)
                 no.Spawn();

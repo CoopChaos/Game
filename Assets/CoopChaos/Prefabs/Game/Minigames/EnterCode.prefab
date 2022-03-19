@@ -220,6 +220,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 271616fe0ab54efab5222d3f9fd938fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsRoleBound: 1
+  Role: 1
 --- !u!114 &512601288807016913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -871,6 +873,7 @@ MonoBehaviour:
   - {fileID: 512601289648523168}
   colorCoopMode: 0
   isColorCoopModeViewer: 0
+  correctCodeInput: 
 --- !u!1 &512601289795362861
 GameObject:
   m_ObjectHideFlags: 0
