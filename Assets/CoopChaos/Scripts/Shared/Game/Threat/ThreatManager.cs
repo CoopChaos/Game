@@ -56,6 +56,7 @@ namespace CoopChaos
             else if(Instance != this) {
                 Destroy(gameObject);
             }
+
             currentThreats = new LinkedList<NetworkObject>();
 
             SpawnThreat();
@@ -100,8 +101,10 @@ namespace CoopChaos
                 positions.AddLast(rnd);
             }
 
-            foreach (NetworkObject no in networkObjects)
-                no.Spawn();
+            if(IsServer) {
+                foreach (NetworkObject no in networkObjects)
+                    no.Spawn();
+            }
             
             SetThreatStatus(ThreatManagerState.ThreatInProgress);
         }
@@ -126,6 +129,14 @@ namespace CoopChaos
         }
 
         private void SetThreatStatus(ThreatManagerState state) {
+            ThreatUI.text = state.ToString();
+            ThreatMStateChangeEvent(state);
+            threatManagerState = state;
+            SetThreatStatusClientRpc(state);
+        }
+
+        [ClientRpc]
+        private void SetThreatStatusClientRpc(ThreatManagerState state) {
             ThreatUI.text = state.ToString();
             ThreatMStateChangeEvent(state);
             threatManagerState = state;
