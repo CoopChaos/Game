@@ -48,8 +48,6 @@ namespace CoopChaos
                 Destroy(gameObject);
             }
             currentThreats = new LinkedList<GameObject>();
-
-            SpawnThreat();
         }
 
         public GameObject SelectThreat()
