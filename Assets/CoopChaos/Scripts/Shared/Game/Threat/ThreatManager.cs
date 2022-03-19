@@ -38,7 +38,7 @@ namespace CoopChaos
         [SerializeField]
         private NetworkObject[] threatPool;
 
-        private void OnNetworkSpawn() {
+        public override void OnNetworkSpawn() {
             base.OnNetworkSpawn();
 
             if (!IsServer) {
@@ -70,7 +70,8 @@ namespace CoopChaos
         }
 
         public void SpawnThreat() {
-            if(threatManagerState == ThreatManagerState.ThreatInProgress) return;
+            if (threatManagerState == ThreatManagerState.ThreatInProgress) 
+                return;
 
             NetworkObject threat = SelectThreat();
 
@@ -78,17 +79,14 @@ namespace CoopChaos
 
             LinkedListNode<NetworkObject> tnode = currentThreats.AddLast(go);
 
-            // go.Spawn();
+            go.Spawn();
 
             ThreatDescriptionUI.enabled = true;
             ThreatDescriptionUI.text = tnode.Value.GetComponent<ThreatObject>().threatName + " " + tnode.Value.GetComponent<ThreatObject>().threatDescription ;
 
             StartCoroutine(StartThreatTimer(tnode.Value));
 
-            NetworkObject[] networkObjects = tnode.Value.GetComponentsInChildren<NetworkObject>();
-            
             // POSITION START
-
             LinkedList<int> positions = new LinkedList<int>();
 
             for(int i = 0; i < tnode.Value.transform.childCount; i++) {
@@ -100,11 +98,6 @@ namespace CoopChaos
 
                 tnode.Value.transform.GetChild(i).transform.position = GameObject.Find("SpawnPoints").transform.GetChild(rnd).transform.position;
                 positions.AddLast(rnd);
-            }
-
-            if(IsServer) {
-                foreach (NetworkObject no in networkObjects)
-                    no.Spawn();
             }
             
             SetThreatStatus(ThreatManagerState.ThreatInProgress);
