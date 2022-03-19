@@ -45,6 +45,8 @@ namespace CoopChaos
                 enabled = false;
                 return;
             }
+            
+            SpawnThreat();
         }
 
         private void Awake()
@@ -52,14 +54,13 @@ namespace CoopChaos
             DontDestroyOnLoad(gameObject);
 
             ThreatDescriptionUI.enabled = false;
+            
             if (Instance == null) Instance = this;
             else if(Instance != this) {
                 Destroy(gameObject);
             }
 
             currentThreats = new LinkedList<NetworkObject>();
-
-            SpawnThreat();
         }
 
         public NetworkObject SelectThreat()
@@ -68,7 +69,7 @@ namespace CoopChaos
             return threatPool[randomIndex];
         }
 
-        public async void SpawnThreat() {
+        public void SpawnThreat() {
             if(threatManagerState == ThreatManagerState.ThreatInProgress) return;
 
             NetworkObject threat = SelectThreat();
