@@ -5,6 +5,7 @@ using CoopChaos.Simulation;
 using CoopChaos.Simulation.Components;
 using CoopChaos.Simulation.Events;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
