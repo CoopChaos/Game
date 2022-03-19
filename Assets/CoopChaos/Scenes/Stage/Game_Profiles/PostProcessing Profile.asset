@@ -64,7 +64,7 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   gradingMode:
-    overrideState: 1
+    overrideState: 0
     value: 1
   externalLut:
     overrideState: 0
@@ -105,8 +105,8 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   colorFilter:
-    overrideState: 0
-    value: {r: 1, g: 0.3160377, b: 0.3160377, a: 1}
+    overrideState: 1
+    value: {r: 2.3245068, g: 2.3245068, b: 2.3245068, a: 1}
   hueShift:
     overrideState: 0
     value: 0
@@ -117,7 +117,7 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   postExposure:
-    overrideState: 1
+    overrideState: 0
     value: 0
   contrast:
     overrideState: 0
