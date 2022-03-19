@@ -46,10 +46,18 @@ namespace Yame
                 return;
             }
 
+            deviceInteractableState.Fulfilled.OnValueChanged = ReactFulfilled;
+        }
+
+        private void Awake()
+        {
             deviceInteractableState = GetComponent<DeviceInteractableBaseState>();
             Assert.IsNotNull(deviceInteractableState);
-            
-            deviceInteractableState.Fulfilled.OnValueChanged = ReactFulfilled;
+        }
+
+        protected override void Start()
+        {
+            base.Start();
         }
 
         private void ReactFulfilled(bool previousvalue, bool newvalue)
