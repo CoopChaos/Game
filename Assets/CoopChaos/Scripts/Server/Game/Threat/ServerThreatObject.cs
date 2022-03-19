@@ -35,6 +35,16 @@ namespace Yame.Threat
             }
         }
 
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+
+            if(!IsServer){
+                enabled = false;
+                return;
+            }
+        }
+
         public virtual void Start()
         {
             threatObject.threatObjectives = GetComponentsInChildren<ServerDeviceInteractableBase>().ToDictionary(

@@ -18,6 +18,12 @@ namespace Yame
         {
             base.OnNetworkSpawn();
 
+            /*
+            if(deviceInteractableState.IsRoleBound && NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<GameStageUserState>().Role.Value != deviceInteractableState.Role) {
+                deviceSprite.SetActive(false);
+                highlight.SetActive(false);
+            }
+            */
 
             deviceInteractableState.Claimed.OnValueChanged = HandleClaimChanged;
         }
@@ -41,10 +47,6 @@ namespace Yame
 
             
             // Hide Minigame from Player if role is not suitable
-            if(deviceInteractableState.IsRoleBound && NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<GameStageUserState>().Role.Value != deviceInteractableState.Role) {
-                deviceSprite.SetActive(false);
-                highlight.SetActive(false);
-            }
 
             baseThreatMinigame = minigame.GetComponent<BaseThreatMinigame>();
         }

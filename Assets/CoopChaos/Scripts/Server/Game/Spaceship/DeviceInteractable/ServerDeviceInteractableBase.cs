@@ -37,9 +37,15 @@ namespace Yame
             }
         }
 
-        protected override void Start()
+        public override void OnNetworkSpawn()
         {
-            base.Start();
+            base.OnNetworkSpawn();
+
+            if(!IsServer){
+                enabled = false;
+                return;
+            }
+
             deviceInteractableState = GetComponent<DeviceInteractableBaseState>();
             Assert.IsNotNull(deviceInteractableState);
             
