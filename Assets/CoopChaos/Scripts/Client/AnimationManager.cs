@@ -17,15 +17,17 @@ namespace CoopChaos
 
             while (elapsed < duration)
             {
-                float x = Random.Range(-0.5f, 0.5f) * 0.5f;
-                float y = Random.Range(-0.5f, 0.5f) * 0.5f;
+                float x = Random.Range(-0.5f, 0.5f) * 3.0f;
+                float y = Random.Range(-0.5f, 0.5f) * 3.0f;
 
-                transform.position = new Vector3(transform.position.x + x, transform.position.y + y, transform.position.z);
+                transform.position = new Vector3(originalPos.x + x, originalPos.y + y, originalPos.z);
 
                 elapsed += Time.deltaTime;
 
                 yield return null;
             }
+
+            transform.position = originalPos;
         }
 
         public IEnumerator WarpDrive()
