@@ -11,6 +11,8 @@ namespace CoopChaos
                 enabled = false;
                 return;
             }
+
+            StartCoroutine(FindObjectOfType<AnimationManager>().Spawn());
         }
     }
 }

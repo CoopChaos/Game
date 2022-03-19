@@ -12,8 +12,12 @@ namespace CoopChaos
         {
             float elapsed = 0.0f;
             float duration = 0.5f;
+
+            var p = FindObjectOfType<PostProcessVolume>();
             
             Vector3 originalPos = transform.position;
+            var colorGrading = (ColorGrading) p.profile.settings.First(s => s is ColorGrading);
+            colorGrading.colorFilter.value = new Color(1.0f, 0.3f, 0.3f, 1.0f);
 
             while (elapsed < duration)
             {
@@ -26,6 +30,8 @@ namespace CoopChaos
 
                 yield return null;
             }
+            
+            colorGrading.colorFilter.value = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 
             transform.position = originalPos;
         }
@@ -90,13 +96,30 @@ namespace CoopChaos
             
         }
         
-        public IEnumerator Damage()
+        public IEnumerator Spawn()
         {
             var p = FindObjectOfType<PostProcessVolume>();
-
-//            p.profile.settings.First(s => s is);
             
-            yield return null;
+            var colorGrading = (ColorGrading) p.profile.settings.First(s => s is ColorGrading);
+            
+            const float duration = 4.0f;
+            const float targetColorGrading = 1f;
+            const float sourceColorGrading = 0f;
+            
+            float time = 0.0f;
+
+            yield return new WaitForSeconds(0.25f);
+            
+            while (time < duration)
+            {
+                time += Time.deltaTime;
+                
+                colorGrading.colorFilter.value = new Color(Mathf.Lerp(0.0f, targetColorGrading, time / duration), Mathf.Lerp(0.0f, targetColorGrading, time / duration), Mathf.Lerp(0.0f, targetColorGrading, time / duration), 1.0f);
+
+                yield return null;
+            }
+
+            colorGrading.colorFilter.value = new Color(1f, 1f, 1f, 1.0f);
         }
     }
 }
