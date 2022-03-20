@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5661078858352960200}
   - component: {fileID: 4168308116438515774}
   m_Layer: 0
-  m_Name: Ein_icht_geht_aus
+  m_Name: test1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -13,6 +13,14 @@ namespace Yame.Threat
 
         private bool threatCompleted = false;
 
+        public override void OnNetworkSpawn()
+        {
+            if (!IsServer)
+            {
+                enabled = false;
+            }
+        }
+
         public virtual void Update()
         {
             int compCounter = 0;

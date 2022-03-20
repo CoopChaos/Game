@@ -48,6 +48,10 @@ namespace CoopChaos
                 Destroy(gameObject);
             }
             currentThreats = new LinkedList<GameObject>();
+
+            if(IsServer) {
+                SpawnThreat();
+            }
         }
 
         public GameObject SelectThreat()
@@ -116,6 +120,11 @@ namespace CoopChaos
             ThreatUI.text = state.ToString();
             ThreatMStateChangeEvent(state);
             threatManagerState = state;
+        }
+
+        [ClientRpc]
+        public void TestClientRpc() {
+
         }
 
         public ThreatManagerState GetThreatStatus() {
