@@ -71,8 +71,6 @@ namespace CoopChaos
             ThreatDescriptionUI.text = tnode.Value.GetComponent<ThreatObject>().threatName + " " + tnode.Value.GetComponent<ThreatObject>().threatDescription ;
 
             StartCoroutine(StartThreatTimer(tnode.Value));
-
-            NetworkObject[] networkObjects = tnode.Value.GetComponentsInChildren<NetworkObject>();
             
             // POSITION START
 
@@ -89,10 +87,7 @@ namespace CoopChaos
                 positions.AddLast(rnd);
             }
 
-            // POSITION END
-
-            foreach (NetworkObject no in networkObjects)
-                no.Spawn();
+            tnode.Value.GetComponent<NetworkObject>().Spawn();
 
             SetThreatStatus(ThreatManagerState.ThreatInProgress);
         }
