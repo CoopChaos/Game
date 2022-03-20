@@ -55,9 +55,8 @@ namespace Yame
         {
             if (claimedByMe && baseThreatMinigame.IsFinished())
             {
+                deviceInteractableState.FulfillServerRpc();
                 deviceSprite.SetActive(false);
-                deviceInteractableState.Fulfilled.Value = true;
-                deviceInteractableState.Claimed.Value = false;
             }
             
         }

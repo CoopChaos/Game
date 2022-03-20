@@ -10,12 +10,12 @@ namespace Yame.Threat
 {
     public class ThreatObject : InteractableObjectStateBase
     {
-        [SerializeField] private String threatName;
-        [SerializeField] private String threatDescription;
+        [SerializeField] public String threatName;
+        [SerializeField] public String threatDescription;
 
         [SerializeField] private int threatTime;
 
-        [SerializeField] private BaseThreatMinigame[] mingames;
+        [SerializeField] private GameObject[] mingames;
 
         public NetworkVariable<int> numTasksTotal;
         public NetworkVariable<int> numTasksFinished;
@@ -30,7 +30,7 @@ namespace Yame.Threat
 
         private String[] threatObjectivesString;
         
-        public BaseThreatMinigame[] Minigames => mingames;
+        public GameObject[] Minigames => mingames;
 
         public int ThreatTime => threatTime;
         public string ThreatName => threatName;

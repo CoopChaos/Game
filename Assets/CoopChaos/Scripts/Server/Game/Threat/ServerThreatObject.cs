@@ -43,10 +43,7 @@ namespace Yame.Threat
                 enabled = false;
                 return;
             }
-        }
 
-        public virtual void Start()
-        {
             threatObject.threatObjectives = GetComponentsInChildren<ServerDeviceInteractableBase>().ToDictionary(
                 i => i.name,
                 i => i.GetComponent<ServerDeviceInteractableBase>());
@@ -64,6 +61,11 @@ namespace Yame.Threat
             threatObject.Finished.Value = false;
             threatObject.Finished.OnValueChanged = OnFinishChanged;
             threatObject.numTasksTotal.Value = threatObject.threatObjectives.Count;
+        }
+
+        public virtual void Start()
+        {
+
         }
 
         private void OnFinishChanged(bool previousvalue, bool newvalue)

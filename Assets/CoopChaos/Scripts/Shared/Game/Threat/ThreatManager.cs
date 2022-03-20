@@ -46,8 +46,6 @@ namespace CoopChaos
                 enabled = false;
                 return;
             }
-            
-            SpawnThreat();
         }
 
         public void SpawnThreat() 
@@ -127,8 +125,10 @@ namespace CoopChaos
             {
                 threatTransform.GetChild(i).position = spawnPoints[i].position;
                 
+                /*
                 threatTransform.GetChild(i).GetComponent<NetworkObject>()
-                    .Spawn();
+                    .Spawn();    
+                */
             }
         }
 

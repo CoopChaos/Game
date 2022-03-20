@@ -46,6 +46,44 @@ namespace CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship
             taskDescription = "Lorem Ipsum Dolor";
         }
 
+        [ServerRpc]
+        public void ClaimServerRpc(ulong clientId)
+        {
+            if (claimed.Value)
+            {
+                Debug.LogWarning("Tried to claim an already claimed interactable");
+                return;
+            }
+
+            claimed.Value = true;
+            this.clientId.Value = clientId;
+        }
+
+        [ServerRpc]
+        public void FulfillServerRpc()
+        {
+            if (!claimed.Value)
+            {
+                Debug.LogWarning("Tried to fulfill an unclaimed interactable");
+                return;
+            }
+
+            fulfilled.Value = true;
+        }
+
+        [ServerRpc]
+        public void UnclaimServerRpc()
+        {
+            if (!claimed.Value)
+            {
+                Debug.LogWarning("Tried to reclaim an unclaimed interactable");
+                return;
+            }
+
+            claimed.Value = false;
+            fulfilled.Value = false;
+        }
+
         private void HandleOpenChanged(bool open, bool oldOpen)
         {
             if (open)
