@@ -31,7 +31,16 @@ namespace Yame
         protected override void HandleClaimChanged(bool claim, bool oldClaim)
         {
             base.HandleClaimChanged(claim, oldClaim);
+
+            deviceInteractableState.InteractEvent += user =>
+            {
+                baseThreatMinigame.StartMinigame();
+            };
+
             baseThreatMinigame.StartMinigame();
+            // Hide Minigame from Player if role is not suitable
+
+            baseThreatMinigame = minigame.GetComponent<BaseThreatMinigame>();
         }
         
         protected override void Awake()
@@ -39,16 +48,6 @@ namespace Yame
             base.Awake();
             
             deviceInteractableState = GetComponent<DeviceInteractableBaseState>();
-
-            deviceInteractableState.InteractEvent += user =>
-            {
-                baseThreatMinigame.StartMinigame();
-            };
-
-            
-            // Hide Minigame from Player if role is not suitable
-
-            baseThreatMinigame = minigame.GetComponent<BaseThreatMinigame>();
         }
 
         public void Update()

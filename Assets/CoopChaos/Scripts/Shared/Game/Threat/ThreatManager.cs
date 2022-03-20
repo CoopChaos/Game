@@ -125,10 +125,8 @@ namespace CoopChaos
             {
                 threatTransform.GetChild(i).position = spawnPoints[i].position;
                 
-                /*
                 threatTransform.GetChild(i).GetComponent<NetworkObject>()
                     .Spawn();    
-                */
             }
         }
 
@@ -170,7 +168,7 @@ namespace CoopChaos
 
         private void RemoveThreatsIfFinished()
         {
-            foreach (NetworkObject threat in currentThreats)
+            foreach (NetworkObject threat in currentThreats.ToList())
             {
                 if (threat.GetComponent<ThreatObject>().Finished.Value)
                 {
