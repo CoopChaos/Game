@@ -107,6 +107,10 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 951099334
       objectReference: {fileID: 0}
+    - target: {fileID: 5123543945301311950, guid: ea972c936bc6de06c94ad42bb997328a, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 951099334
+      objectReference: {fileID: 0}
     - target: {fileID: 7601126266783220792, guid: ea972c936bc6de06c94ad42bb997328a, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -173,6 +177,10 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 951099334
       objectReference: {fileID: 0}
+    - target: {fileID: 5123543945301311950, guid: ea972c936bc6de06c94ad42bb997328a, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 951099334
+      objectReference: {fileID: 0}
     - target: {fileID: 7601126266783220792, guid: ea972c936bc6de06c94ad42bb997328a, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -219,7 +227,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7601126266783220799, guid: ea972c936bc6de06c94ad42bb997328a, type: 3}
       propertyPath: m_Name
-      value: RohreFlicken2 (1)
+      value: RohreFlicken2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea972c936bc6de06c94ad42bb997328a, type: 3}

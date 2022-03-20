@@ -16,32 +16,29 @@ namespace Yame
         
         public override void Interact(ulong clientId)
         {
-            if(deviceInteractableState.IsRoleBound) {
-                if(
-                    FindObjectOfType<ServerGameStage>()
+            if (deviceInteractableState.IsRoleBound) {
+                if(FindObjectOfType<ServerGameStage>()
                     .GetPlayerObjectByClientHash(UserConnectionMapper.Singleton[clientId])
                     .GetComponent<GameStageUserState>()
-                    .Role.Value != deviceInteractableState.Role) {
+                    .Role.Value != deviceInteractableState.Role) 
+                {
+                    Debug.LogWarning($"Player tried to interact with threat but has wrong role {clientId}");
                     return;
                 }
             }
 
             deviceInteractableState.Claimed.Value = !deviceInteractableState.Claimed.Value;
-            if (deviceInteractableState.Claimed.Value)
-            {
-                deviceInteractableState.ClientId.Value = clientId;
-            }
-            else
-            {
-                deviceInteractableState.ClientId.Value = 0;
-            }
+            
+            deviceInteractableState.ClientId.Value = deviceInteractableState.Claimed.Value
+                ? clientId
+                : 0;
         }
 
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
 
-            if(!IsServer){
+            if (!IsServer) {
                 enabled = false;
                 return;
             }

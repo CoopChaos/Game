@@ -29,12 +29,16 @@ namespace CoopChaos
         
         public void RegisterInteractableObject(ServerInteractableObjectBase interactableObject)
         {
+            Debug.Log($"Got {interactableObject.name} with id {interactableObject.NetworkObjectId}");
             Assert.IsTrue(!interactableObjects.ContainsKey(interactableObject.NetworkObjectId));
+            Debug.Log($"Done {interactableObject.name} with id {interactableObject.NetworkObjectId}");
             interactableObjects.Add(interactableObject.NetworkObjectId, interactableObject);
         }
         
         public void InteractWith(ulong clientId, ulong interactableObjectId)
         {
+            Debug.Log($"InteractWith by {clientId} with {interactableObjectId}");
+            
             Assert.IsTrue(interactableObjects.ContainsKey(interactableObjectId));
             
             var interactableObject = interactableObjects[interactableObjectId];

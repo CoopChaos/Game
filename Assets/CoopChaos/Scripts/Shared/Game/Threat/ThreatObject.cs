@@ -10,11 +10,13 @@ namespace Yame.Threat
 {
     public class ThreatObject : InteractableObjectStateBase
     {
-        // TODO: make this a network varaible
-        public String threatName;
-        public String threatDescription;
+        [SerializeField] private String threatName;
+        [SerializeField] private String threatDescription;
 
-        public int threatTime;
+        [SerializeField] private int threatTime;
+
+        [SerializeField] private BaseThreatMinigame[] mingames;
+
         public NetworkVariable<int> numTasksTotal;
         public NetworkVariable<int> numTasksFinished;
 
@@ -24,9 +26,15 @@ namespace Yame.Threat
         private NetworkVariable<bool> finished;
 
         public NetworkVariable<bool> Finished => finished;
-        
         public Dictionary<string, ServerDeviceInteractableBase> threatObjectives = new Dictionary<string, ServerDeviceInteractableBase>();
+
         private String[] threatObjectivesString;
+        
+        public BaseThreatMinigame[] Minigames => mingames;
+
+        public int ThreatTime => threatTime;
+        public string ThreatName => threatName;
+        public string ThreatDescription => threatDescription;
 
         public event Action<ulong> ActivateEvent;
 
@@ -36,7 +44,6 @@ namespace Yame.Threat
             ActivateEvent?.Invoke(0);
         }
 
-        
         [ClientRpc]
         public void CommunicateTaskInfosToClientClientRpc(String title, String description)
         {
