@@ -21,10 +21,21 @@ namespace CoopChaos
             return this.minigameFinished;
         }
 
+        public bool IsOpen()
+        {
+            return this.miniGameContainer.enabled;
+        }
+
         public virtual void StartMinigame()
         {
             this.minigameFinished = false;
             this.miniGameContainer.enabled = true;
+        }
+
+        public virtual void PauseMinigame()
+        {
+            this.minigameFinished = false;
+            this.miniGameContainer.enabled = false;
         }
 
         public void FinishMinigame()

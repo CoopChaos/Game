@@ -28,7 +28,7 @@ namespace Yame
             
             deviceInteractableState.InteractEvent += user =>
             {
-                if (user == NetworkManager.Singleton.LocalClientId)
+                if (user == NetworkManager.Singleton.LocalClientId && !baseThreatMinigame.IsOpen())
                     baseThreatMinigame.StartMinigame();
             };
 
@@ -45,6 +45,12 @@ namespace Yame
             base.Awake();
             
             deviceInteractableState = GetComponent<DeviceInteractableBaseState>();
+        }
+
+        public override void Unhighlight()
+        {
+            base.Unhighlight();
+            minigame.GetComponent<BaseThreatMinigame>().PauseMinigame();
         }
 
         public void Update()
