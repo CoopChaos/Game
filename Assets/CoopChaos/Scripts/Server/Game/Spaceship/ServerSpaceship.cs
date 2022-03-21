@@ -77,7 +77,7 @@ namespace CoopChaos
         {
             spaceshipState.DeathAnimationClientRpc();
             Debug.Log("DEATHB");
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(10);
             Debug.Log("DEATHDONE");
             NetworkManager.Singleton.SceneManager.LoadScene("GameOverDie", LoadSceneMode.Single);
         }

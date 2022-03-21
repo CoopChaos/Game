@@ -43,7 +43,7 @@ namespace CoopChaos
             var lensDistortion = (LensDistortion) p.profile.settings.First(s => s is LensDistortion);
             var chromaticAberration = (ChromaticAberration) p.profile.settings.First(s => s is ChromaticAberration);
 
-            const float duration = 2.0f;
+            const float duration = 3.0f;
             float targetHighTime = duration * 0.8f;
             
             float time = 0.0f;
@@ -79,7 +79,7 @@ namespace CoopChaos
 
             var bloom = (Bloom) p.profile.settings.First(s => s is Bloom);
             
-            const float duration = 2.0f;
+            const float duration = 10.0f;
             const float targetBloomIntensity = 100.0f;
             
             float time = 0.0f;
