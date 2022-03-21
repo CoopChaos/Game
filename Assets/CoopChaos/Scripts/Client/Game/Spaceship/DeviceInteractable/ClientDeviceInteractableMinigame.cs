@@ -28,8 +28,11 @@ namespace Yame
             
             deviceInteractableState.InteractEvent += user =>
             {
-                if (user == NetworkManager.Singleton.LocalClientId && !baseThreatMinigame.IsOpen())
-                    baseThreatMinigame.StartMinigame();
+                if (user == NetworkManager.Singleton.LocalClientId)
+                    if(!baseThreatMinigame.IsOpen())
+                        baseThreatMinigame.StartMinigame();
+                    else
+                        baseThreatMinigame.PauseMinigame();
             };
 
             deviceInteractableState.Claimed.OnValueChanged = HandleClaimChanged;
