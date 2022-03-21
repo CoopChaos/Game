@@ -33,13 +33,13 @@ namespace CoopChaos.Simulation.Components
             var target = new Vector2(soc.X, soc.Y);
             
             var angle = Mathf.Atan2(target.y - source.y, target.x - source.x);
-            var angleDegrees = angle * Mathf.Rad2Deg;
+            var angleDegrees = (360 - angle * Mathf.Rad2Deg) + 90;
 
             world.CreateProjectile(
                 ref oc,
-                40f,
+                80f,
                 angleDegrees,
-                20f,
+                1f,
                 1000f);
         }
     }

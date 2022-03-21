@@ -35,12 +35,20 @@ namespace CoopChaos
                 patrolPoints, 40f, 100f, 1f, 10f);
 
             entities = simulation.World.Native.GetEntities()
-                .With<EnemyComponent>()
+                .With<EnemyPatrolComponent>()
                 .AsSet();
         }
 
         public bool Update()
-        {
+        {            
+            Debug.Log("Emptyness is " + entities.GetEntities().IsEmpty);
+            if (entities.GetEntities().IsEmpty == false)
+            {
+                var oc = entities.GetEntities()[0].Get<ObjectComponent>();
+                Debug.Log("Enemy at " + oc.X + "," + oc.Y);
+            }
+            
+
             return !entities.GetEntities().IsEmpty;
         }
 
