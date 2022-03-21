@@ -289,7 +289,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 512601289774285890}
-  - component: {fileID: 512601289774285917}
+  - component: {fileID: 89391603213437160}
   m_Layer: 0
   m_Name: Minigame
   m_TagString: Untagged
@@ -312,7 +312,7 @@ Transform:
   m_Father: {fileID: 512601288807016921}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &512601289774285917
+--- !u!114 &89391603213437160
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -321,24 +321,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 512601289774285891}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4772f9e2403f36a549f8db6fa8ef7dee, type: 3}
+  m_Script: {fileID: 11500000, guid: 88334117e2b18667c8369781d3591712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   miniGameContainer: {fileID: 512601288951591901}
-  buttons:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  numbers: []
-  numbersRed: []
-  numbersGreen: []
-  colorCoopMode: 0
-  isColorCoopModeViewer: 0
-  correctCodeInput: 
-  CodeDisplay: {fileID: 0}
+  grabFields:
+  - {fileID: 6573738668917727289}
+  - {fileID: 7177148315371138279}
+  - {fileID: 6493260088986289153}
+  placeFields:
+  - {fileID: 57568671122685439}
+  - {fileID: 4086233695643326716}
+  - {fileID: 97990280697546805}
+  items:
+  - {fileID: 6761164967045977113, guid: e049267c83ee83d95960869f32a88709, type: 3}
+  - {fileID: 5508725064705088119, guid: e049267c83ee83d95960869f32a88709, type: 3}
+  - {fileID: -68751727340038015, guid: e049267c83ee83d95960869f32a88709, type: 3}
+  - {fileID: 6099581493293703690, guid: e049267c83ee83d95960869f32a88709, type: 3}
+  - {fileID: -5428206428529569624, guid: e049267c83ee83d95960869f32a88709, type: 3}
+  - {fileID: -7833671090200325546, guid: e049267c83ee83d95960869f32a88709, type: 3}
+  itemNames:
+  - Stern
+  - Traene
+  - Paprika
+  - Apfel
+  - Karotte
+  - Donut
 --- !u!1 &512601289795362861
 GameObject:
   m_ObjectHideFlags: 0
