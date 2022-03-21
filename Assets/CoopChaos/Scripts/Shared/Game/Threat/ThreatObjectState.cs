@@ -18,6 +18,7 @@ namespace Yame.Threat
         [SerializeField] private GameObject[] mingames;
 
         [SerializeField] private bool twoStepThreat;
+        [SerializeField] private bool stepTwoViewOnly;
         [SerializeField] private GameObject[] minigamesPhase2;
 
         private NetworkVariable<bool> timeConstrained;
@@ -31,6 +32,7 @@ namespace Yame.Threat
         private String[] threatObjectivesString;
 
         public bool TwoStepThreat => twoStepThreat;
+        public bool SetpTwoViewOnly => stepTwoViewOnly;
         public GameObject[] Minigames => mingames;
         public GameObject[] MinigamesPhase2 => minigamesPhase2;
 

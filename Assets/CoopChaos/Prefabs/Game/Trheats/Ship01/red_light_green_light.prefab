@@ -77,12 +77,11 @@ MonoBehaviour:
     sich an Punkt Y begeben um die Anlage zu deaktivieren."
   threatTime: 30
   mingames:
-  - {fileID: 512601288807016926, guid: fe327303038cbbccea53acb48d03409f, type: 3}
   - {fileID: 512601288807016926, guid: c4c55a07020ed426288c6387c65bc60a, type: 3}
-  numTasksTotal:
-    m_InternalValue: 0
-  numTasksFinished:
-    m_InternalValue: 0
+  twoStepThreat: 0
+  stepTwoViewOnly: 1
+  minigamesPhase2:
+  - {fileID: 512601288807016926, guid: fe327303038cbbccea53acb48d03409f, type: 3}
 --- !u!114 &4168308116438515774
 MonoBehaviour:
   m_ObjectHideFlags: 0
