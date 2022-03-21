@@ -65,6 +65,7 @@ namespace CoopChaos
                 }
                 
                 button.interactable = v;
+                button.GetComponentInChildren<TextMeshProUGUI>().text = v ? "START HYPERDRIVE" : "HYPERDRIVE NOT READY";
             };
 
             state.InteractEvent += clientId =>

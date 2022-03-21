@@ -8,8 +8,12 @@ namespace CoopChaos
     public class ClientDoorInteractable : ClientInteractableObjectBase
     {
         [SerializeField] private GameObject highlight;
-        [SerializeField] private GameObject doorSprite;
+        [SerializeField] private GameObject doorLeft;
+        [SerializeField] private GameObject doorRight;
         
+        [SerializeField] private float openingFactor = 1f;
+
+
         private DoorInteractableState doorInteractableState;
 
         public override void Highlight()
@@ -31,7 +35,10 @@ namespace CoopChaos
         
         private void HandleOpenChanged(bool open, bool oldOpen)
         {
-            doorSprite.SetActive(!open);
+            // move door sprites to left and right
+            doorLeft.transform.position = new Vector3(doorLeft.transform.position.x - (open ? 1 : -1) * openingFactor, doorLeft.transform.position.y, doorLeft.transform.position.z);
+            doorRight.transform.position = new Vector3(doorRight.transform.position.x + (open ? 1 : -1) * openingFactor, doorRight.transform.position.y, doorRight.transform.position.z);
+
         }
 
         protected override void Awake()

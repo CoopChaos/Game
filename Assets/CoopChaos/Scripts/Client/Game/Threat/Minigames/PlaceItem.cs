@@ -7,49 +7,44 @@ namespace CoopChaos
 {
     public class PlaceItem : BaseThreatMinigame
     {
-        [Serializable]
-        public struct ObjectFieldRelation {
-            public Button item;
-            public Button slot;
-        }
-
-        Dictionary<Button, Button> ofr = new Dictionary<Button, Button>();
-        
+        [SerializeField]
+        private Button[] grabFields;
 
         [SerializeField]
-        public ObjectFieldRelation[] objectFieldRelations;
+        private Button[] placeFields;
 
-        private Button currentItem;
+        [SerializeField]
+        private Sprite[] items;
+
+        [SerializeField]
+        private string[] itemNames;
+
+        private int[] itemMap;
+        private int[] itemPutMap;
+
+        int correctItem = 0;
 
         public override void StartMinigame()
         {
             base.StartMinigame();
-            
-            foreach (var objectFieldRelation in objectFieldRelations)
+
+            correctItem = Random.Range(0, solverButton.Length);
+
+            instruction.text = "Nehme " + itemNames[correctItem] + " aus dem Regal.";
+
+            for (int i = 0; i < solverButton.Length; i++)
             {
-                objectFieldRelation.item.onClick.AddListener(() => ItemClicked(objectFieldRelation.item));
-                objectFieldRelation.slot.onClick.AddListener(() => SlotClicked(objectFieldRelation.slot));
-                ofr.Add(objectFieldRelation.slot, objectFieldRelation.item);
+                solverButton[i].GetComponent<Image>().sprite = items[i];
+                if(i == correctItem)
+                {
+                    solverButton[i].onClick.AddListener(() => ButtonClicked());
+                }
             }
         }
 
-        private void SlotClicked(Button slot)
+        void ButtonClicked()
         {
-            if(ofr[slot] == currentItem) {
-                ofr[slot].enabled = false;
-                slot.enabled = false;
-
-                ofr.Remove(slot);
-            }
-
-            if(ofr.Count <= 0) {
-                FinishMinigame();
-            }
-        }
-
-        private void ItemClicked(Button item)
-        {
-            currentItem = item;
+            FinishMinigame();
         }
     }
 }

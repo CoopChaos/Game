@@ -14,6 +14,8 @@ namespace Yame
         
         public override void Interact(ulong clientId)
         {
+            base.Interact(clientId);
+            
             deviceInteractableState.Claimed.Value = !deviceInteractableState.Claimed.Value;
             if (deviceInteractableState.Claimed.Value)
             {

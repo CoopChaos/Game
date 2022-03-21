@@ -6,7 +6,6 @@ namespace Yame.Threat
         [SerializeField] private GameObject[] stage1Threats;
         [SerializeField] private GameObject[] stage2Threats;
 
-
         private bool threatCompleted = false;
 
         public override void Update()
@@ -36,10 +35,8 @@ namespace Yame.Threat
             foreach (var threat in threats) SetThreatActiveState(threat, active);
         }
 
-        public override void Start()
+        private void Start()
         {
-            base.Start();
-
             SetStageActiveState(stage1Threats, true);
             SetStageActiveState(stage2Threats, false);
         }

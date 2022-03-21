@@ -1,6 +1,7 @@
 using System;
 using CoopChaos;
 using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,19 @@ namespace Yame
         {
             base.OnNetworkSpawn();
 
+            if (!IsClient)
+            {
+                enabled = false;
+                return;
+            }
+
+            baseThreatMinigame = minigame.GetComponent<BaseThreatMinigame>();
+            
+            deviceInteractableState.InteractEvent += user =>
+            {
+                if (user == NetworkManager.Singleton.LocalClientId)
+                    baseThreatMinigame.StartMinigame();
+            };
 
             deviceInteractableState.Claimed.OnValueChanged = HandleClaimChanged;
         }
@@ -24,7 +38,6 @@ namespace Yame
         protected override void HandleClaimChanged(bool claim, bool oldClaim)
         {
             base.HandleClaimChanged(claim, oldClaim);
-            baseThreatMinigame.StartMinigame();
         }
         
         protected override void Awake()
@@ -32,24 +45,14 @@ namespace Yame
             base.Awake();
             
             deviceInteractableState = GetComponent<DeviceInteractableBaseState>();
-
-            deviceInteractableState.InteractEvent += user =>
-            {
-                baseThreatMinigame.StartMinigame();
-            };
-
-            baseThreatMinigame = minigame.GetComponent<BaseThreatMinigame>();
         }
 
         public void Update()
         {
             if (claimedByMe && baseThreatMinigame.IsFinished())
             {
-                deviceSprite.SetActive(false);
-                deviceInteractableState.Fulfilled.Value = true;
-                deviceInteractableState.Claimed.Value = false;
+                deviceInteractableState.FulfillServerRpc();
             }
-            
         }
     }
 }

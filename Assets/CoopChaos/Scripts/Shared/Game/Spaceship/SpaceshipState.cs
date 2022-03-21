@@ -11,6 +11,12 @@ namespace CoopChaos
 
         public NetworkVariable<float> Health => health;
         public NetworkVariable<int> NumThreatsActive => numThreatsActive;
+        
+        [ClientRpc]
+        public void DeathAnimationClientRpc()
+        {
+            StartCoroutine(FindObjectOfType<AnimationManager>().Death());
+        }
 
         public override void OnNetworkSpawn()
         {

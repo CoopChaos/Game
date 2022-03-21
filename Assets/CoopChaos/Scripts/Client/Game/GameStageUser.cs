@@ -29,6 +29,7 @@ namespace CoopChaos
         private InputAction pauseInputAction;
         private Animator anim;
 
+
         enum AnimationState 
         {
             Down,
@@ -41,6 +42,24 @@ namespace CoopChaos
         public void SetColor(Color color)
         {
             //GetComponentInChildren<SpriteRenderer>().color = color;
+        }
+
+        [ClientRpc]
+        public void SetRoleClientRpc(PlayerRoles role)
+        {
+            Debug.Log(role.ToString());
+            switch(role)
+            {
+                case PlayerRoles.Pilot:
+                    anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animation/Pilot/Player_Triggers");
+                    break;
+                case PlayerRoles.Technician:
+                    anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animation/Technician/Technician_Triggers");
+                    break;
+                case PlayerRoles.Gunner:
+                    anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animation/Technician/Technician_Triggers");
+                    break;
+            }
         }
 
         public void OnInteract()

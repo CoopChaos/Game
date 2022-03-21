@@ -1,4 +1,5 @@
 using System;
+using CoopChaos;
 using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,6 +26,12 @@ namespace Yame
             base.Awake();
             clockContainer.enabled = false;
             deviceInteractableState = GetComponent<DeviceInteractableTimerState>();
+
+            // Hide Minigame from Player if role is not suitable
+            if(deviceInteractableState.IsRoleBound && GetComponent<GameStageUserState>().Role.Value != deviceInteractableState.Role) {
+                deviceSprite.SetActive(false);
+                highlight.SetActive(false);
+            }
 
             deviceInteractableState.InteractEvent += user =>
             {

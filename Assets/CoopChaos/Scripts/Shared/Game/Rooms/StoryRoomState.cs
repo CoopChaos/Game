@@ -17,6 +17,13 @@ namespace CoopChaos
         public void TriggerNextFlightSequenceServerRpc()
         {
             FindObjectOfType<ServerStoryRoom>().TriggerNextFlightSequence();
+            TriggerFlightSequenceFinishedClientRpc();
+        }
+        
+        [ClientRpc]
+        public void TriggerFlightSequenceFinishedClientRpc()
+        {
+            StartCoroutine(FindObjectOfType<AnimationManager>().WarpDrive());
         }
         
         protected override void Awake()
