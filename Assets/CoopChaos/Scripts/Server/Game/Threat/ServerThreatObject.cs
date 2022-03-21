@@ -15,6 +15,8 @@ namespace Yame.Threat
         
         private int numTasksFinished;
         private int numTasksTotal;
+
+        private bool inPhase2;
         
         private bool threatCompleted = false;
 
@@ -83,7 +85,11 @@ namespace Yame.Threat
 
         private void PrepareMinigames()
         {
-            var minigames = transform.GetComponent<ThreatObjectState>().Minigames;
+            SpawnMinigamePhase(transform.GetComponent<ThreatObjectState>().Minigames);
+        }
+
+        private void SpawnMinigamePhase(GameObject[] minigames)
+        {
             var spawnPointsObject = GameObject.Find("SpawnPoints");
 
             var spawnPoints = Enumerable.Range(0, spawnPointsObject.transform.childCount)
@@ -112,7 +118,14 @@ namespace Yame.Threat
                 
                 if (numTasksFinished == numTasksTotal)
                 {
-                    state.Finished.Value = true;
+                    if(transform.GetComponent<ThreatObjectState>().TwoStepThreat && !inPhase2) {
+                        Debug.Log("Phase 1 finished");
+                        inPhase2 = true;
+                        SpawnMinigamePhase(transform.GetComponent<ThreatObjectState>().MinigamesPhase2);
+                    } else {
+                        Debug.Log("Threat completed");
+                        state.Finished.Value = true;
+                    }
                 }
 
                 Destroy(minigame.gameObject);

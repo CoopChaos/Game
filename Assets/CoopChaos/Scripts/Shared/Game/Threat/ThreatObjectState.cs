@@ -17,6 +17,9 @@ namespace Yame.Threat
 
         [SerializeField] private GameObject[] mingames;
 
+        [SerializeField] private bool twoStepThreat;
+        [SerializeField] private GameObject[] minigamesPhase2;
+
         private NetworkVariable<bool> timeConstrained;
         private NetworkVariable<float> timeToSolve;
 
@@ -26,7 +29,10 @@ namespace Yame.Threat
         public Dictionary<string, ServerDeviceInteractableBase> threatObjectives = new Dictionary<string, ServerDeviceInteractableBase>();
 
         private String[] threatObjectivesString;
+
+        public bool TwoStepThreat => twoStepThreat;
         public GameObject[] Minigames => mingames;
+        public GameObject[] MinigamesPhase2 => minigamesPhase2;
 
         public int ThreatTime => threatTime;
         public string ThreatName => threatName;

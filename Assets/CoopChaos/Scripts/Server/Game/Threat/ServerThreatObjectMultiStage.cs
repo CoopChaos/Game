@@ -6,7 +6,6 @@ namespace Yame.Threat
         [SerializeField] private GameObject[] stage1Threats;
         [SerializeField] private GameObject[] stage2Threats;
 
-
         private bool threatCompleted = false;
 
         public override void Update()
