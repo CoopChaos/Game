@@ -57,7 +57,7 @@ namespace CoopChaos
                     anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animation/Technician/Technician_Triggers");
                     break;
                 case PlayerRoles.Gunner:
-                    anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animation/Technician/Technician_Triggers");
+                    anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animation/Gunner/Gunner_Triggers");
                     break;
             }
         }
