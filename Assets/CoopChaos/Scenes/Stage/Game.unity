@@ -750,6 +750,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1544109178}
     m_Modifications:
+    - target: {fileID: 3032764256832686463, guid: 010ffc8eaa6a8d24c8adbc52326e744c, type: 3}
+      propertyPath: threatPool.Array.data[0]
+      value: 
+      objectReference: {fileID: 4168308116438515774, guid: 75ebf04e04b90e8dca6d5edc80de4d4b, type: 3}
     - target: {fileID: 6671634073117894869, guid: 010ffc8eaa6a8d24c8adbc52326e744c, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -3764,6 +3768,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07cf86300ffb4e83b0383038d0592c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LastHealthBarPrefab: {fileID: 0}
+  HealthbarPrefab: {fileID: 0}
+  Anchor: {fileID: 0}
+  HealthbarContainer: {fileID: 0}
 --- !u!114 &1544109181
 MonoBehaviour:
   m_ObjectHideFlags: 0
