@@ -40,16 +40,16 @@ TextureImporter:
     second: gunner_right_idle
   - first:
       213: 7954800646636555960
-    second: gunner_top_idle
+    second: gunner_up_idle
   - first:
       213: -4078703350417730470
-    second: gunner_top_1
+    second: gunner_up_1
   - first:
       213: -7423142748812562950
-    second: gunner_top_2
+    second: gunner_up_2
   - first:
       213: 8698922406545158495
-    second: gunner_top_3
+    second: gunner_up_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -403,7 +403,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gunner_top_idle
+      name: gunner_up_idle
       rect:
         serializedVersion: 2
         x: 56
@@ -424,7 +424,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gunner_top_1
+      name: gunner_up_1
       rect:
         serializedVersion: 2
         x: 304
@@ -445,7 +445,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gunner_top_2
+      name: gunner_up_2
       rect:
         serializedVersion: 2
         x: 568
@@ -466,7 +466,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gunner_top_3
+      name: gunner_up_3
       rect:
         serializedVersion: 2
         x: 832
