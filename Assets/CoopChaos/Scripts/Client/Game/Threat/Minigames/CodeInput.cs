@@ -8,6 +8,8 @@ namespace CoopChaos
     public class CodeInput : BaseThreatMinigame
     {
         [SerializeField] Button[] buttons;
+
+        [SerializeField] Sprite[] numbers;
         int ctr = 1;
         int size = 6;
 
@@ -47,6 +49,7 @@ namespace CoopChaos
                         b.GetComponent<Image>().color = colors[rnd-1];
                         b.GetComponentInChildren<Text>().color = colors[rnd-1];
                     }
+                    b.GetComponent<Image>().sprite = numbers[rnd-1];
                     b.GetComponentInChildren<Text>().text = rnd.ToString();
                 }
             }
