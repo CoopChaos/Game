@@ -1,84 +1,123 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship;
 using Unity.Netcode;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Yame.Threat
 {
     public class ServerThreatObject : NetworkBehaviour
     {
-        private ThreatObject threatObject;
+        private ThreatObjectState state;
         private String[] objectivesString;
-
+        
+        private int numTasksFinished;
+        private int numTasksTotal;
+        
         private bool threatCompleted = false;
 
         public virtual void Update()
         {
+            /*
             int compCounter = 0;
+
             // threadCompleted is true when every sub objective is finished
-            foreach (var i in threatObject.threatObjectives)
+            foreach (var i in state.threatObjectives)
             {
                 if (i.Value.DeviceInteractableState.Fulfilled.Value) compCounter++;
             }
 
-            threatObject.numTasksFinished.Value = compCounter;
+            state.numTasksFinished.Value = compCounter;
 
-            if (compCounter == threatObject.threatObjectives.Count)
+            if (compCounter == state.threatObjectives.Count)
             {
                 threatCompleted = true;
             }
 
             if (threatCompleted)
             {
-                threatObject.Finished.Value = true;
+                state.Finished.Value = true;
             }
+            */
         }
 
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
 
-            if(!IsServer){
+            if (!IsServer) 
+            {
                 enabled = false;
                 return;
             }
 
-            threatObject.threatObjectives = GetComponentsInChildren<ServerDeviceInteractableBase>().ToDictionary(
+            state.threatObjectives = GetComponentsInChildren<ServerDeviceInteractableBase>().ToDictionary(
                 i => i.name,
                 i => i.GetComponent<ServerDeviceInteractableBase>());
             
             Debug.Log("--- NEW THREAT ---");
-            Debug.Log("Objectives: " + threatObject.threatObjectives.Count);
+            Debug.Log("Objectives: " + state.threatObjectives.Count);
 
-            objectivesString = new string[threatObject.threatObjectives.Count];
+            objectivesString = new string[state.threatObjectives.Count];
 
-            foreach (var serverDeviceInteractable in threatObject.threatObjectives)
-            {
-                // PLACEHOLDER
-            }
-            
-            threatObject.Finished.Value = false;
-            threatObject.Finished.OnValueChanged = OnFinishChanged;
-            threatObject.numTasksTotal.Value = threatObject.threatObjectives.Count;
-        }
+            state.Finished.Value = false;
+            state.Finished.OnValueChanged = OnFinishChanged;
 
-        public virtual void Start()
-        {
-
-        }
-
-        private void OnFinishChanged(bool previousvalue, bool newvalue)
-        {
-            threatObject.CommunicateTaskInfosToClientClientRpc(threatObject.threatName, threatObject.threatDescription);
-            
-            if(previousvalue == false && newvalue == true) Debug.Log("Threat completed");
+            PrepareMinigames();
         }
 
         protected void Awake()
         {
-            threatObject = GetComponent<ThreatObject>();
+            state = GetComponent<ThreatObjectState>();
         }
 
+        private void OnFinishChanged(bool previousvalue, bool newvalue)
+        {
+            state.CommunicateTaskInfosToClientClientRpc(state.threatName, state.threatDescription);
+            
+            if (previousvalue == false && newvalue == true) 
+                Debug.Log("Threat completed");
+        }
+
+        private void PrepareMinigames()
+        {
+            var minigames = transform.GetComponent<ThreatObjectState>().Minigames;
+            var spawnPointsObject = GameObject.Find("SpawnPoints");
+
+            var spawnPoints = Enumerable.Range(0, spawnPointsObject.transform.childCount)
+                .OrderBy(i => Random.Range(0f, 1f))
+                .Select(i => spawnPointsObject.transform.GetChild(i))
+                .ToList();
+
+            for (int i = 0; i < minigames.Length; ++i)
+            {
+                var minigameObject = Instantiate(minigames[i], spawnPoints[i].position, Quaternion.identity, transform);
+                minigameObject.GetComponent<NetworkObject>().Spawn();
+
+                var device = minigameObject.GetComponent<DeviceInteractableBaseState>();
+                device.Fulfilled.OnValueChanged += (_, fullfilled) => HandleMinigameFullfilled(fullfilled, device);
+            }
+            
+            numTasksFinished = 0;
+            numTasksTotal = minigames.Length;
+        }
+        
+        private void HandleMinigameFullfilled(bool fullfilled, DeviceInteractableBaseState minigame)
+        {
+            if (fullfilled)
+            {
+                numTasksFinished++;
+                
+                if (numTasksFinished == numTasksTotal)
+                {
+                    state.Finished.Value = true;
+                }
+
+                Destroy(minigame.gameObject);
+                Debug.Log("Minigame fullfilled");
+            }
+        }
     }
 }

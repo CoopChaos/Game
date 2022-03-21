@@ -46,7 +46,7 @@ namespace CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship
             taskDescription = "Lorem Ipsum Dolor";
         }
 
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         public void ClaimServerRpc(ulong clientId)
         {
             if (claimed.Value)
@@ -59,7 +59,7 @@ namespace CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship
             this.clientId.Value = clientId;
         }
 
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         public void FulfillServerRpc()
         {
             if (!claimed.Value)
@@ -68,10 +68,11 @@ namespace CoopChaos.CoopChaos.Scripts.Shared.Game.Spaceship
                 return;
             }
 
+            Debug.Log("Threat fullfilled");
             fulfilled.Value = true;
         }
 
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         public void UnclaimServerRpc()
         {
             if (!claimed.Value)

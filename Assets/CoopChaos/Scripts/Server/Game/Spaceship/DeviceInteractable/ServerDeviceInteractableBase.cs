@@ -16,8 +16,10 @@ namespace Yame
         
         public override void Interact(ulong clientId)
         {
+            base.Interact(clientId);
+            
             if (deviceInteractableState.IsRoleBound) {
-                if(FindObjectOfType<ServerGameStage>()
+                if (FindObjectOfType<ServerGameStage>()
                     .GetPlayerObjectByClientHash(UserConnectionMapper.Singleton[clientId])
                     .GetComponent<GameStageUserState>()
                     .Role.Value != deviceInteractableState.Role) 

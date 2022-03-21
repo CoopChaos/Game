@@ -18,12 +18,19 @@ namespace Yame
         {
             base.OnNetworkSpawn();
 
-            /*
-            if(deviceInteractableState.IsRoleBound && NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<GameStageUserState>().Role.Value != deviceInteractableState.Role) {
-                deviceSprite.SetActive(false);
-                highlight.SetActive(false);
+            if (!IsClient)
+            {
+                enabled = false;
+                return;
             }
-            */
+
+            baseThreatMinigame = minigame.GetComponent<BaseThreatMinigame>();
+            
+            deviceInteractableState.InteractEvent += user =>
+            {
+                if (user == NetworkManager.Singleton.LocalClientId)
+                    baseThreatMinigame.StartMinigame();
+            };
 
             deviceInteractableState.Claimed.OnValueChanged = HandleClaimChanged;
         }
@@ -31,16 +38,6 @@ namespace Yame
         protected override void HandleClaimChanged(bool claim, bool oldClaim)
         {
             base.HandleClaimChanged(claim, oldClaim);
-
-            deviceInteractableState.InteractEvent += user =>
-            {
-                baseThreatMinigame.StartMinigame();
-            };
-
-            baseThreatMinigame.StartMinigame();
-            // Hide Minigame from Player if role is not suitable
-
-            baseThreatMinigame = minigame.GetComponent<BaseThreatMinigame>();
         }
         
         protected override void Awake()
@@ -55,9 +52,7 @@ namespace Yame
             if (claimedByMe && baseThreatMinigame.IsFinished())
             {
                 deviceInteractableState.FulfillServerRpc();
-                deviceSprite.SetActive(false);
             }
-            
         }
     }
 }

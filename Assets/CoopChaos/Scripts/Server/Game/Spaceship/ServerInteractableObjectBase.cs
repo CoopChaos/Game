@@ -12,7 +12,8 @@ namespace CoopChaos
         {
             base.OnNetworkSpawn();
 
-            if(!IsServer){
+            if (!IsServer) 
+            {
                 enabled = false;
                 return;
             }

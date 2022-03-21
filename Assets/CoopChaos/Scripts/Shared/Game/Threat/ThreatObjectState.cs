@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 
 namespace Yame.Threat
 {
-    public class ThreatObject : InteractableObjectStateBase
+    public class ThreatObjectState : InteractableObjectStateBase
     {
         [SerializeField] public String threatName;
         [SerializeField] public String threatDescription;
@@ -16,9 +16,6 @@ namespace Yame.Threat
         [SerializeField] private int threatTime;
 
         [SerializeField] private GameObject[] mingames;
-
-        public NetworkVariable<int> numTasksTotal;
-        public NetworkVariable<int> numTasksFinished;
 
         private NetworkVariable<bool> timeConstrained;
         private NetworkVariable<float> timeToSolve;
@@ -29,7 +26,6 @@ namespace Yame.Threat
         public Dictionary<string, ServerDeviceInteractableBase> threatObjectives = new Dictionary<string, ServerDeviceInteractableBase>();
 
         private String[] threatObjectivesString;
-        
         public GameObject[] Minigames => mingames;
 
         public int ThreatTime => threatTime;
