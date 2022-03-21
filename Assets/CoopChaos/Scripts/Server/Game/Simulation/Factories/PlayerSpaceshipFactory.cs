@@ -1,5 +1,7 @@
 using CoopChaos.Simulation.Components;
+using CoopChaos.Simulation.Events;
 using DefaultEcs;
+using UnityEngine;
 
 namespace CoopChaos.Simulation.Factories
 {
@@ -11,10 +13,10 @@ namespace CoopChaos.Simulation.Factories
         public static Entity CreatePlayerSpaceship(this CoopChaosWorld world, float x, float y)
         {
             var entity = world.Native.CreateEntity();
-
+            Debug.Log("Creating spaceship");
             entity.Set(new ObjectComponent()
             {
-                Health = 2500f,
+                Health = 600f,
                 X = x,
                 Y = y,
                 VelocityX = 0,
@@ -34,6 +36,10 @@ namespace CoopChaos.Simulation.Factories
                 Type = DetectionType.AliveShipObject
             });
             
+            world.Native.Publish(new PlayerSpaceshipSpawnEvent()
+            {
+                Health = entity.Get<ObjectComponent>().Health
+            });
             return entity;
         }
     }

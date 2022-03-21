@@ -5,6 +5,7 @@ using System.Linq;
 using CoopChaos.Simulation;
 using CoopChaos.Simulation.Components;
 using CoopChaos.Simulation.Events;
+using DefaultEcs;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -31,6 +32,11 @@ namespace CoopChaos
 
         private void Awake()
         {
+           
+        }
+
+        private void Start()
+        {
             serverGameStage = FindObjectOfType<ServerGameStage>();
             Assert.IsNotNull(serverGameStage);
             
@@ -44,12 +50,20 @@ namespace CoopChaos
             Assert.IsNotNull(threatManager);
 
             threatManager.ThreatMStateChangeEvent += OnThreatMStateChange;
-        }
 
-        private void Start()
-        {
+            Debug.Log("Awake");
             simulation.World.Native.Subscribe<PlayerSpaceshipDamageEvent>(HandleDamageEvent);
             simulation.World.Native.Subscribe<PlayerSpaceshipDestroyedEvent>(HandleDestroyedEvent);
+            simulation.World.Native.Subscribe<PlayerSpaceshipSpawnEvent>(HandleSpawnEvent);
+            
+            if(simulation.World.PlayerSpaceship != null)
+                HandleSpawnEvent(new PlayerSpaceshipSpawnEvent{Health = simulation.World.PlayerSpaceship.Value.Get<ObjectComponent>().Health});
+        }
+
+        private void HandleSpawnEvent(in PlayerSpaceshipSpawnEvent e)
+        {
+            spaceshipState.Health.Value = e.Health;
+            Debug.Log("Spawned spaceship with health: " + e.Health);
         }
 
         private void HandleDamageEvent(in PlayerSpaceshipDamageEvent e)
