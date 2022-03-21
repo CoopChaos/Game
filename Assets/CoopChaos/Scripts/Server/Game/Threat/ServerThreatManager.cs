@@ -98,7 +98,7 @@ namespace Yame.Threat
         private void SetThreatStatus(ThreatManagerStatus status) 
         {
             state.Status.Value = status;
-            ThreatMStateChangeEvent(status);
+            ThreatMStateChangeEvent?.Invoke(status);
         }
 
         private void RemoveThreatsIfFinished()

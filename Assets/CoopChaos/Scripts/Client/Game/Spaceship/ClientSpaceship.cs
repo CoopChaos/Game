@@ -1,19 +1,25 @@
 using System;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Object = UnityEngine.Object;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 namespace CoopChaos
 {
     public class ClientSpaceship : NetworkBehaviour
     {
         private SpaceshipState spaceshipState;
+        
         [SerializeField] private GameObject LastHealthBarPrefab;
         [SerializeField] private GameObject HealthbarPrefab;
-        [SerializeField] private GameObject Anchor;
         [SerializeField] private GameObject HealthbarContainer;
 
-
+        private List<GameObject> healthBarParts;
+        
+        const float OffsetBetweenHealthbars = 10;
 
         public override void OnNetworkSpawn()
         {
@@ -35,25 +41,33 @@ namespace CoopChaos
         
         private void HandleHealthChanged(float health, float newHealth)
         {
-            //Debug.Log(((RectTransform)HealthbarPrefab.transform).rect.width);
-            float healthbarWidth = ((RectTransform)HealthbarPrefab.transform).rect.width;
-            float lastHealthWidth = ((RectTransform)LastHealthBarPrefab.transform).rect.width;
-
-            var lastHealthBar = Instantiate(LastHealthBarPrefab, HealthbarContainer.transform);
-            lastHealthBar.transform.localPosition = new Vector3(Anchor.transform.localPosition.x, Anchor.transform.localPosition.y, 0);
-            
-            for (int i = 100; i < spaceshipState.Health.Value; i+=100)
+            if (healthBarParts != null)
             {
-                var healthBar = Instantiate(HealthbarPrefab, HealthbarContainer.transform);
-                float offsetX = Anchor.transform.localPosition.x + healthbarWidth * i/100;
-                healthBar.transform.localPosition = new Vector3(offsetX, Anchor.transform.localPosition.y, 0);
+                foreach (var healthBarPart in healthBarParts)
+                {
+                    Destroy(healthBarPart);
+                }
+                
+                healthBarParts.Clear();
             }
-            // for(int i = 100; i < spaceshipState.Health.Value; i += 100)
-            // {
-            //     var healthbar = Instantiate(HealthbarPrefab, LastHealthBarPrefab.transform);
-            //     float xOffset = Anchor.transform.position.x + lastHealthWidth;
-            //     healthbar.transform.position = new Vector3(xOffset, Anchor.transform.position.y, -200);
-            // }
+            else 
+            {
+                healthBarParts = new List<GameObject>();
+            }
+            
+            var go = Instantiate(LastHealthBarPrefab, HealthbarContainer.transform);
+            go.GetComponent<RectTransform>();
+            
+            healthBarParts.Add(go);
+
+            for (int i = 0; i < spaceshipState.Health.Value / 100 - 1; ++i)
+            {
+                go = Instantiate(HealthbarPrefab, HealthbarContainer.transform);
+                go.GetComponent<RectTransform>();
+                
+                healthBarParts.Add(go);
+            }
+            
             StartCoroutine(FindObjectOfType<AnimationManager>().Shake());
         }
 
