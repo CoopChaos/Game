@@ -38,8 +38,16 @@ namespace Yame.Threat
         private void HandleStatusChanged(ThreatManagerStatus _, ThreatManagerStatus status)
         {
             Debug.Log("Status changed to " + status);
+
             ThreatUI.text = status.ToString();
-            ThreatDescriptionUI.text = FindObjectOfType<ThreatObjectState>().ThreatDescription;
+
+            if(status == ThreatManagerStatus.ThreatComplete
+                || status == ThreatManagerStatus.ThreatGracePeriod
+                || status == ThreatManagerStatus.ThreatIdle) {
+                ThreatDescriptionUI.text = "";
+            } else {
+                ThreatDescriptionUI.text = FindObjectOfType<ThreatObjectState>().ThreatDescription;
+            }
         }
     }
 }
