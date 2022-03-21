@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CoopChaos;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -14,10 +15,10 @@ namespace Yame.Threat
         private ThreatManagerState state;
         
         [SerializeField]
-        private Text ThreatUI;
+        private TextMeshProUGUI ThreatUI;
 
         [SerializeField]
-        private Text ThreatDescriptionUI;
+        private TextMeshProUGUI ThreatDescriptionUI;
 
         public override void OnNetworkSpawn() {
             base.OnNetworkSpawn();
