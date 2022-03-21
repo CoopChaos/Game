@@ -17,6 +17,8 @@ namespace CoopChaos
 
         public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
+            
             if (!IsServer)
             {
                 enabled = false;
@@ -52,7 +54,6 @@ namespace CoopChaos
 
             simulation = FindObjectOfType<SimulationBehaviour>();
             Assert.IsNotNull(simulation);
-
         }
 
         private IEnumerator RadarScanCoroutine()

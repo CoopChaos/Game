@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 512601288807016918}
   - component: {fileID: 512601288807016912}
   - component: {fileID: 512601288807016913}
+  - component: {fileID: -6602002242087770410}
   m_Layer: 0
   m_Name: ColorCodeInstructor
   m_TagString: Untagged
@@ -109,7 +110,7 @@ Transform:
   m_GameObject: {fileID: 512601288807016926}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.7887334, y: 2.3865323, z: 3.1306496}
-  m_LocalScale: {x: 2.12, y: 2.12, z: 1.06}
+  m_LocalScale: {x: 1, y: 1, z: 1.06}
   m_Children:
   - {fileID: 512601289795362860}
   - {fileID: 512601289774285890}
@@ -157,7 +158,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.4245283, g: 0.14618191, b: 0.14618191, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -220,6 +221,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 271616fe0ab54efab5222d3f9fd938fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsRoleBound: 0
+  Role: 0
 --- !u!114 &512601288807016913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,6 +235,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d29371aebe640b0a8788d49568001e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-6602002242087770410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 512601288807016926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &512601288921238787
 GameObject:
   m_ObjectHideFlags: 0
@@ -869,9 +888,13 @@ MonoBehaviour:
   - {fileID: 512601289829746025}
   - {fileID: 512601290366297773}
   - {fileID: 512601289648523168}
-  colorCoopMode: 0
-  isColorCoopModeViewer: 0
+  numbers: []
+  numbersRed: []
+  numbersGreen: []
+  colorCoopMode: 1
+  isColorCoopModeViewer: 1
   correctCodeInput: 010000000400000003000000050000000200000000000000
+  CodeDisplay: {fileID: 0}
 --- !u!1 &512601289795362861
 GameObject:
   m_ObjectHideFlags: 0
@@ -944,7 +967,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.8509804, b: 0, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

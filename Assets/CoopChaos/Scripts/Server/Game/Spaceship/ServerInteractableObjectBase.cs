@@ -8,15 +8,28 @@ namespace CoopChaos
     {
         private InteractableObjectStateBase state;
         
-        public virtual void Interact(ulong clientId)
+        public override void OnNetworkSpawn()
         {
-            state.InteractClientRpc(clientId);
+            base.OnNetworkSpawn();
+
+            if (!IsServer) 
+            {
+                enabled = false;
+                return;
+            }
+
+            state = GetComponent<InteractableObjectStateBase>();
+            FindObjectOfType<ServerGameStage>().RegisterInteractableObject(this);
         }
 
         protected virtual void Start()
         {
-            state = GetComponent<InteractableObjectStateBase>();
-            FindObjectOfType<ServerGameStage>().RegisterInteractableObject(this);
+            
+        }
+
+        public virtual void Interact(ulong clientId)
+        {
+            state.InteractClientRpc(clientId);
         }
     }
 }

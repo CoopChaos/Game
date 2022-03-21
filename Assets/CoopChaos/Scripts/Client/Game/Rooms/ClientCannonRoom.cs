@@ -74,7 +74,7 @@ namespace CoopChaos
             
             slider.onValueChanged.AddListener(v =>
             {
-                state.SetAngleServerRpc(v);
+                state.SetAngleServerRpc(v * 360f - 180f);
             });
         }
         

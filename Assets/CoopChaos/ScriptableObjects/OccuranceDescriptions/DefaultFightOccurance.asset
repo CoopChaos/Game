@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee11d346a04a44c8957b4f284554ac47, type: 3}
   m_Name: DefaultFightOccurance
   m_EditorClassIdentifier: 
-  OccuranceType: 0
+  OccuranceType: 1
+  Title: Some Title
+  Description: Some Description

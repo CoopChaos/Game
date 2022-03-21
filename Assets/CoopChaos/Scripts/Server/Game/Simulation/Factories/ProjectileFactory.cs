@@ -7,8 +7,9 @@ namespace CoopChaos.Simulation.Factories
 {
     public static class ProjectileFactory
     {
+        private const float Offset = 1f;
         private const float DefaultSize = 2f;
-        private const float DefaultMass = 1000f;
+        private const float DefaultMass = 1f;
         
         public static Entity CreateProjectile(this CoopChaosWorld world, ref ObjectComponent source, float velocity, float angle, float damage, float range)
         {
@@ -19,7 +20,7 @@ namespace CoopChaos.Simulation.Factories
             
             // convert angle to a normalized vector
             var direction = new Vector2(Mathf.Sin(radians), Mathf.Cos(radians));
-            var length = source.Size + DefaultSize + 0.01f;
+            var length = source.Size + DefaultSize + Offset;
 
             entity.Set(new ObjectComponent()
             {
