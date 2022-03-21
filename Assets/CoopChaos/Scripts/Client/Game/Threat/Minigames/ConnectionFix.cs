@@ -32,7 +32,7 @@ namespace CoopChaos
 
         void ButtonClicked(Button btn)
         {
-            btn.enabled = false;
+            btn.GetComponent<Image>().enabled = false;
             counter++;
         }
     }
