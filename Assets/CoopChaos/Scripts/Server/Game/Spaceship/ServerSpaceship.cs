@@ -9,6 +9,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
+using Yame.Threat;
 
 namespace CoopChaos
 {
@@ -18,7 +19,7 @@ namespace CoopChaos
         private ServerGameStage serverGameStage;
         private SpaceshipState spaceshipState;
 
-        private ThreatManager threatManager;
+        private ServerThreatManager server;
 
         public override void OnNetworkSpawn()
         {
@@ -40,10 +41,10 @@ namespace CoopChaos
             spaceshipState = GetComponent<SpaceshipState>();
             Assert.IsNotNull(spaceshipState);
 
-            threatManager = FindObjectOfType<ThreatManager>();
-            Assert.IsNotNull(threatManager);
+            server = FindObjectOfType<ServerThreatManager>();
+            Assert.IsNotNull(server);
 
-            threatManager.ThreatMStateChangeEvent += OnThreatMStateChange;
+            server.ThreatMStateChangeEvent += OnThreatMStateChange;
         }
 
         private void Start()
@@ -57,7 +58,7 @@ namespace CoopChaos
             ref var oc = ref e.Entity.Get<ObjectComponent>();
             spaceshipState.Health.Value = oc.Health;
 
-            threatManager.SpawnThreat();
+            server.SpawnThreat();
             
             if (spaceshipState.Health.Value < 0)
             {
@@ -80,17 +81,17 @@ namespace CoopChaos
             NetworkManager.Singleton.SceneManager.LoadScene("GameOverDie", LoadSceneMode.Single);
         }
 
-        private void OnThreatMStateChange(ThreatManagerState state)
+        private void OnThreatMStateChange(ThreatManagerStatus status)
         {
-            if(state == ThreatManagerState.ThreatFailed) {
+            if(status == ThreatManagerStatus.ThreatFailed) {
                 // decrement health by placeholder value
                 spaceshipState.Health.Value -= 1;
-            } else if (state == ThreatManagerState.ThreatInProgress) {
+            } else if (status == ThreatManagerStatus.ThreatInProgress) {
                 Debug.Log("Spaceship noticed Threat in progress");
-            } else if (state == ThreatManagerState.ThreatComplete) {
+            } else if (status == ThreatManagerStatus.ThreatComplete) {
                 // Maybe we can restore health here
                 Debug.Log("Spaceship noticed Threat complete");
-            } else if (state == ThreatManagerState.ThreatMalicious) {
+            } else if (status == ThreatManagerStatus.ThreatMalicious) {
                 // destroy spaceship
                 SimulationBehaviour s = FindObjectOfType<SimulationBehaviour>();
                 s.World.PlayerSpaceship.Value.Set<DestroyComponent>();

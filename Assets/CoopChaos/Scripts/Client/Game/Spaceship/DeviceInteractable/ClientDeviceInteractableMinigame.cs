@@ -18,6 +18,19 @@ namespace Yame
         {
             base.OnNetworkSpawn();
 
+            if (!IsClient)
+            {
+                enabled = false;
+                return;
+            }
+
+            baseThreatMinigame = minigame.GetComponent<BaseThreatMinigame>();
+            
+            deviceInteractableState.InteractEvent += user =>
+            {
+                if (user == NetworkManager.Singleton.LocalClientId)
+                    baseThreatMinigame.StartMinigame();
+            };
 
             deviceInteractableState.Claimed.OnValueChanged = HandleClaimChanged;
         }
@@ -25,7 +38,6 @@ namespace Yame
         protected override void HandleClaimChanged(bool claim, bool oldClaim)
         {
             base.HandleClaimChanged(claim, oldClaim);
-            baseThreatMinigame.StartMinigame();
         }
         
         protected override void Awake()
@@ -33,31 +45,14 @@ namespace Yame
             base.Awake();
             
             deviceInteractableState = GetComponent<DeviceInteractableBaseState>();
-
-            deviceInteractableState.InteractEvent += user =>
-            {
-                baseThreatMinigame.StartMinigame();
-            };
-
-            
-            // Hide Minigame from Player if role is not suitable
-            if(deviceInteractableState.IsRoleBound && NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<GameStageUserState>().Role.Value != deviceInteractableState.Role) {
-                deviceSprite.SetActive(false);
-                highlight.SetActive(false);
-            }
-
-            baseThreatMinigame = minigame.GetComponent<BaseThreatMinigame>();
         }
 
         public void Update()
         {
             if (claimedByMe && baseThreatMinigame.IsFinished())
             {
-                deviceSprite.SetActive(false);
-                deviceInteractableState.Fulfilled.Value = true;
-                deviceInteractableState.Claimed.Value = false;
+                deviceInteractableState.FulfillServerRpc();
             }
-            
         }
     }
 }

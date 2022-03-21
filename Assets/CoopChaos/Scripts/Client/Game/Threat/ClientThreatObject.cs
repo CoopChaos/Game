@@ -10,11 +10,11 @@ namespace Yame.Threat
 {
     public class ClientThreatObject : NetworkBehaviour
     {
-        private ThreatObject threatObject;
+        private ThreatObjectState threatObjectState;
         
         protected void Awake()
         {
-            threatObject = GetComponent<ThreatObject>();
+            threatObjectState = GetComponent<ThreatObjectState>();
         }
     }
 }

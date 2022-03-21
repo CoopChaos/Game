@@ -12,6 +12,8 @@ namespace CoopChaos
 
         public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
+            
             if (!IsServer)
             {
                 enabled = false;

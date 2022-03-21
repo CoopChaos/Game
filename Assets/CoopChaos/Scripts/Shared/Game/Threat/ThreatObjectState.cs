@@ -8,15 +8,17 @@ using UnityEngine.Serialization;
 
 namespace Yame.Threat
 {
-    public class ThreatObject : InteractableObjectStateBase
+    public class ThreatObjectState : InteractableObjectStateBase
     {
-        // TODO: make this a network varaible
-        public String threatName;
-        public String threatDescription;
+        [SerializeField] public String threatName;
+        [SerializeField] public String threatDescription;
 
-        public int threatTime;
-        public NetworkVariable<int> numTasksTotal;
-        public NetworkVariable<int> numTasksFinished;
+        [SerializeField] private int threatTime;
+
+        [SerializeField] private GameObject[] mingames;
+
+        [SerializeField] private bool twoStepThreat;
+        [SerializeField] private GameObject[] minigamesPhase2;
 
         private NetworkVariable<bool> timeConstrained;
         private NetworkVariable<float> timeToSolve;
@@ -24,9 +26,17 @@ namespace Yame.Threat
         private NetworkVariable<bool> finished;
 
         public NetworkVariable<bool> Finished => finished;
-        
         public Dictionary<string, ServerDeviceInteractableBase> threatObjectives = new Dictionary<string, ServerDeviceInteractableBase>();
+
         private String[] threatObjectivesString;
+
+        public bool TwoStepThreat => twoStepThreat;
+        public GameObject[] Minigames => mingames;
+        public GameObject[] MinigamesPhase2 => minigamesPhase2;
+
+        public int ThreatTime => threatTime;
+        public string ThreatName => threatName;
+        public string ThreatDescription => threatDescription;
 
         public event Action<ulong> ActivateEvent;
 
@@ -36,7 +46,6 @@ namespace Yame.Threat
             ActivateEvent?.Invoke(0);
         }
 
-        
         [ClientRpc]
         public void CommunicateTaskInfosToClientClientRpc(String title, String description)
         {
