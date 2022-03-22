@@ -13,6 +13,8 @@ namespace CoopChaos
     {
         [SerializeField] Button[] buttons;
 
+        [SerializeField] private TextMeshProUGUI DeviceDisplay;
+
         int currentIdx;
 
         [SerializeField] bool isViewer;
@@ -39,9 +41,19 @@ namespace CoopChaos
                 {
                     int x = i;
                     Button b = buttons[i];
-                    b.onClick.AddListener(() => ButtonClicked(x));
+                    b.onClick.AddListener(() => ButtonClicked(x, b));
                 }
             }
+        }
+
+        private IEnumerator SetButtonClickedAction(Button b, bool ok)
+        {
+            DeviceDisplay.text = ok ? "OK" : "WRONG";
+            b.GetComponentInChildren<Image>().enabled = true;
+            yield return new WaitForSeconds(1f);
+            b.GetComponentInChildren<Image>().enabled = false;
+            yield return new WaitForSeconds(1f);
+            DeviceDisplay.text = "";
         }
 
         private string GenerateCodeDisplay(int[] nums)
@@ -62,13 +74,15 @@ namespace CoopChaos
         {
             if(currentIdx >= buttons.Length && !isViewer) FinishMinigame();
         }
-        void ButtonClicked(int i)
+        void ButtonClicked(int i, Button b)
         {
             if(isViewer) return;
             if(nums[currentIdx] == i)
             {;
+                StartCoroutine(SetButtonClickedAction(b, true));
                 currentIdx++;
             } else {
+                StartCoroutine(SetButtonClickedAction(b, false));
                 currentIdx = 0;
             }
         }
