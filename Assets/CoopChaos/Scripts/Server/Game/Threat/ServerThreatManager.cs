@@ -24,8 +24,6 @@ namespace Yame.Threat
                 enabled = false;
                 return;
             }
-            
-            SpawnThreat();
         }
 
         public void SpawnThreat() 
