@@ -41,11 +41,11 @@ namespace CoopChaos
 
         public bool Update()
         {            
-            Debug.Log("Emptyness is " + entities.GetEntities().IsEmpty);
+            // Debug.Log("Emptyness is " + entities.GetEntities().IsEmpty);
             if (entities.GetEntities().IsEmpty == false)
             {
                 var oc = entities.GetEntities()[0].Get<ObjectComponent>();
-                Debug.Log("Enemy at " + oc.X + "," + oc.Y);
+                // Debug.Log("Enemy at " + oc.X + "," + oc.Y);
             }
             
 
