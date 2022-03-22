@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -8,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 using UnityEngine.Timeline;
+using Random = UnityEngine.Random;
 
 namespace CoopChaos
 {
@@ -65,21 +67,10 @@ namespace CoopChaos
             NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
             NetworkManager.Singleton.OnClientConnectedCallback += HandleClientDisconnected;
 
-            List<PlayerRoles> roles = Enum.GetValues(typeof(PlayerRoles)).Cast<PlayerRoles>().ToList();
+            List<PlayerRoles> roles = GeneratePlayerRoles()
+                .Take(NetworkManager.Singleton.ConnectedClientsList.Count)
+                .ToList();
 
-            // Shuffle List
-            System.Random rng = new System.Random();
-            
-            int n = roles.Count;  
-            while (n > 1) {  
-                n--;  
-                int k = rng.Next(n + 1);  
-                PlayerRoles value = roles[k];  
-                roles[k] = roles[n];  
-                roles[n] = value;  
-            }  
-
-            
             int i = 0;
             foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
             {
@@ -89,7 +80,7 @@ namespace CoopChaos
                 
                 players.Add(UserConnectionMapper.Singleton[client.ClientId], player);
 
-                if(i < roles.Count)
+                if (i < roles.Count)
                 {
                     player.GetComponent<GameStageUserState>().Role.Value = roles[i];
                     player.GetComponent<GameStageUser>().SetRoleClientRpc(roles[i]);
@@ -98,6 +89,19 @@ namespace CoopChaos
             }
         }
 
+        IEnumerable<PlayerRoles> GeneratePlayerRoles()
+        {
+            while (true)
+            {
+                var roles = Enum.GetValues(typeof(PlayerRoles))
+                    .Cast<PlayerRoles>()
+                    .OrderBy(r => Random.Range(0f, 1f))
+                    .ToList();
+                
+                foreach (var role in roles)
+                    yield return role;
+            }
+        }
 
         public override void OnNetworkDespawn()
         {

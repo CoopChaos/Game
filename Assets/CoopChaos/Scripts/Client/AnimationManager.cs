@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
@@ -14,8 +15,10 @@ namespace CoopChaos
             float duration = 0.5f;
 
             var p = FindObjectOfType<PostProcessVolume>();
+            var transform = Camera.current.transform;
             
-            Vector3 originalPos = transform.position;
+            Vector3 originalPos = transform.localPosition;
+            
             var colorGrading = (ColorGrading) p.profile.settings.First(s => s is ColorGrading);
             colorGrading.colorFilter.value = new Color(1.0f, 0.3f, 0.3f, 1.0f);
 
@@ -24,7 +27,7 @@ namespace CoopChaos
                 float x = Random.Range(-0.5f, 0.5f) * 3.0f;
                 float y = Random.Range(-0.5f, 0.5f) * 3.0f;
 
-                transform.position = new Vector3(originalPos.x + x, originalPos.y + y, originalPos.z);
+                transform.localPosition = new Vector3(originalPos.x + x, originalPos.y + y, originalPos.z);
 
                 elapsed += Time.deltaTime;
 
@@ -33,7 +36,7 @@ namespace CoopChaos
             
             colorGrading.colorFilter.value = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 
-            transform.position = originalPos;
+            transform.localPosition = originalPos;
         }
 
         public IEnumerator WarpDrive()

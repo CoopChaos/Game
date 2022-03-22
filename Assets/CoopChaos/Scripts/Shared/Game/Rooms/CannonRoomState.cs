@@ -24,14 +24,14 @@ namespace CoopChaos
 
         private int i = 0;
         
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         public void ShootServerRpc()
         {
             Debug.Log("Shoot called" + ++i);
             server.Shoot();
         }
         
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         public void SetAngleServerRpc(float angle)
         {
             Angle.Value = angle;
