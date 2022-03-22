@@ -19,7 +19,7 @@ MonoBehaviour:
   - EnemySize: 20
     SpawnXOffset: 0
     PatrolPoints:
-    - {x: 0, y: 10}
-    - {x: 0, y: -10}
+    - {x: 2, y: 0}
+    - {x: -2, y: 0}
     Speed: 2
     ShootInterval: 10
