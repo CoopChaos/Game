@@ -20,6 +20,9 @@ namespace CoopChaos
         [SerializeField] bool isViewer;
 
         string[] colors = new string[] { "Gelb", "Orange", "Rot", "Grün", "Blau", "Pink" };
+        [SerializeField] private Sprite[] colorSprites;
+
+        [SerializeField] private Image[] colorSequence;
         int[] nums;
         [SerializeField] string correctCodeInput;
 
@@ -38,7 +41,7 @@ namespace CoopChaos
                 Debug.Log(nums.ToString());
                 if(isViewer)
                 {
-                    CodeDisplay.text = GenerateCodeDisplay(nums);
+                    GenerateCodeDisplay(nums);
                 } else {
                     for (int i = 0; i < buttons.Length; i++)
                     {
@@ -61,18 +64,13 @@ namespace CoopChaos
             DeviceDisplay.text = "";
         }
 
-        private string GenerateCodeDisplay(int[] nums)
+        private void GenerateCodeDisplay(int[] nums)
         {
-            string code = "Folgende Reihenfolge ist die Loesung ";
             for (int i = 0; i < nums.Length; i++)
             {
-                code += colors[nums[i]];
-                if(i != nums.Length - 1)
-                {
-                    code += " ";
-                }
+                colorSequence[i].sprite = colorSprites[nums[i]];
             }
-            return code;
+            return;
         }
 
         void Update()
