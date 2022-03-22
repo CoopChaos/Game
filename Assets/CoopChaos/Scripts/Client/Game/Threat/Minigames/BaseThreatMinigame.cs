@@ -9,11 +9,14 @@ namespace CoopChaos
     {
         public Canvas miniGameContainer;
         private bool minigameFinished;
+
+        protected bool minigameStarted;
         public virtual void Start()
         {
             // ensure container is disabled at game start
             this.minigameFinished = false;
             this.miniGameContainer.enabled = false;
+            this.minigameStarted = false;
         }
 
         public bool IsFinished()
@@ -28,13 +31,11 @@ namespace CoopChaos
 
         public virtual void StartMinigame()
         {
-            this.minigameFinished = false;
             this.miniGameContainer.enabled = true;
         }
 
         public virtual void PauseMinigame()
         {
-            this.minigameFinished = false;
             this.miniGameContainer.enabled = false;
         }
 

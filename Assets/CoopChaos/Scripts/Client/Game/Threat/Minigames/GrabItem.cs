@@ -24,17 +24,20 @@ namespace CoopChaos
         {
             base.StartMinigame();
 
-            correctItem = Random.Range(0, solverButton.Length);
+            if(!minigameStarted) {
+                correctItem = Random.Range(0, solverButton.Length);
 
-            instruction.text = "Nehme " + itemNames[correctItem] + " aus dem Regal.";
+                instruction.text = "Nehme " + itemNames[correctItem] + " aus dem Regal.";
 
-            for (int i = 0; i < solverButton.Length; i++)
-            {
-                solverButton[i].GetComponent<Image>().sprite = items[i];
-                if(i == correctItem)
+                for (int i = 0; i < solverButton.Length; i++)
                 {
-                    solverButton[i].onClick.AddListener(() => ButtonClicked());
+                    solverButton[i].GetComponent<Image>().sprite = items[i];
+                    if(i == correctItem)
+                    {
+                        solverButton[i].onClick.AddListener(() => ButtonClicked());
+                    }
                 }
+                minigameStarted = true;
             }
         }
 

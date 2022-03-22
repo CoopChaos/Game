@@ -11,8 +11,11 @@ namespace CoopChaos
         public override void StartMinigame()
         {
             base.StartMinigame();
-            solverButton.onClick.AddListener(ButtonClicked);
-            Debug.Log("Started");
+            if(!minigameStarted) {
+                solverButton.onClick.AddListener(ButtonClicked);
+                Debug.Log("Started");
+                minigameStarted = true;
+            }
         }
 
         void ButtonClicked()

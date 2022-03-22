@@ -106,7 +106,7 @@ namespace CoopChaos
 
             if (value.Type == DetectionType.AliveProjectileObject)
             {
-                Debug.Log($"Found projectile: {value.X}, {value.Y}");
+                
             }
             
             elem.GetComponent<Image>().color = GetColor(value.Type);

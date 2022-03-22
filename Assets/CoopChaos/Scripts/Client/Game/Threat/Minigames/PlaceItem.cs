@@ -35,31 +35,34 @@ namespace CoopChaos
         {
             base.StartMinigame();
 
-            itemMap = new int[grabFields.Length];
-            itemPutMap = new int[placeFields.Length];
+            if(!minigameStarted) {
+                itemMap = new int[grabFields.Length];
+                itemPutMap = new int[placeFields.Length];
 
-            for (int i = 0; i < grabFields.Length; i++)
-            {
-                int rnd = UnityEngine.Random.Range(0, items.Length);
+                for (int i = 0; i < grabFields.Length; i++)
+                {
+                    int rnd = UnityEngine.Random.Range(0, items.Length);
 
-                itemMap[i] = rnd;
-                itemPutMap[i] = rnd;
+                    itemMap[i] = rnd;
+                    itemPutMap[i] = rnd;
+                }
+
+                for (int i = 0; i < grabFields.Length; i++)
+                {
+                    int x = i;
+                    grabFields[i].GetComponent<Image>().sprite = items[itemMap[i]];
+                    grabFields[i].onClick.AddListener(() => { OnGrabFieldClick(x); });
+                }
+
+                for (int i = 0; i < placeFields.Length; i++)
+                {
+                    int x = i;
+                    placeFields[i].onClick.AddListener(() => { OnPlaceFieldClick(x); });
+                }
+
+                instructions.text = GenerateInstructions();
+                minigameStarted = true;
             }
-
-            for (int i = 0; i < grabFields.Length; i++)
-            {
-                int x = i;
-                grabFields[i].GetComponent<Image>().sprite = items[itemMap[i]];
-                grabFields[i].onClick.AddListener(() => { OnGrabFieldClick(x); });
-            }
-
-            for (int i = 0; i < placeFields.Length; i++)
-            {
-                int x = i;
-                placeFields[i].onClick.AddListener(() => { OnPlaceFieldClick(x); });
-            }
-
-            instructions.text = GenerateInstructions();
         }
 
         private void OnPlaceFieldClick(int x)

@@ -13,10 +13,13 @@ namespace CoopChaos
         public override void StartMinigame()
         {
             base.StartMinigame();
-            int rnd = Random.Range(0, sliders.Length);
-            chosen = sliders[rnd];
-            chosen.onValueChanged.AddListener((c) => SliderChanged(c));
-            chosen.value = 0;
+            if(!minigameStarted) {
+                int rnd = Random.Range(0, sliders.Length);
+                chosen = sliders[rnd];
+                chosen.onValueChanged.AddListener((c) => SliderChanged(c));
+                chosen.value = 0;
+                minigameStarted = true;
+            }
         }
 
         private void SliderChanged(float c)

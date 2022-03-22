@@ -29,20 +29,25 @@ namespace CoopChaos
         public override void StartMinigame()
         {
             base.StartMinigame();
-            currentIdx = 0;
 
-            nums = correctCodeInput.Split(' ').Select(int.Parse).ToArray();
-            Debug.Log(nums.ToString());
-            if(isViewer)
+            if(!minigameStarted)
             {
-                CodeDisplay.text = GenerateCodeDisplay(nums);
-            } else {
-                for (int i = 0; i < buttons.Length; i++)
+                currentIdx = 0;
+
+                nums = correctCodeInput.Split(' ').Select(int.Parse).ToArray();
+                Debug.Log(nums.ToString());
+                if(isViewer)
                 {
-                    int x = i;
-                    Button b = buttons[i];
-                    b.onClick.AddListener(() => ButtonClicked(x, b));
+                    CodeDisplay.text = GenerateCodeDisplay(nums);
+                } else {
+                    for (int i = 0; i < buttons.Length; i++)
+                    {
+                        int x = i;
+                        Button b = buttons[i];
+                        b.onClick.AddListener(() => ButtonClicked(x, b));
+                    }
                 }
+                minigameStarted = true;
             }
         }
 

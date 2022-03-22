@@ -28,9 +28,8 @@ namespace CoopChaos
 
         Color[] colors = new Color[] { Color.red, Color.blue, Color.green, Color.yellow, Color.cyan, Color.magenta, Color.cyan, Color.gray, Color.white, Color.black };
     
-        public override void StartMinigame()
+        private void Initialize()
         {
-            base.StartMinigame();
             ctr = 1;
             size = buttons.Length;
             Debug.Log(buttons.Length);
@@ -63,6 +62,13 @@ namespace CoopChaos
                     b.GetComponentInChildren<Text>().text = rnd.ToString();
                 }
             }
+            minigameStarted = true;
+        }
+
+        public override void StartMinigame()
+        {
+            base.StartMinigame();
+            if(!minigameStarted) Initialize();
             Debug.Log("Init Finished");
         }
 

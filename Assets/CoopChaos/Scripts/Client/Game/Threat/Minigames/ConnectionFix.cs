@@ -12,14 +12,27 @@ namespace CoopChaos
         public Button leak3;
         private int counter;
 
-        public override void StartMinigame()
+        private void Initialize()
         {
-            base.StartMinigame();
             counter = 0;
             leak1.onClick.AddListener(() => ButtonClicked(leak1));
             leak2.onClick.AddListener(() => ButtonClicked(leak2));
             leak3.onClick.AddListener(() => ButtonClicked(leak3));
+            minigameStarted = true;
+        }
+
+        public override void StartMinigame()
+        {
+            base.StartMinigame();
+
+            if(!minigameStarted) Initialize();
             Debug.Log("Started");
+        }
+
+        public override void PauseMinigame()
+        {
+            base.PauseMinigame();
+            Debug.Log("Pause");
         }
 
         private void Update()
