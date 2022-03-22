@@ -325,6 +325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   miniGameContainer: {fileID: 512601288951591901}
+  instructions: {fileID: 2586729734928789390}
   grabFields:
   - {fileID: 6573738668917727289}
   - {fileID: 7177148315371138279}
