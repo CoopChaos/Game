@@ -20,6 +20,9 @@ namespace Yame.Threat
         [SerializeField]
         private TextMeshProUGUI ThreatDescriptionUI;
 
+        [SerializeField]
+        private Image UIBackground;
+
         public override void OnNetworkSpawn() {
             base.OnNetworkSpawn();
 
@@ -46,8 +49,10 @@ namespace Yame.Threat
                 || status == ThreatManagerStatus.ThreatGracePeriod
                 || status == ThreatManagerStatus.ThreatIdle) {
                 ThreatDescriptionUI.text = "";
+                UIBackground.enabled = false;
             } else {
                 ThreatDescriptionUI.text = FindObjectOfType<ThreatObjectState>().ThreatDescription;
+                UIBackground.enabled = true;
             }
         }
     }
