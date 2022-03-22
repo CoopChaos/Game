@@ -12,6 +12,8 @@ namespace Yame.Threat
     {
         private ThreatObjectState state;
         private String[] objectivesString;
+
+        private GameObject[] minigamePhase2Objects; // only use this for temporarilly storing the minigame objects for view
         
         private int numTasksFinished;
         private int numTasksTotal;
@@ -22,27 +24,7 @@ namespace Yame.Threat
 
         public virtual void Update()
         {
-            /*
-            int compCounter = 0;
-
-            // threadCompleted is true when every sub objective is finished
-            foreach (var i in state.threatObjectives)
-            {
-                if (i.Value.DeviceInteractableState.Fulfilled.Value) compCounter++;
-            }
-
-            state.numTasksFinished.Value = compCounter;
-
-            if (compCounter == state.threatObjectives.Count)
-            {
-                threatCompleted = true;
-            }
-
-            if (threatCompleted)
-            {
-                state.Finished.Value = true;
-            }
-            */
+            
         }
 
         public override void OnNetworkSpawn()
@@ -107,9 +89,12 @@ namespace Yame.Threat
             }
 
             if(transform.GetComponent<ThreatObjectState>().SetpTwoViewOnly) {
+                minigamePhase2Objects = new GameObject[transform.GetComponent<ThreatObjectState>().MinigamesPhase2.Length];
+
                 for (int i = 0; i < transform.GetComponent<ThreatObjectState>().MinigamesPhase2.Length; ++i)
                 {
                     var minigameObject = Instantiate(transform.GetComponent<ThreatObjectState>().MinigamesPhase2[i], spawnPoints[minigames.Length + i].position, Quaternion.identity, transform);
+                    minigamePhase2Objects[i] = minigameObject;
                     minigameObject.GetComponent<NetworkObject>().Spawn();
 
                     var device = minigameObject.GetComponent<DeviceInteractableBaseState>();
@@ -135,9 +120,9 @@ namespace Yame.Threat
                         SpawnMinigamePhase(transform.GetComponent<ThreatObjectState>().MinigamesPhase2);
                     } else {
                         if(transform.GetComponent<ThreatObjectState>().SetpTwoViewOnly) {
-                            foreach (var i in transform.GetComponent<ThreatObjectState>().MinigamesPhase2)
+                            for (int i = 0; i < transform.GetComponent<ThreatObjectState>().MinigamesPhase2.Length; ++i)
                             {
-                                i.GetComponent<DeviceInteractableBaseState>().Fulfilled.Value = true;
+                                minigamePhase2Objects[i].GetComponent<NetworkObject>().Despawn();
                             }
                         }
                         Debug.Log("Threat completed");
