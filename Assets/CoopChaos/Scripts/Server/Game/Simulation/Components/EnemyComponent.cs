@@ -39,7 +39,7 @@ namespace CoopChaos.Simulation.Components
                 ref oc,
                 80f,
                 angleDegrees,
-                1f,
+                100f,
                 1000f);
         }
     }

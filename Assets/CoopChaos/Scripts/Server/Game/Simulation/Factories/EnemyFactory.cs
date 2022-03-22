@@ -7,7 +7,7 @@ namespace CoopChaos.Simulation.Factories
 {
     public static class EnemyFactory
     {
-        public static Entity CreateEnemy(this CoopChaosWorld world, Vector2 spawn, List<Vector2> patrolPoints, float speed, float health, float mass, float size)
+        public static Entity CreateEnemy(this CoopChaosWorld world, Vector2 spawn, List<Vector2> patrolPoints, float speed, float health, float mass, float size, float shootInterval)
         {
             var entity = world.Native.CreateEntity();
             
@@ -24,7 +24,7 @@ namespace CoopChaos.Simulation.Factories
             
             entity.Set(new EnemyComponent()
             {
-                Actions = new List<IEnemyAction>{ new SpawnProjectileEnemyAction(1, 1) },
+                Actions = new List<IEnemyAction>{ new SpawnProjectileEnemyAction(shootInterval, 1) },
                 ActionCooldown = 0f
             });
 

@@ -76,6 +76,11 @@ namespace CoopChaos
         public IEnumerator Death()
         {
             var p = FindObjectOfType<PostProcessVolume>();
+            
+            foreach (var canvas in FindObjectsOfType<Canvas>())
+            {
+                canvas.enabled = false;
+            }
 
             var bloom = (Bloom) p.profile.settings.First(s => s is Bloom);
             
@@ -92,8 +97,6 @@ namespace CoopChaos
 
                 yield return null;
             }
-            
-            
         }
         
         public IEnumerator Spawn()

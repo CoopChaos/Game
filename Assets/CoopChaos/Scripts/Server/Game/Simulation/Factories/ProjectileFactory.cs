@@ -7,7 +7,7 @@ namespace CoopChaos.Simulation.Factories
 {
     public static class ProjectileFactory
     {
-        private const float Offset = 1f;
+        private const float Offset = 10f;
         private const float DefaultSize = 2f;
         private const float DefaultMass = 1f;
         

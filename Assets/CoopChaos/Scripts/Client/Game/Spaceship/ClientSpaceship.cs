@@ -54,20 +54,23 @@ namespace CoopChaos
             {
                 healthBarParts = new List<GameObject>();
             }
-            
-            var go = Instantiate(LastHealthBarPrefab, HealthbarContainer.transform);
-            go.GetComponent<RectTransform>();
-            
-            healthBarParts.Add(go);
 
-            for (int i = 0; i < spaceshipState.Health.Value / 100 - 1; ++i)
+            if (spaceshipState.Health.Value > 0)
             {
-                go = Instantiate(HealthbarPrefab, HealthbarContainer.transform);
+                var go = Instantiate(LastHealthBarPrefab, HealthbarContainer.transform);
                 go.GetComponent<RectTransform>();
-                
+
                 healthBarParts.Add(go);
+
+                for (int i = 0; i < spaceshipState.Health.Value / 100 - 1; ++i)
+                {
+                    go = Instantiate(HealthbarPrefab, HealthbarContainer.transform);
+                    go.GetComponent<RectTransform>();
+
+                    healthBarParts.Add(go);
+                }
             }
-            
+
             Debug.Log("Oldhealth: " + health + " newhealth: " + newHealth);
             if(!(health == 0 && newHealth > 0))
                 StartCoroutine(FindObjectOfType<AnimationManager>().Shake());
