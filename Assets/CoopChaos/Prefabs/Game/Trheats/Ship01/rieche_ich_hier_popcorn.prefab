@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5661078858352960201}
   - component: {fileID: 5661078858352960200}
   - component: {fileID: 4168308116438515774}
-  - component: {fileID: 6983901301131073207}
+  - component: {fileID: -8241240958876233189}
   m_Layer: 0
   m_Name: rieche_ich_hier_popcorn
   m_TagString: Untagged
@@ -88,7 +88,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &6983901301131073207
+--- !u!114 &-8241240958876233189
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,11 +97,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5661078858352960204}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77bdbef54fa3bd04b91709caf28e9256, type: 3}
+  m_Script: {fileID: 11500000, guid: ac3230a1f8b34a378d7072b9ed2799db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stage1Threats:
-  - {fileID: 0}
-  - {fileID: 0}
-  stage2Threats:
-  - {fileID: 0}
