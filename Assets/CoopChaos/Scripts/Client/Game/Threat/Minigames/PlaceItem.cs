@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,8 @@ namespace CoopChaos
 {
     public class PlaceItem : BaseThreatMinigame
     {
+        public TextMeshProUGUI instructions;
+
         [SerializeField]
         private Button[] grabFields;
 
@@ -55,6 +58,8 @@ namespace CoopChaos
                 int x = i;
                 placeFields[i].onClick.AddListener(() => { OnPlaceFieldClick(x); });
             }
+
+            instructions.text = GenerateInstructions();
         }
 
         private void OnPlaceFieldClick(int x)
@@ -72,6 +77,21 @@ namespace CoopChaos
             currentItem = itemMap[i];
             Debug.Log("Clicked on grab field " + i);
         }
+
+        private string GenerateInstructions()
+        {
+            string instructions = "";
+            for (int i = 0; i < itemMap.Length; i++)
+            {
+                instructions += "Platziere " + itemNames[itemMap[i]] + " auf " + (i + 1) + ". Feld.";
+                if (i != itemMap.Length - 1)
+                {
+                    instructions += "\n";
+                }
+            }
+            return instructions;
+        }
+
 
         void ButtonClicked()
         {
