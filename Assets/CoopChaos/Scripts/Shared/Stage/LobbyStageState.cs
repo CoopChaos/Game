@@ -7,30 +7,33 @@ namespace CoopChaos
     [RequireComponent(typeof(ClientLobbyStage), typeof(ServerLobbyStage))]
     public class LobbyStageState : Stage
     {
-        private NetworkList<UserModel> users;
+        private CustomNetworkList<UserModel> users;
 
-        public NetworkList<UserModel> Users => users;
+        public CustomNetworkList<UserModel> Users => users;
         public override StageType Type => StageType.Lobby;
 
         protected void Awake()
         {
-            users = new NetworkList<UserModel>();
+            users = new CustomNetworkList<UserModel>();
         }
 
         public struct UserModel : INetworkSerializable, IEquatable<UserModel>
         {
+            private ulong id;
             private Guid clientHash;
 
             private bool ready;
             private NetworkString username;
 
-            public UserModel(Guid clientHash, bool ready, NetworkString username)
+            public UserModel(ulong id, Guid clientHash, bool ready, NetworkString username)
             {
+                this.id = id;
                 this.clientHash = clientHash;
                 this.ready = ready;
                 this.username = username;
             }
 
+            public ulong Id => id;
             public Guid ClientHash => clientHash;
             public bool Ready => ready;
             public string Username => username.ToString();
@@ -38,6 +41,7 @@ namespace CoopChaos
             
             public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
             {
+                serializer.SerializeValue(ref id);
                 serializer.SerializeValue(ref clientHash);
                 serializer.SerializeValue(ref ready);
                 serializer.SerializeValue(ref username);
@@ -45,7 +49,7 @@ namespace CoopChaos
 
             public bool Equals(UserModel other)
             {
-                return clientHash == other.clientHash && ready == other.ready && username.Equals(other.username);
+                return id == other.id && clientHash == other.clientHash;
             }
 
             public override bool Equals(object obj)
@@ -58,6 +62,7 @@ namespace CoopChaos
                 unchecked
                 {
                     var hashCode = clientHash.GetHashCode();
+                    hashCode = (hashCode * 397) ^ id.GetHashCode();
                     hashCode = (hashCode * 397) ^ ready.GetHashCode();
                     hashCode = (hashCode * 397) ^ username.GetHashCode();
                     return hashCode;

@@ -28,6 +28,7 @@ namespace CoopChaos
             Assert.IsTrue(clientIndex != -1);
             
             state.Users[clientIndex] = new LobbyStageState.UserModel(
+                state.Users[clientIndex].Id,
                 state.Users[clientIndex].ClientHash,
                 !state.Users[clientIndex].Ready,
                 state.Users[clientIndex].RawUsername);
@@ -89,11 +90,8 @@ namespace CoopChaos
 
         private void HandleClientDisconnected(ulong clientId)
         {
-            var user = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.GetComponent<ServerUserPersistentBehaviour>();
-            
-            state.Users.RemoveAt(state.Users.IndexWhere(u => u.ClientHash == user.UserModel.ClientHash));
+            state.Users.RemoveAt(state.Users.IndexWhere(u => u.Id == clientId));
         }
-        
 
         private void AddLobbyUser(ulong clientId)
         {
@@ -104,7 +102,7 @@ namespace CoopChaos
             
             var user = NetworkManager.Singleton.ConnectedClients[client.ClientId].PlayerObject
                 .GetComponent<ServerUserPersistentBehaviour>();
-            state.Users.Add(new LobbyStageState.UserModel(user.UserModel.ClientHash, false, user.UserModel.Username));
+            state.Users.Add(new LobbyStageState.UserModel(user.UserModel.ClientId, user.UserModel.ClientHash, false, user.UserModel.Username));
         }
     }
 }

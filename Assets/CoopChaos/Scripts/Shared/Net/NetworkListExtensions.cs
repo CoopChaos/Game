@@ -38,5 +38,38 @@ namespace CoopChaos
 
             throw new Exception("No element found");
         }
+        
+        public static int IndexWhere<T>(this CustomNetworkList<T> list, Predicate<T> predicate) where T : unmanaged, IEquatable<T>
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (predicate(list[i]))
+                    return i;
+            }
+
+            return -1;
+        }
+        
+        public static bool All<T>(this CustomNetworkList<T> list, Predicate<T> predicate) where T : unmanaged, IEquatable<T>
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (!predicate(list[i]))
+                    return false;
+            }
+
+            return true;
+        }
+        
+        public static T First<T>(this CustomNetworkList<T> list, Predicate<T> predicate) where T : unmanaged, IEquatable<T>
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (predicate(list[i]))
+                    return list[i];
+            }
+
+            throw new Exception("No element found");
+        }
     }
 }

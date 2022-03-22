@@ -106,7 +106,7 @@ namespace CoopChaos
                 case AbstractNetworkListEvent.Remove:
                     Destroy(userEntries[listEvent.Value.ClientHash].gameObject);
                     userEntries.Remove(listEvent.Value.ClientHash);
-                    UpdateLobbyUIState();
+                    UpdateLobbyUIState();   
                     
                     break;
             }

@@ -102,32 +102,35 @@ namespace CoopChaos
 
         private void HandleOnClientDisconnect(ulong clientId)
         {
-            NetworkManager.Singleton.Shutdown();
+            if (clientId == NetworkManager.Singleton.LocalClientId)
+            {
+                NetworkManager.Singleton.Shutdown();
 
-            // handle disconnect on connecting
-            if (lastConnectResult == ConnectResult.Undefined)
-            {
-                lastConnectResult = ConnectResult.Timeout;
-            }
-            
-            if (SceneManager.GetActiveScene().name != "MainMenu")
-            {
-                SceneManager.LoadScene("MainMenu");
-            }
+                // handle disconnect on connecting
+                if (lastConnectResult == ConnectResult.Undefined)
+                {
+                    lastConnectResult = ConnectResult.Timeout;
+                }
 
-            if (lastConnectResult != ConnectResult.Success)
-            {
-                OnConnectingFinished?.Invoke(lastConnectResult);
-                return;
+                if (SceneManager.GetActiveScene().name != "MainMenu")
+                {
+                    SceneManager.LoadScene("MainMenu");
+                }
+
+                if (lastConnectResult != ConnectResult.Success)
+                {
+                    OnConnectingFinished?.Invoke(lastConnectResult);
+                    return;
+                }
+
+                // handle disconnect on running
+                if (lastDisconnectReason == DisconnectReason.Undefined)
+                {
+                    lastDisconnectReason = DisconnectReason.Timeout;
+                }
+
+                OnDisconnected?.Invoke(lastDisconnectReason);
             }
-            
-            // handle disconnect on running
-            if (lastDisconnectReason == DisconnectReason.Undefined)
-            {
-                lastDisconnectReason = DisconnectReason.Timeout;
-            }
-            
-            OnDisconnected?.Invoke(lastDisconnectReason);
         }
 
         private void HandleConnectResultMessage(ulong clientID, FastBufferReader reader)
