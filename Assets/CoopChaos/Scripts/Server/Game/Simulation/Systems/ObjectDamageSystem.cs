@@ -43,6 +43,7 @@ namespace CoopChaos.Simulation.Systems
                     entity.Set<DestroyComponent>();
                 }
                 
+                entity.NotifyChanged<ObjectComponent>();
                 entity.Remove<DamageComponent>();
             }
         }

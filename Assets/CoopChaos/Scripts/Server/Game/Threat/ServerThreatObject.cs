@@ -106,7 +106,7 @@ namespace Yame.Threat
                 device.Fulfilled.OnValueChanged += (_, fullfilled) => HandleMinigameFullfilled(fullfilled, device);
             }
 
-            if(transform.GetComponent<ThreatObjectState>().SetpTwoViewOnly) {
+            if (transform.GetComponent<ThreatObjectState>().SetpTwoViewOnly) {
                 for (int i = 0; i < transform.GetComponent<ThreatObjectState>().MinigamesPhase2.Length; ++i)
                 {
                     var minigameObject = Instantiate(transform.GetComponent<ThreatObjectState>().MinigamesPhase2[i], spawnPoints[minigames.Length + i].position, Quaternion.identity, transform);
@@ -129,17 +129,18 @@ namespace Yame.Threat
                 
                 if (numTasksFinished == numTasksTotal)
                 {
-                    if(transform.GetComponent<ThreatObjectState>().TwoStepThreat && !inPhase2) {
+                    if (transform.GetComponent<ThreatObjectState>().TwoStepThreat && !inPhase2) {
                         Debug.Log("Phase 1 finished");
                         inPhase2 = true;
                         SpawnMinigamePhase(transform.GetComponent<ThreatObjectState>().MinigamesPhase2);
                     } else {
-                        if(transform.GetComponent<ThreatObjectState>().SetpTwoViewOnly) {
+                        if (transform.GetComponent<ThreatObjectState>().SetpTwoViewOnly) {
                             foreach (var i in transform.GetComponent<ThreatObjectState>().MinigamesPhase2)
                             {
                                 i.GetComponent<DeviceInteractableBaseState>().Fulfilled.Value = true;
                             }
                         }
+                        
                         Debug.Log("Threat completed");
                         state.Finished.Value = true;
                     }
