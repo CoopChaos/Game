@@ -55,15 +55,15 @@ namespace CoopChaos
             {
                 case PlayerRoles.Pilot:
                     anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animation/Pilot/Player_Triggers");
-                    roleText.text = "Captain";
+                    // roleText.text = "Captain";
                     break;
                 case PlayerRoles.Technician:
                     anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animation/Technician/Technician_Triggers");
-                    roleText.text = "Techniker";
+                    // roleText.text = "Techniker";
                     break;
                 case PlayerRoles.Gunner:
                     anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animation/Gunner/Gunner_Triggers");
-                    roleText.text = "Kanonier";
+                    // roleText.text = "Kanonier";
                     break;
             }
         }
@@ -262,7 +262,7 @@ namespace CoopChaos
             rigidbody = GetComponent<Rigidbody2D>();
             anim = GetComponentInChildren<Animator>();
 
-            roleText = GameObject.Find("RoleDisplay").GetComponent<TextMeshProUGUI>();
+            //roleText = GameObject.Find("RoleDisplay").GetComponent<TextMeshProUGUI>();
             
             Assert.IsNotNull(api);
             Assert.IsNotNull(rigidbody);
