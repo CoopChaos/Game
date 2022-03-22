@@ -78,10 +78,16 @@ namespace CoopChaos.Simulation.Systems
             var ocSmaller = ocA.Mass < ocB.Mass ? ref ocA : ref ocB;
             
             var largerEntity = ocA.Mass < ocB.Mass ? entityB : entityA;
+            var damage = velocityDifferenceOrder * ocSmaller.Mass * 0.1f;
+
+            if (smallerEntity.Has<ProjectileComponent>())
+            {
+                damage += smallerEntity.Get<ProjectileComponent>().Damage;
+            }
 
             largerEntity.Set(new DamageComponent()
             {
-                Damage = velocityDifferenceOrder * ocSmaller.Mass * 0.1f
+                Damage = damage
             });
             
             smallerEntity.Set<DestroyComponent>();
