@@ -9,6 +9,7 @@ namespace CoopChaos
     public class ClientStoryRoom : ClientInteractableObjectBase
     {
         [SerializeField] private GameObject highlight;
+        [SerializeField] private GameObject arrow;
         
         [SerializeField] private TextMeshProUGUI title;
         [SerializeField] private TextMeshProUGUI description;
@@ -57,6 +58,8 @@ namespace CoopChaos
             
             state.CanTriggerNext.OnValueChanged += (_, v) =>
             {
+                arrow.SetActive(v);
+                
                 if (v)
                 {
                     title.text = "Hyperantrieb";
