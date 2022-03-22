@@ -16,7 +16,8 @@ namespace CoopChaos
         {
             base.Start();
 
-            StartCoroutine(LoadSceneInTime(TimeToLoad));
+            if(IsServer)
+                StartCoroutine(LoadSceneInTime(TimeToLoad));
         }
         private IEnumerator LoadSceneInTime(float time)
         {
