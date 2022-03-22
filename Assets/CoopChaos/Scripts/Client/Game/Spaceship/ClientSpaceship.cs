@@ -68,7 +68,9 @@ namespace CoopChaos
                 healthBarParts.Add(go);
             }
             
-            StartCoroutine(FindObjectOfType<AnimationManager>().Shake());
+            Debug.Log("Oldhealth: " + health + " newhealth: " + newHealth);
+            if(!(health == 0 && newHealth > 0))
+                StartCoroutine(FindObjectOfType<AnimationManager>().Shake());
         }
 
         private void Awake()
