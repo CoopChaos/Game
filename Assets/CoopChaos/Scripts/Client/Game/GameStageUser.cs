@@ -1,5 +1,6 @@
 using System;
 using CoopChaos.Shared;
+using TMPro;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 // using UnityEditor.PackageManager;
@@ -15,6 +16,8 @@ namespace CoopChaos
         [SerializeField] private float speed = 150f;
         [SerializeField] private GameObject characterCamera;
         [SerializeField] private GameObject circle;
+
+        private TextMeshProUGUI roleText;
 
         private Canvas pauseMenu;
 
@@ -52,12 +55,15 @@ namespace CoopChaos
             {
                 case PlayerRoles.Pilot:
                     anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animation/Pilot/Player_Triggers");
+                    roleText.text = "Captain";
                     break;
                 case PlayerRoles.Technician:
                     anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animation/Technician/Technician_Triggers");
+                    roleText.text = "Techniker";
                     break;
                 case PlayerRoles.Gunner:
                     anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animation/Gunner/Gunner_Triggers");
+                    roleText.text = "Kanonier";
                     break;
             }
         }
@@ -255,6 +261,8 @@ namespace CoopChaos
             api = GetComponent<GameStageUserApi>();
             rigidbody = GetComponent<Rigidbody2D>();
             anim = GetComponentInChildren<Animator>();
+
+            roleText = GameObject.Find("RoleDisplay").GetComponent<TextMeshProUGUI>();
             
             Assert.IsNotNull(api);
             Assert.IsNotNull(rigidbody);
