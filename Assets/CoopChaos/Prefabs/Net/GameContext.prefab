@@ -77,4 +77,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9b16757c3494a2e9433904a2fbf679c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  story: {fileID: 11400000, guid: e9d98911cf54094c3bb15e6fce1c7148, type: 2}
+  story: {fileID: 11400000, guid: 3413042954a916a4da24a93b84452f6d, type: 2}

@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 783a9b28ab223a247b5086a62e4e42d2, type: 3}
+  m_Name: MainStory
+  m_EditorClassIdentifier: 
+  Name: MainStory
+  Description: MainStoryDescription
+  FlightSequences:
+  - Depth: 0
+    UseCases:
+    - ProportionalChance: 0
+      OccuranceDescription: {fileID: 11400000, guid: 1d7e7fca31b73ba468e20ca45f618ac5, type: 2}
+  - Depth: 0
+    UseCases:
+    - ProportionalChance: 0
+      OccuranceDescription: {fileID: 11400000, guid: 5a29042cf4180fd41968193023ff7690, type: 2}
+  - Depth: 0
+    UseCases:
+    - ProportionalChance: 0
+      OccuranceDescription: {fileID: 11400000, guid: 39d089d3691867d43b655ea3f55ccc92, type: 2}
+  - Depth: 0
+    UseCases:
+    - ProportionalChance: 0
+      OccuranceDescription: {fileID: 11400000, guid: 6240a1c1e6c65e447a08ff02e3564778, type: 2}
+  - Depth: 0
+    UseCases:
+    - ProportionalChance: 0
+      OccuranceDescription: {fileID: 11400000, guid: 6187e8a1fa8b54d49bd1258476e8dfe1, type: 2}
+  - Depth: 0
+    UseCases:
+    - ProportionalChance: 0
+      OccuranceDescription: {fileID: 11400000, guid: a25fd8f6564c02e469d8b9fc5c84c209, type: 2}
+  - Depth: 0
+    UseCases:
+    - ProportionalChance: 0
+      OccuranceDescription: {fileID: 11400000, guid: f6c4c37ce233b8e4cad1997ed6964c6e, type: 2}
+  - Depth: 0
+    UseCases:
+    - ProportionalChance: 0
+      OccuranceDescription: {fileID: 11400000, guid: 3cee69b85a4930f4c8f6d66d481a9d83, type: 2}
+  - Depth: 0
+    UseCases:
+    - ProportionalChance: 0
+      OccuranceDescription: {fileID: 11400000, guid: 22cdb88752d950443b698948bfc430ab, type: 2}
+  - Depth: 0
+    UseCases:
+    - ProportionalChance: 0
+      OccuranceDescription: {fileID: 11400000, guid: 9553079c4b91f1048a51d97c81d23281, type: 2}

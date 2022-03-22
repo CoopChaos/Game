@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f250a3e3d6d9415f984f9036cb45f189, type: 3}
+  m_Name: Occurance_Asteroid_Many
+  m_EditorClassIdentifier: 
+  OccuranceType: 0
+  Title: Viele, Viele, Viele
+  Description: "Ein Asteroid \u2026 zwei asteroide \u2026. Drei Asteroiden \u2026.
+    Viele viele viele!  Ich hoffe du hast bei den Flugstunden aufgepasst und kannst
+    uns durch diesen Hagel man\xF6vrieren - diesen Steinschlag repariert Carglass
+    n\xE4mlich nicht"
+  Length: 300
+  MinAsteroidSize: 30
+  MaxAsteroidSize: 40
+  DistanceBetweenAsteroids: 10
