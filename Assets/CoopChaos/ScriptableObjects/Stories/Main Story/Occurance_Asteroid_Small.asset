@@ -18,4 +18,4 @@ MonoBehaviour:
   Length: 500
   MinAsteroidSize: 5
   MaxAsteroidSize: 20
-  DistanceBetweenAsteroids: 50
+  DistanceBetweenAsteroids: 100

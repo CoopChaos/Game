@@ -22,15 +22,7 @@ MonoBehaviour:
   - Depth: 0
     UseCases:
     - ProportionalChance: 0
-      OccuranceDescription: {fileID: 11400000, guid: 5a29042cf4180fd41968193023ff7690, type: 2}
-  - Depth: 0
-    UseCases:
-    - ProportionalChance: 0
       OccuranceDescription: {fileID: 11400000, guid: 39d089d3691867d43b655ea3f55ccc92, type: 2}
-  - Depth: 0
-    UseCases:
-    - ProportionalChance: 0
-      OccuranceDescription: {fileID: 11400000, guid: 6240a1c1e6c65e447a08ff02e3564778, type: 2}
   - Depth: 0
     UseCases:
     - ProportionalChance: 0
