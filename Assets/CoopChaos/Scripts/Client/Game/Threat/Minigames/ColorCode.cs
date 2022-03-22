@@ -57,10 +57,11 @@ namespace CoopChaos
         private IEnumerator SetButtonClickedAction(Button b, bool ok)
         {
             DeviceDisplay.text = ok ? "OK" : "WRONG";
-            b.GetComponentInChildren<Image>().enabled = true;
-            yield return new WaitForSeconds(0.1f);
-            b.GetComponentInChildren<Image>().enabled = false;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.2f);
+            if(!ok) {
+                DeviceDisplay.text = "RESET";
+                yield return new WaitForSeconds(0.2f);
+            }
             DeviceDisplay.text = "";
         }
 
@@ -80,8 +81,7 @@ namespace CoopChaos
         void ButtonClicked(int i, Button b)
         {
             if(isViewer) return;
-            if(nums[currentIdx] == i)
-            {;
+            if(nums[currentIdx] == i) {
                 StartCoroutine(SetButtonClickedAction(b, true));
                 currentIdx++;
             } else {
