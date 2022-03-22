@@ -43,7 +43,24 @@ namespace Yame.Threat
         {
             Debug.Log("Status changed to " + status);
 
-            ThreatUI.text = status.ToString();
+            switch (status)
+            {
+                case ThreatManagerStatus.ThreatIdle:
+                    ThreatUI.text = "Es besteht keine Gefahr";
+                    break;
+                case ThreatManagerStatus.ThreatInProgress:
+                    ThreatUI.text = "Eine Bedrohung ist aufgetreten, beseitigt sie schnellstmoeglich!";
+                    break;
+                case ThreatManagerStatus.ThreatFailed:
+                    ThreatUI.text = "Die Bedrohung hat Schaden angerichtet, beeilt euch!";
+                    break;
+                case ThreatManagerStatus.ThreatMalicious:
+                    ThreatUI.text = "Die Bedrohung hat euer Schiff zerstoert!";
+                    break;
+                case ThreatManagerStatus.ThreatGracePeriod:
+                    ThreatUI.text = "Bedrohung beseitigt, Zeit zum Durchatmen!";
+                    break;
+            }
 
             if(status == ThreatManagerStatus.ThreatComplete
                 || status == ThreatManagerStatus.ThreatGracePeriod
