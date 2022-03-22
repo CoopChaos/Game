@@ -71,10 +71,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   threatName: Red Light, Green Light!
-  threatDescription: "Ein Systemfehler hat die schiffsinterne Verteidigungsanlage
-    ausgel\xF6st. Leider kann man nur von X aus sehen, welche Lichtschranken aktiv
+  threatDescription: Ein Systemfehler hat die schiffsinterne Verteidigungsanlage
+    ausgeloest. Leider kann man nur von X aus sehen, welche Lichtschranken aktiv
     sind, und man kann nur eine nach der anderen deaktivieren. Ein Mechaniker muss
-    sich an Punkt Y begeben um die Anlage zu deaktivieren."
+    sich an Punkt Y begeben um die Anlage zu deaktivieren.
   threatTime: 30
   mingames:
   - {fileID: 512601288807016926, guid: c4c55a07020ed426288c6387c65bc60a, type: 3}

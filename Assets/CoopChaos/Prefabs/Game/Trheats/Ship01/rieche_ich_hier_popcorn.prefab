@@ -63,12 +63,13 @@ MonoBehaviour:
     Am besten schaut ihr Mal nach den Luftfiltern! Holt die passenden Luftfilter
     aus dem Lagerraum und tauscht sie im Sauerstoffraum aus! Aber Achtung, am besten
     schaut vorher jemand nach welcher Filter gebraucht wird, nur ein falscher Griff
-    und ihr erstickt schneller als ihr \u2019Luftfiltermaschine\u2019 sagen k\xF6nnt!"
+    und ihr erstickt schneller als ihr \u2019Luftfiltermaschine\u2019 sagen koennt!"
   threatTime: 30
   mingames:
   - {fileID: 512601288807016926, guid: b71810bb2718ee68898445f67f5de611, type: 3}
   - {fileID: 512601288807016926, guid: b71810bb2718ee68898445f67f5de611, type: 3}
   twoStepThreat: 1
+  stepTwoViewOnly: 0
   minigamesPhase2:
   - {fileID: 512601288807016926, guid: 8f483d6a14464c45986f91990794fbef, type: 3}
 --- !u!114 &4168308116438515774

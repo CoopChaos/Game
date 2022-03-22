@@ -71,19 +71,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   threatName: "Ein Licht geht aus, wir geh\u2019n nachhaus"
-  threatDescription: "Na super, da ist wohl wieder eine Marsmotte in den Generator
+  threatDescription: Na super, da ist wohl wieder eine Marsmotte in den Generator
     geflogen. Alle Systeme sind ausgefallen und ihr tappt im Dunkeln! Organisiert
-    euch schnell um wichtige Notstromgeneratoren anzuschalten und den besch\xE4digten
-    Generator zu reparieren!"
+    euch schnell um wichtige Notstromgeneratoren anzuschalten und den beschaedigten
+    Generator zu reparieren!
   threatTime: 30
   mingames:
   - {fileID: 512601288807016926, guid: 8e87c1d7c06dbd4f49a71585750e89ec, type: 3}
   - {fileID: 512601288807016926, guid: 8e87c1d7c06dbd4f49a71585750e89ec, type: 3}
   - {fileID: 7601126266783220799, guid: e66df44d603d9b3f89142444a35617df, type: 3}
-  numTasksTotal:
-    m_InternalValue: 0
-  numTasksFinished:
-    m_InternalValue: 0
+  twoStepThreat: 0
+  stepTwoViewOnly: 0
+  minigamesPhase2: []
 --- !u!114 &4168308116438515774
 MonoBehaviour:
   m_ObjectHideFlags: 0

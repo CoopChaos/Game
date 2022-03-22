@@ -71,9 +71,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   threatName: "Se F\xE4x is not working!"
-  threatDescription: "Scheinbar haben wir einen Marderschaden und daher funktioniert
-    das Faxger\xE4t nicht mehr. Findet heraus welche Leitung betroffen ist (durchtesten)
-    und repariert diese dann vor Ort."
+  threatDescription: Scheinbar haben wir einen Marderschaden und daher funktioniert
+    das Faxgeraet nicht mehr. Findet heraus welche Leitung betroffen ist (durchtesten)
+    und repariert diese dann vor Ort.
   threatTime: 30
   mingames:
   - {fileID: 7601126266783220799, guid: ea972c936bc6de06c94ad42bb997328a, type: 3}
