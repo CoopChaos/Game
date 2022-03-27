@@ -20,5 +20,5 @@ MonoBehaviour:
     SpawnXOffset: 0
     PatrolPoints:
     - {x: -50, y: 150}
-    Speed: 40
+    Speed: 100
     ShootInterval: 5

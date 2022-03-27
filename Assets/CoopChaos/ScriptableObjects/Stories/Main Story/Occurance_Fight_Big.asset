@@ -22,5 +22,5 @@ MonoBehaviour:
     PatrolPoints:
     - {x: -100, y: 170}
     - {x: 100, y: 170}
-    Speed: 40
+    Speed: 100
     ShootInterval: 5

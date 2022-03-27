@@ -22,12 +22,12 @@ MonoBehaviour:
     PatrolPoints:
     - {x: -100, y: 200}
     - {x: -100, y: 150}
-    Speed: 40
+    Speed: 100
     ShootInterval: 5
   - EnemySize: 30
     SpawnXOffset: 400
     PatrolPoints:
     - {x: 100, y: 200}
     - {x: 100, y: 150}
-    Speed: 40
+    Speed: 100
     ShootInterval: 5

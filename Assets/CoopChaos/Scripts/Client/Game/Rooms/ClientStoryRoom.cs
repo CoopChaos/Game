@@ -59,14 +59,7 @@ namespace CoopChaos
             state.CanTriggerNext.OnValueChanged += (_, v) =>
             {
                 arrow.SetActive(v);
-                
-                if (v)
-                {
-                    title.text = "Hyperantrieb";
-                    description.text =
-                        "Hier gibt es nichts mehr zu sehen. Unser Hyperantrieb ist aufgeladen und wir können weiter";
-                }
-                
+
                 button.interactable = v;
                 button.GetComponentInChildren<TextMeshProUGUI>().text = v ? "START HYPERDRIVE" : "HYPERDRIVE NOT READY";
             };

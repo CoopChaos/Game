@@ -24,5 +24,5 @@ MonoBehaviour:
     - {x: 50, y: 200}
     - {x: 50, y: 170}
     - {x: -50, y: 200}
-    Speed: 20
+    Speed: 100
     ShootInterval: 1
