@@ -55,7 +55,7 @@ namespace CoopChaos
                      x += (description.MaxAsteroidSize + description.DistanceBetweenAsteroids))
                 {
                     ++i;
-                    var asteroid = simulation.World.CreateAsteroid(x, y + yStart, spaceshipObject.Mass / 2.0f, 
+                    var asteroid = simulation.World.CreateAsteroid(x + layer * 60, y + yStart, spaceshipObject.Mass / 2.0f, 
                         (float)(random.NextDouble() * (description.MaxAsteroidSize - description.MinAsteroidSize) + description.MinAsteroidSize));
                     
                     asteroid.Set<HiddenAsteroidComponent>();

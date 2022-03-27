@@ -29,7 +29,7 @@ namespace CoopChaos
             var spaceship = simulation.World.PlayerSpaceship;
             ref var spaceshipComponent = ref spaceship.Value.Get<PlayerSpaceshipComponent>();
 
-            spaceshipComponent.TargetVerticalVelocity = VerticalMaxSpeed * value;
+            spaceshipComponent.TargetVerticalVelocity = VerticalMaxSpeed * value + 10;
         }
 
         public void SetHorizontal(float value)
