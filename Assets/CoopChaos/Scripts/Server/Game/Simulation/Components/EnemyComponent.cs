@@ -37,7 +37,7 @@ namespace CoopChaos.Simulation.Components
 
             world.CreateProjectile(
                 ref oc,
-                80f,
+                120f,
                 angleDegrees,
                 100f,
                 1000f);
