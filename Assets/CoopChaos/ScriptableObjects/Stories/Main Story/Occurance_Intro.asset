@@ -15,5 +15,6 @@ MonoBehaviour:
   OccuranceType: 1
   Title: Ein neues Abenteuer
   Description: "Sei gegr\xFC\xDFt Raumfahrender!  Besetzt die Kanonen, das Radar
-    und das Cockpit. Bereit f\xFCr ein Abenteuer? Dann los, aktiviere den Hyperdrive!"
+    und das Cockpit. Bereit f\xFCr ein Abenteuer? Dann los, aktiviere den Hyperdrive
+    und Beschleunige das Raumschiff um im Spiel voranzuschreiten!"
   EnemySpecifications: []
